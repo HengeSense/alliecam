@@ -1,0 +1,92 @@
+body {
+    background: none repeat scroll 0 0 #FAF9F4;
+}
+.clear {
+    clear: both;
+}
+.call-status-box {
+    float: left;
+    margin-top: 10px;
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: 1px solid #CCCCCC;
+    box-shadow: 1px 1px 5px #CCCCCC;
+    font-style: normal;
+    padding: 10px;
+    width: 250px;
+}
+.call-status-box dt {
+    clear: left;
+    float: left;
+    text-align: right;
+    width: 100px;
+}
+.call-status-box dd {
+    margin-left: 120px;
+}
+.call-actions-box {
+    float: right;
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: 1px solid #CCCCCC;
+    box-shadow: 1px 1px 5px #CCCCCC;
+    font-style: normal;
+    margin-top: 10px;
+    padding: 10px;
+    width: 375px;
+}
+.call-content {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background: none repeat scroll 0 0 #FFFFFF;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+    border-color: #DDDDDD;
+    border-image: none;
+    border-style: solid;
+    border-width: 0 1px 1px;
+    padding: 10px 10px 10px;
+}
+.call-heading {
+    font-size: 18px;
+    line-height: 20px;
+    color: inherit;
+    font-family: inherit;
+    font-weight: bold;
+    line-height: 1;
+    text-rendering: optimizelegibility;
+
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background: -moz-linear-gradient(center top , #F9F9F9 0px, #E8E8E8 100%) repeat scroll 0 0 transparent;
+    border-color: #DDDDDD;
+    border-image: none;
+    border-style: solid;
+    border-width: 1px 1px 0;
+    color: #666666;
+
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    padding: 5px 10px;
+}
+.morecontent span {
+    display: none;
+}
+.email-action.form-horizontal .controls {
+    margin-left: 100px;
+}
+.email-action.form-horizontal .control-label {
+    width: 80px;
+}
+.payment-action.form-horizontal .controls {
+    margin-left: 110px;
+}
+.payment-action.form-horizontal .control-label {
+    width: 90px;
+}
+tr.selected-row {
+    background-color: blue;
+
+}

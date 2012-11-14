@@ -1,0 +1,21 @@
+{
+    "owner": "Blackwell Family",
+    "home": "images/blackwellfamily/",
+    "albums" : [
+        {
+            "name": "test album",
+            "dateCreated": "2012-11-14",
+            "path": "testalbum/",
+            "photos": [
+                {
+                    "caption": "Sunny day out",
+                    "filename": "sunny.png",
+                },
+                {
+                    "caption": "Wintry day out",
+                    "filename": "wintry.png",
+                }
+            ]
+        }
+    ]
+}

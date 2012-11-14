@@ -1,0 +1,296 @@
+body {
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif !important;
+}
+.frame, .wrapper {
+}
+.ie-filter-fix {
+    position: relative;
+}
+.container-outer {
+    border: 1px solid #EDEDED;
+    border-radius: 5px 5px 5px 5px;
+    padding: 1px;
+}
+.li-profile-container {
+    background: none repeat scroll 0 0 #EDEDED;
+    border-radius: 5px 5px 5px 5px;
+    display: block;
+    font-size: 13px;
+    padding: 5px;
+    width: 350px;
+}
+.li-profile-container p {
+    font-size: 12px;
+    margin: 5px 0;
+}
+.full-profile .mark, .li-profile-container .mark {
+    background: url("https://s3-s.licdn.com/scds/common/u/img/sprite/sprite_connect_v13.png") no-repeat scroll -92px -42px transparent;
+    display: inline-block;
+    height: 12px;
+    padding-top: 2px;
+    vertical-align: middle;
+    width: 14px;
+}
+.li-profile-card {
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: 1px solid #CCCCCC;
+    box-shadow: 1px 1px 5px #CCCCCC;
+    font-style: normal;
+    padding: 10px;
+}
+.li-profile-card h1 {
+    font-size: 20px;
+    font-weight: bold;
+    margin: 2px 0;
+}
+.li-profile-card .title, .li-profile-card .industry, .li-profile-card .locality {
+    color: #666666;
+    display: block;
+    margin-top: 2px;
+}
+.li-profile-card .widget-actions {
+    clear: both;
+    margin-top: 10px;
+}
+.li-viewed-also {
+    color: #666666;
+}
+.li-viewed-also .also-text strong {
+    color: #006699;
+}
+.li-viewed-also .also-viewed {
+    color: #666666;
+    font-size: 11px;
+    margin-top: 5px;
+    overflow: hidden;
+}
+.li-viewed-also .signed-out {
+    margin-top: 0;
+}
+.li-viewed-also .also-viewed img.photo {
+    border: 0 none;
+    margin-right: 1px;
+    padding: 0;
+}
+.li-viewed-also .also-viewed a:hover img.photo {
+    border: 1px solid #999999;
+    margin: -1px 0 -1px -1px;
+}
+.has-signin-link .also-text {
+    margin-top: 0;
+}
+.also-viewed .has-photos .vcard {
+    float: left;
+}
+.also-viewed .has-names {
+    list-style: square inside none;
+}
+.li-profile-card:after, .li-viewed-also:after {
+    clear: both;
+    content: ".";
+    display: block;
+    height: 0;
+    visibility: hidden;
+}
+.li-profile-card .mark {
+    bottom: 0;
+    position: absolute;
+    right: 0;
+}
+.li-profile-card .member-photo {
+    border: 2px solid #E5E5E5;
+    float: right;
+    padding: 0;
+    position: relative;
+}
+.li-profile-card .member-photo .photo {
+    border: 0 none;
+    padding: 0;
+}
+.li-profile-card .member-info {
+    float: left;
+    margin: 4px 0 0;
+    width: 70%;
+}
+.li-profile-card .member-info h1 .url {
+    vertical-align: middle;
+}
+.member-profile .also-viewed {
+    position: relative;
+}
+.member-profile .also-viewed p {
+    margin: 0;
+}
+.member-profile .also-text {
+    margin-bottom: 0;
+}
+.member-profile .has-signin-link .also-text {
+    margin-bottom: 2px;
+}
+.member-profile .connections {
+    height: 28px;
+    margin-top: 2px;
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+}
+.photo-count-5 .connections {
+    left: 160px;
+}
+.photo-count-4 .connections {
+    left: 129px;
+}
+.photo-count-3 .connections {
+    left: 98px;
+}
+.photo-count-2 .connections {
+    left: 67px;
+}
+.photo-count-1 .connections {
+    left: 36px;
+}
+.member-profile .connections .detail, .member-profile .hover .connections .count {
+    display: none;
+}
+.member-profile .hover .connections .detail {
+    display: block;
+}
+.member-profile .detail .fn {
+    color: #333333;
+    display: block;
+    font-weight: bold;
+    white-space: nowrap;
+}
+.member-profile .detail .title {
+    white-space: nowrap;
+}
+.member-profile .has-photos {
+    float: left;
+    margin-right: 5px;
+    overflow: hidden;
+    padding: 1px 0 2px 1px;
+}
+.member-profile .has-photos .detail {
+    display: none;
+}
+.company .company-info {
+    float: left;
+    margin: 4px 0 0;
+    width: 70%;
+}
+.company .company-logo {
+    border: 0 none;
+    float: right;
+    padding: 0;
+}
+.company .description {
+    clear: both;
+    margin-top: 10px;
+}
+.company .industry, .company .locality {
+    display: inline;
+}
+.full-profile {
+    padding: 10px;
+    width: 550px;
+}
+.full-profile .logo {
+    background: url("https://s3-s.licdn.com/scds/common/u/img/sprite/sprite_connect_v13.png") no-repeat scroll 0 -140px transparent;
+    display: block;
+    float: right;
+    height: 23px;
+    margin: 0 5px 0 0;
+    width: 88px;
+}
+.full-profile .logo a {
+    display: block;
+    height: 23px;
+    text-indent: -12345px;
+    width: 88px;
+}
+.full-profile h1 {
+    font-size: 17px;
+}
+.full-profile .network-degree {
+    vertical-align: middle;
+}
+.full-profile .vcard {
+    margin-top: 10px;
+    overflow: hidden;
+}
+.full-profile .member-photo {
+    border: 0 none;
+    float: left;
+    position: relative;
+    text-align: right;
+    width: 105px;
+}
+.full-profile .member-photo .mark {
+    bottom: 5px;
+    position: absolute;
+    right: 3px;
+}
+.full-profile .member-photo .photo {
+    border: 1px solid #CCCCCC;
+    display: inline;
+    padding: 3px;
+}
+.full-profile .profile-details {
+    margin-left: 115px;
+    margin-top: 10px;
+}
+.full-profile .profile-details dl {
+    overflow: hidden;
+}
+.full-profile .profile-content {
+    font-size: 12px;
+    line-height: 1.45;
+    margin-top: 10px;
+}
+.full-profile .profile-content p {
+    font-size: 12px;
+}
+.full-profile .profile-content dt {
+    clear: left;
+    color: #999999;
+    float: left;
+    margin-bottom: 10px;
+    text-align: right;
+    text-transform: uppercase;
+    width: 105px;
+}
+.full-profile .profile-content dd {
+    color: #666666;
+    margin-bottom: 10px;
+    margin-left: 115px;
+}
+.full-profile .profile-actions {
+    border-top: 1px dotted #CCCCCC;
+    clear: both;
+    margin-top: 20px;
+    padding-top: 20px;
+}
+.full-profile .private-profile {
+    margin: 5px 0;
+}
+.full-profile .full-profile-positions b {
+    font-weight: normal;
+}
+.groups-list, .groups-list .group {
+    overflow: hidden;
+}
+.groups-list .group {
+    clear: left;
+    margin-bottom: 7px;
+}
+.groups-list .group a {
+    float: left;
+}
+.groups-list .group img {
+    display: block;
+}
+.groups-list .group span {
+    display: block;
+    margin-left: 70px;
+    padding-top: 6px;
+}
