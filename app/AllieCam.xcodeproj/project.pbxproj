@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8F0AF8A216542D5000DDAE76 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F0AF8A116542D5000DDAE76 /* SystemConfiguration.framework */; };
 		8F258C62165343100091A6D2 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F258C61165343100091A6D2 /* UIKit.framework */; };
 		8F258C64165343100091A6D2 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F258C63165343100091A6D2 /* Foundation.framework */; };
 		8F258C66165343100091A6D2 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F258C65165343100091A6D2 /* CoreGraphics.framework */; };
@@ -18,10 +19,12 @@
 		8F258C7B165343110091A6D2 /* ACMainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8F258C79165343110091A6D2 /* ACMainViewController.xib */; };
 		8F258C7E165343110091A6D2 /* ACFlipsideViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8F258C7C165343110091A6D2 /* ACFlipsideViewController.xib */; };
 		8F6CBD7E16534989009CF822 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F6CBD7D16534989009CF822 /* Reachability.m */; };
-		8F6CBD82165349EB009CF822 /* ACImagePickerDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F6CBD81165349EB009CF822 /* ACImagePickerDelegate.m */; };
+		8FBBCB7D1654B66000C97070 /* ACCameraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FBBCB7B1654B66000C97070 /* ACCameraViewController.m */; };
+		8FBBCB7E1654B66000C97070 /* ACCameraViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8FBBCB7C1654B66000C97070 /* ACCameraViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8F0AF8A116542D5000DDAE76 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		8F258C5D165343100091A6D2 /* AllieCam.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AllieCam.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8F258C61165343100091A6D2 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		8F258C63165343100091A6D2 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -40,8 +43,9 @@
 		8F258C7D165343110091A6D2 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ACFlipsideViewController.xib; sourceTree = "<group>"; };
 		8F6CBD7C16534989009CF822 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		8F6CBD7D16534989009CF822 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
-		8F6CBD80165349EB009CF822 /* ACImagePickerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACImagePickerDelegate.h; sourceTree = "<group>"; };
-		8F6CBD81165349EB009CF822 /* ACImagePickerDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ACImagePickerDelegate.m; sourceTree = "<group>"; };
+		8FBBCB7A1654B66000C97070 /* ACCameraViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACCameraViewController.h; sourceTree = "<group>"; };
+		8FBBCB7B1654B66000C97070 /* ACCameraViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ACCameraViewController.m; sourceTree = "<group>"; };
+		8FBBCB7C1654B66000C97070 /* ACCameraViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ACCameraViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -49,6 +53,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8F0AF8A216542D5000DDAE76 /* SystemConfiguration.framework in Frameworks */,
 				8F258C62165343100091A6D2 /* UIKit.framework in Frameworks */,
 				8F258C64165343100091A6D2 /* Foundation.framework in Frameworks */,
 				8F258C66165343100091A6D2 /* CoreGraphics.framework in Frameworks */,
@@ -61,6 +66,7 @@
 		8F258C52165343100091A6D2 = {
 			isa = PBXGroup;
 			children = (
+				8F0AF8A116542D5000DDAE76 /* SystemConfiguration.framework */,
 				8F258C67165343100091A6D2 /* AllieCam */,
 				8F258C60165343100091A6D2 /* Frameworks */,
 				8F258C5E165343100091A6D2 /* Products */,
@@ -99,8 +105,9 @@
 				8F258C79165343110091A6D2 /* ACMainViewController.xib */,
 				8F258C7C165343110091A6D2 /* ACFlipsideViewController.xib */,
 				8F258C68165343100091A6D2 /* Supporting Files */,
-				8F6CBD80165349EB009CF822 /* ACImagePickerDelegate.h */,
-				8F6CBD81165349EB009CF822 /* ACImagePickerDelegate.m */,
+				8FBBCB7A1654B66000C97070 /* ACCameraViewController.h */,
+				8FBBCB7B1654B66000C97070 /* ACCameraViewController.m */,
+				8FBBCB7C1654B66000C97070 /* ACCameraViewController.xib */,
 			);
 			path = AllieCam;
 			sourceTree = "<group>";
@@ -169,6 +176,7 @@
 				8F258C6C165343100091A6D2 /* InfoPlist.strings in Resources */,
 				8F258C7B165343110091A6D2 /* ACMainViewController.xib in Resources */,
 				8F258C7E165343110091A6D2 /* ACFlipsideViewController.xib in Resources */,
+				8FBBCB7E1654B66000C97070 /* ACCameraViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -184,7 +192,7 @@
 				8F258C75165343110091A6D2 /* ACMainViewController.m in Sources */,
 				8F258C78165343110091A6D2 /* ACFlipsideViewController.m in Sources */,
 				8F6CBD7E16534989009CF822 /* Reachability.m in Sources */,
-				8F6CBD82165349EB009CF822 /* ACImagePickerDelegate.m in Sources */,
+				8FBBCB7D1654B66000C97070 /* ACCameraViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -264,10 +272,14 @@
 		8F258C82165343110091A6D2 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "AllieCam/AllieCam-Prefix.pch";
 				INFOPLIST_FILE = "AllieCam/AllieCam-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -275,10 +287,14 @@
 		8F258C83165343110091A6D2 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "AllieCam/AllieCam-Prefix.pch";
 				INFOPLIST_FILE = "AllieCam/AllieCam-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

@@ -7,13 +7,25 @@
 //
 
 #import "ACFlipsideViewController.h"
-#import "ACImagePickerDelegate.h"
+#import "ACCameraViewController.h"
 
-@interface ACMainViewController : UIViewController <ACFlipsideViewControllerDelegate>
+@interface ACMainViewController : UIViewController <ACFlipsideViewControllerDelegate, ACCameraViewControllerDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate>
+{
+    ACCameraViewController *_cameraController;
+    UIImagePickerController *_albumController;
+    
+    NSMutableArray *_capturedImages; // the list of images captures from the camera (either 1 or multiple)
+    
+}
+
+@property (nonatomic, retain) ACCameraViewController *cameraController;
+@property (nonatomic, retain) UIImagePickerController *albumController;
+@property (nonatomic, retain) NSMutableArray *capturedImages;
 
 - (IBAction)showInfo:(id)sender;
-- (BOOL)startCameraControllerFrom: (UIViewController*) controller 
-                    usingDelegate: (id <UIImagePickerControllerDelegate,
-                                                   UINavigationControllerDelegate>) delegate;
+- (void)showCamera;
+- (void)showAlbum;
+
+- (IBAction)launchImagePickerController;
     
 @end

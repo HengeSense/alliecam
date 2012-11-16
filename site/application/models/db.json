@@ -1,19 +1,21 @@
 {
     "owner": "Blackwell Family",
-    "home": "images/blackwellfamily/",
+    "home": "http://blackwellfamily.s3-website-ap-southeast-2.amazonaws.com/",
     "albums" : [
         {
+            "uniqid": "1",
             "name": "test album",
             "dateCreated": "2012-11-14",
-            "path": "testalbum/",
             "photos": [
                 {
+                    "uniqid": "1",
                     "caption": "Sunny day out",
-                    "filename": "sunny.png",
+                    "url": "S3 url",
                 },
                 {
+                    "uniqid": "1",
                     "caption": "Wintry day out",
-                    "filename": "wintry.png",
+                    "url": "S3 url",
                 }
             ]
         }

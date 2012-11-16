@@ -22,6 +22,18 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
+    self.cameraController =
+        [[[ACCameraViewController alloc] initWithNibName:@"ACCameraViewController" bundle:nil] autorelease];
+
+    // as a delegate we will be notified when pictures are taken and when to dismiss the image picker
+    self.cameraController.delegate = self;
+    
+    self.albumController = [[[UIImagePickerController alloc] init] autorelease];
+    self.albumController.sourceType = UIImagePickerControllerSourceTypeSavedPhotosAlbum;
+    self.albumController.delegate = self;
+    
+    self.capturedImages = [NSMutableArray array];
+    
 }
 
 - (void)viewDidUnload
@@ -39,9 +51,8 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    ACImagePickerDelegate *delegate = [[ACImagePickerDelegate alloc] init];
-    [self startCameraControllerFrom:self usingDelegate:delegate];
-    [delegate release];
+    
+    [self showAlbum];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -60,6 +71,52 @@
     return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
 }
 
+- (void)showCamera {
+    [self.cameraController showCamera];
+    [self presentModalViewController:self.cameraController.imagePickerController animated:YES];
+    
+}
+- (void)showAlbum {
+    [self presentModalViewController:self.albumController animated:YES];
+    
+}
+
+
+#pragma mark -
+#pragma mark ACCameraViewControllerDelegate
+
+// as a delegate we are being told a picture was taken
+- (void)didTakePicture:(UIImage *)picture
+{
+    [self.capturedImages addObject:picture];
+}
+
+// as a delegate we are told to finished with the camera
+- (void)didFinishWithCamera
+{
+    [self dismissModalViewControllerAnimated:YES];
+    
+    [self showAlbum];
+    
+}
+
+#pragma mark UIImagePickerControllerDelegate
+
+// this get called when an image has been chosen from the library or taken from the camera
+//
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
+{
+    UIImage *image = [info valueForKey:UIImagePickerControllerOriginalImage];
+    
+}
+
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
+{
+    [self dismissModalViewControllerAnimated:YES];
+    [self showCamera];
+}
+
+
 #pragma mark - Flipside View
 
 - (void)flipsideViewControllerDidFinish:(ACFlipsideViewController *)controller
@@ -74,32 +131,32 @@
     controller.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
     [self presentModalViewController:controller animated:YES];
 }
-
-- (BOOL)startCameraControllerFrom: (UIViewController*) controller
-                    usingDelegate: (id <UIImagePickerControllerDelegate,
-                                                   UINavigationControllerDelegate>) delegate {
-    if (([UIImagePickerController isSourceTypeAvailable:
-          UIImagePickerControllerSourceTypeCamera] == NO)
-        || (delegate == nil)
-        || (controller == nil))
-        return NO;
-    
-    UIImagePickerController *cameraUI = [[UIImagePickerController alloc] init];
-    cameraUI.sourceType = UIImagePickerControllerSourceTypeCamera;
-    
-    // Displays a control that allows the user to choose picture or
-    // movie capture, if both are available:
-    
-    cameraUI.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:UIImagePickerControllerSourceTypeCamera];
-    
-    // Hides the controls for moving & scaling pictures, or for
-    // trimming movies. To instead show the controls, use YES.
-    cameraUI.allowsEditing = NO;
-    cameraUI.delegate = delegate;
-    
-    [controller presentModalViewController: cameraUI animated: YES];
-    
-    return YES;
-}
+//
+//- (BOOL)startCameraControllerFrom: (UIViewController*) controller
+//                    usingDelegate: (id <UIImagePickerControllerDelegate,
+//                                                   UINavigationControllerDelegate>) delegate {
+//    if (([UIImagePickerController isSourceTypeAvailable:
+//          UIImagePickerControllerSourceTypeCamera] == NO)
+//        || (delegate == nil)
+//        || (controller == nil))
+//        return NO;
+//    
+//    UIImagePickerController *cameraUI = [[UIImagePickerController alloc] init];
+//    cameraUI.sourceType = UIImagePickerControllerSourceTypeCamera;
+//    
+//    // Displays a control that allows the user to choose picture or
+//    // movie capture, if both are available:
+//    
+//    cameraUI.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:UIImagePickerControllerSourceTypeCamera];
+//    
+//    // Hides the controls for moving & scaling pictures, or for
+//    // trimming movies. To instead show the controls, use YES.
+//    cameraUI.allowsEditing = NO;
+//    cameraUI.delegate = delegate;
+//    
+//    [controller presentModalViewController: cameraUI animated: YES];
+//    
+//    return YES;
+//}
 
 @end
