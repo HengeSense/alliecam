@@ -1,0 +1,423 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 45;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		1D3623EC0D0F72F000981E51 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D3623EB0D0F72F000981E51 /* CoreGraphics.framework */; };
+		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
+		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
+		5323EC8811C933D20094367E /* Icon-Small.png in Resources */ = {isa = PBXBuildFile; fileRef = 5323EC8211C933D20094367E /* Icon-Small.png */; };
+		5323EC8911C933D20094367E /* Icon-Small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5323EC8311C933D20094367E /* Icon-Small@2x.png */; };
+		5323EC8A11C933D20094367E /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 5323EC8411C933D20094367E /* Icon.png */; };
+		5323EC8B11C933D20094367E /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5323EC8511C933D20094367E /* Icon@2x.png */; };
+		5341DF981098E39E0034B175 /* TimedCameraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5341DF971098E39E0034B175 /* TimedCameraViewController.m */; };
+		5341DFCB1098E7230034B175 /* TimedCameraViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5341DFC91098E7230034B175 /* TimedCameraViewController.xib */; };
+		535EB62111D253E0000A58C3 /* iTunesArtwork in Resources */ = {isa = PBXBuildFile; fileRef = 535EB62011D253E0000A58C3 /* iTunesArtwork */; };
+		5363CC1D1003C330006CE070 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5363CC1B1003C330006CE070 /* MainViewController.m */; };
+		5363CC231003C33D006CE070 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5363CC1F1003C33D006CE070 /* main.m */; };
+		5363CC261003C342006CE070 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5363CC251003C342006CE070 /* AppDelegate.m */; };
+		53D27A0E100E80D100026599 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53D27A0D100E80D100026599 /* AudioToolbox.framework */; };
+		53D27A27100E822200026599 /* tick.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 53D27A26100E822200026599 /* tick.aiff */; };
+		53EACC070DDA319F00908D73 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 53EACC050DDA319F00908D73 /* MainWindow.xib */; };
+		8F8A6B011658DE3400FF1B25 /* AWSiOSSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F8A6B001658DE3400FF1B25 /* AWSiOSSDK.framework */; };
+		8F8A6B051658F45600FF1B25 /* UIImage+fixOrientation.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F8A6B041658F45600FF1B25 /* UIImage+fixOrientation.m */; };
+		8F8A6B5A16598FB900FF1B25 /* ELCAlbumPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F8A6B4716598FB900FF1B25 /* ELCAlbumPickerController.m */; };
+		8F8A6B5B16598FBA00FF1B25 /* ELCAlbumPickerController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8F8A6B4816598FB900FF1B25 /* ELCAlbumPickerController.xib */; };
+		8F8A6B5C16598FBA00FF1B25 /* ELCAsset.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F8A6B4A16598FB900FF1B25 /* ELCAsset.m */; };
+		8F8A6B5D16598FBA00FF1B25 /* ELCAssetCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F8A6B4C16598FB900FF1B25 /* ELCAssetCell.m */; };
+		8F8A6B5E16598FBA00FF1B25 /* ELCAssetPicker.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8F8A6B4D16598FB900FF1B25 /* ELCAssetPicker.xib */; };
+		8F8A6B5F16598FBA00FF1B25 /* ELCAssetTablePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F8A6B4F16598FB900FF1B25 /* ELCAssetTablePicker.m */; };
+		8F8A6B6016598FBA00FF1B25 /* ELCAssetTablePicker.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8F8A6B5016598FB900FF1B25 /* ELCAssetTablePicker.xib */; };
+		8F8A6B6116598FBA00FF1B25 /* ELCImagePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F8A6B5216598FB900FF1B25 /* ELCImagePickerController.m */; };
+		8F8A6B6216598FBA00FF1B25 /* ELCImagePickerController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8F8A6B5316598FB900FF1B25 /* ELCImagePickerController.xib */; };
+		8F8A6B6316598FBA00FF1B25 /* ELCImagePickerDemoAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F8A6B5516598FB900FF1B25 /* ELCImagePickerDemoAppDelegate.m */; };
+		8F8A6B6416598FBA00FF1B25 /* ELCImagePickerDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F8A6B5716598FB900FF1B25 /* ELCImagePickerDemoViewController.m */; };
+		8F8A6B6516598FBA00FF1B25 /* Overlay.png in Resources */ = {isa = PBXBuildFile; fileRef = 8F8A6B5816598FB900FF1B25 /* Overlay.png */; };
+		8F8A6B6616598FBA00FF1B25 /* Overlay@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8F8A6B5916598FB900FF1B25 /* Overlay@2x.png */; };
+		8F8A6B68165992EC00FF1B25 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F8A6B67165992EC00FF1B25 /* AssetsLibrary.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		1D3623EB0D0F72F000981E51 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		1D6058910D05DD3D006BFB54 /* AllieCam.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AllieCam.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		53063B351178C93800B6DA5A /* ReadMe.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ReadMe.txt; sourceTree = "<group>"; };
+		5323EC8211C933D20094367E /* Icon-Small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small.png"; sourceTree = "<group>"; };
+		5323EC8311C933D20094367E /* Icon-Small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small@2x.png"; sourceTree = "<group>"; };
+		5323EC8411C933D20094367E /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
+		5323EC8511C933D20094367E /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
+		5341DF961098E39E0034B175 /* TimedCameraViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimedCameraViewController.h; sourceTree = "<group>"; };
+		5341DF971098E39E0034B175 /* TimedCameraViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TimedCameraViewController.m; sourceTree = "<group>"; };
+		5341DFCA1098E7230034B175 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/TimedCameraViewController.xib; sourceTree = "<group>"; };
+		535EB62011D253E0000A58C3 /* iTunesArtwork */ = {isa = PBXFileReference; lastKnownFileType = file; path = iTunesArtwork; sourceTree = "<group>"; };
+		5363CC1B1003C330006CE070 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
+		5363CC1C1003C330006CE070 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
+		5363CC1F1003C33D006CE070 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		5363CC201003C33D006CE070 /* Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Prefix.pch; sourceTree = "<group>"; };
+		5363CC241003C342006CE070 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		5363CC251003C342006CE070 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		53D27A0D100E80D100026599 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		53D27A26100E822200026599 /* tick.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = tick.aiff; sourceTree = "<group>"; };
+		53EACC060DDA319F00908D73 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainWindow.xib; sourceTree = "<group>"; };
+		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8F8A6B001658DE3400FF1B25 /* AWSiOSSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AWSiOSSDK.framework; path = "../aws-ios-sdk-1.4.4/AWSiOSSDK.framework"; sourceTree = "<group>"; };
+		8F8A6B031658F45600FF1B25 /* UIImage+fixOrientation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+fixOrientation.h"; sourceTree = "<group>"; };
+		8F8A6B041658F45600FF1B25 /* UIImage+fixOrientation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+fixOrientation.m"; sourceTree = "<group>"; };
+		8F8A6B4616598FB900FF1B25 /* ELCAlbumPickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ELCAlbumPickerController.h; sourceTree = "<group>"; };
+		8F8A6B4716598FB900FF1B25 /* ELCAlbumPickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ELCAlbumPickerController.m; sourceTree = "<group>"; };
+		8F8A6B4816598FB900FF1B25 /* ELCAlbumPickerController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ELCAlbumPickerController.xib; sourceTree = "<group>"; };
+		8F8A6B4916598FB900FF1B25 /* ELCAsset.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ELCAsset.h; sourceTree = "<group>"; };
+		8F8A6B4A16598FB900FF1B25 /* ELCAsset.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ELCAsset.m; sourceTree = "<group>"; };
+		8F8A6B4B16598FB900FF1B25 /* ELCAssetCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ELCAssetCell.h; sourceTree = "<group>"; };
+		8F8A6B4C16598FB900FF1B25 /* ELCAssetCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ELCAssetCell.m; sourceTree = "<group>"; };
+		8F8A6B4D16598FB900FF1B25 /* ELCAssetPicker.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ELCAssetPicker.xib; sourceTree = "<group>"; };
+		8F8A6B4E16598FB900FF1B25 /* ELCAssetTablePicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ELCAssetTablePicker.h; sourceTree = "<group>"; };
+		8F8A6B4F16598FB900FF1B25 /* ELCAssetTablePicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ELCAssetTablePicker.m; sourceTree = "<group>"; };
+		8F8A6B5016598FB900FF1B25 /* ELCAssetTablePicker.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ELCAssetTablePicker.xib; sourceTree = "<group>"; };
+		8F8A6B5116598FB900FF1B25 /* ELCImagePickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ELCImagePickerController.h; sourceTree = "<group>"; };
+		8F8A6B5216598FB900FF1B25 /* ELCImagePickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ELCImagePickerController.m; sourceTree = "<group>"; };
+		8F8A6B5316598FB900FF1B25 /* ELCImagePickerController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ELCImagePickerController.xib; sourceTree = "<group>"; };
+		8F8A6B5416598FB900FF1B25 /* ELCImagePickerDemoAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ELCImagePickerDemoAppDelegate.h; sourceTree = "<group>"; };
+		8F8A6B5516598FB900FF1B25 /* ELCImagePickerDemoAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ELCImagePickerDemoAppDelegate.m; sourceTree = "<group>"; };
+		8F8A6B5616598FB900FF1B25 /* ELCImagePickerDemoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ELCImagePickerDemoViewController.h; sourceTree = "<group>"; };
+		8F8A6B5716598FB900FF1B25 /* ELCImagePickerDemoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ELCImagePickerDemoViewController.m; sourceTree = "<group>"; };
+		8F8A6B5816598FB900FF1B25 /* Overlay.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Overlay.png; sourceTree = "<group>"; };
+		8F8A6B5916598FB900FF1B25 /* Overlay@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Overlay@2x.png"; sourceTree = "<group>"; };
+		8F8A6B67165992EC00FF1B25 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		1D60588F0D05DD3D006BFB54 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8F8A6B68165992EC00FF1B25 /* AssetsLibrary.framework in Frameworks */,
+				8F8A6B011658DE3400FF1B25 /* AWSiOSSDK.framework in Frameworks */,
+				1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */,
+				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
+				1D3623EC0D0F72F000981E51 /* CoreGraphics.framework in Frameworks */,
+				53D27A0E100E80D100026599 /* AudioToolbox.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		19C28FACFE9D520D11CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				1D6058910D05DD3D006BFB54 /* AllieCam.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
+			isa = PBXGroup;
+			children = (
+				53063B351178C93800B6DA5A /* ReadMe.txt */,
+				53AF8AEC0D9C50B700726DBA /* Sources */,
+				29B97317FDCFA39411CA2CEA /* Resources */,
+				29B97323FDCFA39411CA2CEA /* Frameworks */,
+				19C28FACFE9D520D11CA2CBB /* Products */,
+			);
+			name = CustomTemplate;
+			sourceTree = "<group>";
+		};
+		29B97317FDCFA39411CA2CEA /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				5323EC8011C933D20094367E /* images */,
+				53D27A26100E822200026599 /* tick.aiff */,
+				8D1107310486CEB800E47090 /* Info.plist */,
+				53EACC050DDA319F00908D73 /* MainWindow.xib */,
+				5341DFC91098E7230034B175 /* TimedCameraViewController.xib */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				8F8A6B67165992EC00FF1B25 /* AssetsLibrary.framework */,
+				8F8A6B001658DE3400FF1B25 /* AWSiOSSDK.framework */,
+				53D27A0D100E80D100026599 /* AudioToolbox.framework */,
+				1D3623EB0D0F72F000981E51 /* CoreGraphics.framework */,
+				1DF5F4DF0D08C38300B7A737 /* UIKit.framework */,
+				1D30AB110D05D00D00671497 /* Foundation.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		5323EC8011C933D20094367E /* images */ = {
+			isa = PBXGroup;
+			children = (
+				5323EC8211C933D20094367E /* Icon-Small.png */,
+				5323EC8311C933D20094367E /* Icon-Small@2x.png */,
+				5323EC8411C933D20094367E /* Icon.png */,
+				5323EC8511C933D20094367E /* Icon@2x.png */,
+				535EB62011D253E0000A58C3 /* iTunesArtwork */,
+			);
+			path = images;
+			sourceTree = "<group>";
+		};
+		53AF8AEC0D9C50B700726DBA /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				8F8A6B4516598FB900FF1B25 /* ELC */,
+				5363CC201003C33D006CE070 /* Prefix.pch */,
+				5363CC1F1003C33D006CE070 /* main.m */,
+				5363CC241003C342006CE070 /* AppDelegate.h */,
+				5363CC251003C342006CE070 /* AppDelegate.m */,
+				5363CC1C1003C330006CE070 /* MainViewController.h */,
+				5363CC1B1003C330006CE070 /* MainViewController.m */,
+				5341DF961098E39E0034B175 /* TimedCameraViewController.h */,
+				5341DF971098E39E0034B175 /* TimedCameraViewController.m */,
+				8F8A6B031658F45600FF1B25 /* UIImage+fixOrientation.h */,
+				8F8A6B041658F45600FF1B25 /* UIImage+fixOrientation.m */,
+			);
+			name = Sources;
+			sourceTree = "<group>";
+		};
+		8F8A6B4516598FB900FF1B25 /* ELC */ = {
+			isa = PBXGroup;
+			children = (
+				8F8A6B4616598FB900FF1B25 /* ELCAlbumPickerController.h */,
+				8F8A6B4716598FB900FF1B25 /* ELCAlbumPickerController.m */,
+				8F8A6B4816598FB900FF1B25 /* ELCAlbumPickerController.xib */,
+				8F8A6B4916598FB900FF1B25 /* ELCAsset.h */,
+				8F8A6B4A16598FB900FF1B25 /* ELCAsset.m */,
+				8F8A6B4B16598FB900FF1B25 /* ELCAssetCell.h */,
+				8F8A6B4C16598FB900FF1B25 /* ELCAssetCell.m */,
+				8F8A6B4D16598FB900FF1B25 /* ELCAssetPicker.xib */,
+				8F8A6B4E16598FB900FF1B25 /* ELCAssetTablePicker.h */,
+				8F8A6B4F16598FB900FF1B25 /* ELCAssetTablePicker.m */,
+				8F8A6B5016598FB900FF1B25 /* ELCAssetTablePicker.xib */,
+				8F8A6B5116598FB900FF1B25 /* ELCImagePickerController.h */,
+				8F8A6B5216598FB900FF1B25 /* ELCImagePickerController.m */,
+				8F8A6B5316598FB900FF1B25 /* ELCImagePickerController.xib */,
+				8F8A6B5416598FB900FF1B25 /* ELCImagePickerDemoAppDelegate.h */,
+				8F8A6B5516598FB900FF1B25 /* ELCImagePickerDemoAppDelegate.m */,
+				8F8A6B5616598FB900FF1B25 /* ELCImagePickerDemoViewController.h */,
+				8F8A6B5716598FB900FF1B25 /* ELCImagePickerDemoViewController.m */,
+				8F8A6B5816598FB900FF1B25 /* Overlay.png */,
+				8F8A6B5916598FB900FF1B25 /* Overlay@2x.png */,
+			);
+			name = ELC;
+			path = ../ELCIPC/ELCImagePickerController/Classes;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		1D6058900D05DD3D006BFB54 /* AllieCam */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "AllieCam" */;
+			buildPhases = (
+				1D60588D0D05DD3D006BFB54 /* Resources */,
+				1D60588E0D05DD3D006BFB54 /* Sources */,
+				1D60588F0D05DD3D006BFB54 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AllieCam;
+			productName = IBTest;
+			productReference = 1D6058910D05DD3D006BFB54 /* AllieCam.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		29B97313FDCFA39411CA2CEA /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "AllieCam" */;
+			compatibilityVersion = "Xcode 3.1";
+			developmentRegion = English;
+			hasScannedForEncodings = 1;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+				en,
+			);
+			mainGroup = 29B97314FDCFA39411CA2CEA /* CustomTemplate */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				1D6058900D05DD3D006BFB54 /* AllieCam */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		1D60588D0D05DD3D006BFB54 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				53EACC070DDA319F00908D73 /* MainWindow.xib in Resources */,
+				53D27A27100E822200026599 /* tick.aiff in Resources */,
+				5341DFCB1098E7230034B175 /* TimedCameraViewController.xib in Resources */,
+				5323EC8811C933D20094367E /* Icon-Small.png in Resources */,
+				5323EC8911C933D20094367E /* Icon-Small@2x.png in Resources */,
+				5323EC8A11C933D20094367E /* Icon.png in Resources */,
+				5323EC8B11C933D20094367E /* Icon@2x.png in Resources */,
+				535EB62111D253E0000A58C3 /* iTunesArtwork in Resources */,
+				8F8A6B5B16598FBA00FF1B25 /* ELCAlbumPickerController.xib in Resources */,
+				8F8A6B5E16598FBA00FF1B25 /* ELCAssetPicker.xib in Resources */,
+				8F8A6B6016598FBA00FF1B25 /* ELCAssetTablePicker.xib in Resources */,
+				8F8A6B6216598FBA00FF1B25 /* ELCImagePickerController.xib in Resources */,
+				8F8A6B6516598FBA00FF1B25 /* Overlay.png in Resources */,
+				8F8A6B6616598FBA00FF1B25 /* Overlay@2x.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		1D60588E0D05DD3D006BFB54 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5363CC1D1003C330006CE070 /* MainViewController.m in Sources */,
+				5363CC231003C33D006CE070 /* main.m in Sources */,
+				5363CC261003C342006CE070 /* AppDelegate.m in Sources */,
+				5341DF981098E39E0034B175 /* TimedCameraViewController.m in Sources */,
+				8F8A6B051658F45600FF1B25 /* UIImage+fixOrientation.m in Sources */,
+				8F8A6B5A16598FB900FF1B25 /* ELCAlbumPickerController.m in Sources */,
+				8F8A6B5C16598FBA00FF1B25 /* ELCAsset.m in Sources */,
+				8F8A6B5D16598FBA00FF1B25 /* ELCAssetCell.m in Sources */,
+				8F8A6B5F16598FBA00FF1B25 /* ELCAssetTablePicker.m in Sources */,
+				8F8A6B6116598FBA00FF1B25 /* ELCImagePickerController.m in Sources */,
+				8F8A6B6316598FBA00FF1B25 /* ELCImagePickerDemoAppDelegate.m in Sources */,
+				8F8A6B6416598FBA00FF1B25 /* ELCImagePickerDemoViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		5341DFC91098E7230034B175 /* TimedCameraViewController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				5341DFCA1098E7230034B175 /* en */,
+			);
+			name = TimedCameraViewController.xib;
+			sourceTree = "<group>";
+		};
+		53EACC050DDA319F00908D73 /* MainWindow.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				53EACC060DDA319F00908D73 /* en */,
+			);
+			name = MainWindow.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		1D6058940D05DD3E006BFB54 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../aws-ios-sdk-1.4.4\"",
+				);
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Prefix.pch;
+				INFOPLIST_FILE = Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				PREBINDING = NO;
+				PRODUCT_NAME = AllieCam;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		1D6058950D05DD3E006BFB54 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../aws-ios-sdk-1.4.4\"",
+				);
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Prefix.pch;
+				INFOPLIST_FILE = Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				PREBINDING = NO;
+				PRODUCT_NAME = AllieCam;
+				SDKROOT = iphoneos;
+			};
+			name = Release;
+		};
+		C01FCF4F08A954540054247B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 3.2;
+				ONLY_ACTIVE_ARCH = YES;
+				PREBINDING = NO;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		C01FCF5008A954540054247B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 3.2;
+				PREBINDING = NO;
+				SDKROOT = iphoneos;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "AllieCam" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1D6058940D05DD3E006BFB54 /* Debug */,
+				1D6058950D05DD3E006BFB54 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C01FCF4E08A954540054247B /* Build configuration list for PBXProject "AllieCam" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C01FCF4F08A954540054247B /* Debug */,
+				C01FCF5008A954540054247B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 29B97313FDCFA39411CA2CEA /* Project object */;
+}
