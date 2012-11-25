@@ -25,7 +25,7 @@ class Welcome extends CI_Controller {
     }
 
     public function photos($album_uniqid=NULL) {
-        $data = json_decode(file_get_contents('application/models/db_test.json'), TRUE);
+        $data = json_decode(file_get_contents('application/models/db_all.json'), TRUE);
         if (isset($album_uniqid)) {
             foreach($data['albums'] as $album) {
                 if ($album['uniqid'] == $album_uniqid) {
