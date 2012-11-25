@@ -26,6 +26,14 @@ class Welcome extends CI_Controller {
 
     public function photos($album_uniqid=NULL) {
         $data = json_decode(file_get_contents('application/models/db_all.json'), TRUE);
+        uasort($data['albums'], function($album1, $album2) {
+            if (!$album1 || !$album2)
+                return 0;
+            if (!isset($album1['dateCreated']) || !isset($album2['dateCreated']))
+                return 0;
+
+            return strtotime($album1['dateCreated']) - strtotime($album2['dateCreated']);
+        });
         if (isset($album_uniqid)) {
             foreach($data['albums'] as $album) {
                 if ($album['uniqid'] == $album_uniqid) {
