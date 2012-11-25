@@ -191,6 +191,26 @@ if (defined('ENVIRONMENT'))
 		define('APPPATH', BASEPATH.$application_folder.'/');
 	}
 
+
+	/*
+added per http://philsturgeon.co.uk/blog/2009/12/CodeIgniter-on-PHP-5.3
+running on the Amazon EC2 server (perhaps with a later version of PHP)
+prompted errors when using strtotime
+
+	|---------------------------------------------------------------
+	| DEFAULT TIMEZONE
+	|---------------------------------------------------------------
+	|
+	| Set the default timezone for date/time functions to use if
+	| none is set on the server.
+	|
+	*/
+
+	if( ! ini_get('date.timezone') )
+	{
+	   date_default_timezone_set('Australia/Sydney');
+	} 
+
 /*
  * --------------------------------------------------------------------
  * LOAD THE BOOTSTRAP FILE
