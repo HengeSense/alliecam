@@ -206,10 +206,10 @@ prompted errors when using strtotime
 	|
 	*/
 
-	if( ! ini_get('date.timezone') )
-	{
-	   date_default_timezone_set('Australia/Sydney');
-	} 
+	// if( ! ini_get('date.timezone') )
+	// {
+	//    date_default_timezone_set('Australia/Sydney');
+	// } 
 
 /*
  * --------------------------------------------------------------------
