@@ -67,7 +67,7 @@
                 <ul class="nav nav-list" id="ac_sidebar">
                     <li class="nav-header recipient">Albums</li>
                     <?php foreach ($albums as $album): ?>
-                        <li id="<?php echo $album['uniqid'] ?>"><a href="<?php echo base_url('welcome/photos/'.$album['uniqid']) ?>"><?php echo $album['name'] ?></a></li>
+                        <li id="<?php echo $album['uniqid'] ?>"><a href="<?php echo base_url('photos/album/'.$album['uniqid']) ?>"><?php echo $album['name'] ?></a></li>
                     <?php endforeach; ?>
                 </ul>
             </div>

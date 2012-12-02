@@ -2,6 +2,9 @@
 
 class Photos extends CI_Controller {
 
+    function __construct() {
+        parent::__construct();
+    }
     /**
      * Index Page for this controller.
      *
@@ -21,10 +24,10 @@ class Photos extends CI_Controller {
     {
         // $this->load->view('welcome_message');
         log_message('info', 'loading home page');
-        $this->photos();
+        $this->album();
     }
 
-    public function photos($album_uniqid=NULL) {
+    public function album($album_uniqid=NULL) {
         $data = json_decode(file_get_contents('application/models/db_all.json'), TRUE);
         uasort($data['albums'], function($album1, $album2) {
             if (!$album1 || !$album2)
