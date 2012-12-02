@@ -83,39 +83,76 @@
     [AmazonErrorHandler shouldNotThrowExceptions];
 }
 
+- (void)beginBackgroundUpdateTask {
+    uploadTaskID = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
+        [self endBackgroundUpdateTask];
+    }];
+}
+
+- (void)endBackgroundUpdateTask {
+    [[UIApplication sharedApplication] endBackgroundTask:uploadTaskID];
+    uploadTaskID = UIBackgroundTaskInvalid;
+}
+
 - (void)sendToS3:(UIImage *)picture {
     
     // apparently this gives me ten minutes after app has ended to upload?
     // probably need to handle better than this though
     // with some sort of disk storage of images that didn't upload
     // (or a reference to the image in the library)
-//    UIApplication *app = [UIApplication sharedApplication];
-    //    NSLog(@"Setting up backgroung task");
-//    uploadTaskID = [app beginBackgroundTaskWithExpirationHandler:^{
-//        [app endBackgroundTask:uploadTaskID];
-//        uploadTaskID = UIBackgroundTaskInvalid;
-//    }];
     
-    NSLog(@"Fixing picture orientation");
-    UIImage *corrected_pic = [picture fixOrientation];
-    NSLog(@"Compressing to JPEG");
-    NSData *imageData = UIImageJPEGRepresentation(corrected_pic, 1.0);
-    
-    // Upload image data.  Remember to set the content type.
-    NSDateFormatter *formatter;
-    formatter = [[[NSDateFormatter alloc] init] autorelease];
-    [formatter setDateFormat:PICTURE_NAME];
-    NSString *filename = [formatter stringFromDate:[NSDate date]];
-    NSLog(@"Uploading to %@ with filename %@", PICTURE_BUCKET, filename);
-    S3PutObjectRequest *por = [[[S3PutObjectRequest alloc] initWithKey:filename
-                                                              inBucket:PICTURE_BUCKET] autorelease];
-    
-    por.contentType = @"image/jpeg";
-    por.data = imageData;
-    por.delegate = self;
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [self beginBackgroundUpdateTask];
+        
+        NSLog(@"Fixing picture orientation");
+        UIImage *corrected_pic = [picture fixOrientation];
+        NSLog(@"Compressing to JPEG");
+        NSData *imageData = UIImageJPEGRepresentation(corrected_pic, 1.0);
+        
+        // Upload image data.  Remember to set the content type.
+        NSDateFormatter *formatter;
+        formatter = [[[NSDateFormatter alloc] init] autorelease];
+        [formatter setDateFormat:PICTURE_NAME];
+        NSString *filename = [formatter stringFromDate:[NSDate date]];
+        NSLog(@"Uploading to %@ with filename %@", PICTURE_BUCKET, filename);
+        S3PutObjectRequest *por = [[[S3PutObjectRequest alloc] initWithKey:filename
+                                                                  inBucket:PICTURE_BUCKET] autorelease];
+        
+        por.contentType = @"image/jpeg";
+        por.data = imageData;
+        
+        // doco seems to indicate that if i DON'T set a delegate, the request will be syncronous
+    //    por.delegate = self;
 
-    // Put the image data into the specified s3 bucket and object.
-    [self.s3 putObject:por];
+        // Put the image data into the specified s3 bucket and object.
+        S3PutObjectResponse *response = [self.s3 putObject:por];
+        NSLog(@"Finished upload: %@", response);
+        
+        // now let alliecam.net know about the upload
+       
+        NSString *post = [NSString stringWithFormat:@"filename=%@&album=%@", filename, @"uploads"];
+        NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
+        
+        NSString *postLength = [NSString stringWithFormat:@"%d", [postData length]];
+        
+        NSURL *url = [NSURL URLWithString:@"http://www.alliecam.net/photos/add"];
+        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+        request.HTTPMethod = @"POST";
+        [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
+        [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+        [request setHTTPBody:postData];
+        
+        NSURLResponse *ac_response = nil;
+        NSError *ac_error = nil;
+        NSData *ac_responseData = [NSURLConnection sendSynchronousRequest:request
+                                                        returningResponse:&ac_response
+                                                                    error:&ac_error];
+        
+        
+        [self endBackgroundUpdateTask];
+    });
+
+    
 }
 
 

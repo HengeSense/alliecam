@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Welcome extends CI_Controller {
+class Photos extends CI_Controller {
 
     /**
      * Index Page for this controller.
@@ -52,11 +52,64 @@ class Welcome extends CI_Controller {
 
     }
 
-    public function add_photo() {
+    function _get_data() {
+        $data = json_decode(file_get_contents('application/models/db_all.json'), TRUE);
+        return $data;
+    }
+
+    function _add_to_album($album_name, $filename) {
+        $db = $this->_get_data();
+        $assigned = FALSE;
+        foreach ($db['albums'] as $album) {
+            if (isset($album['name']) && $album['name'] == $album_name) {
+                $album['photos'][] = array(
+                    'uniqid' => uniqid(),
+                    'caption' => 'None',
+                    'url' => "$album_name/$filename",
+                    );
+                $assigned = TRUE;
+                break;
+            }
+        }
+
+        if (!$assigned) {
+            $new_album = array(
+                'uniqid' => uniqid(),
+                'name' => $album_name,
+                'dateCreated' => date("Y-m-d H:i:s"),
+                'photos' => array(
+                    'uniqid' => uniqid(),
+                    'caption' => 'None',
+                    'url' => "$album_name/$filename",
+                    ),
+                );
+            $db['albums'][] = $new_album;
+            $assigned = TRUE;
+        }
+
+        return $assigned;
+    }
+
+    public function add() {
         // adds a photo to a named album
         // note: the photo doesn't come to this server, just an S3 filename
+        $this->form_validation->set_rules('filename', 'filename', 'trim|required|xss_clean');
+        $this->form_validation->set_rules('album_uniqid', 'album_uniqid', 'trim|xss_clean');
+        if ($this->form_validation->run()) {
+            $filename = $this->form_validation->set_value('filename');
 
+            // TODO: ignored album
+            $album_name = 'uploads';
+            if ($this->_add_to_album($album_name, $filename)) {
+                $this->output->set_status_header('200');
+            }
+            else {
+                log_message('error', "failed to add '$filename' to '$album_name'");
+                $this->output->set_status_header('400');
+            }
+        }
     }
+
     public function edit_photo() {
 
     }
