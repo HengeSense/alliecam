@@ -4,6 +4,8 @@ class Photos extends CI_Controller {
 
     function __construct() {
         parent::__construct();
+
+        $this->load->library('form_validation');
     }
     /**
      * Index Page for this controller.
@@ -28,14 +30,14 @@ class Photos extends CI_Controller {
     }
 
     public function album($album_uniqid=NULL) {
-        $data = json_decode(file_get_contents('application/models/db_all.json'), TRUE);
+        $data = $this->_get_data();
         uasort($data['albums'], function($album1, $album2) {
             if (!$album1 || !$album2)
                 return 0;
             if (!isset($album1['dateCreated']) || !isset($album2['dateCreated']))
                 return 0;
 
-            return strtotime($album1['dateCreated']) - strtotime($album2['dateCreated']);
+            return strtotime($album2['dateCreated']) - strtotime($album1['dateCreated']);
         });
         if (isset($album_uniqid)) {
             foreach($data['albums'] as $album) {
@@ -60,37 +62,43 @@ class Photos extends CI_Controller {
         return $data;
     }
 
+    function _put_data($data) {
+        $success = file_put_contents('application/models/db_all.json', json_encode($data));
+        return $success;
+    }
+
     function _add_to_album($album_name, $filename) {
+        log_message('info', "adding '$filename' to '$album_name'");
         $db = $this->_get_data();
-        $assigned = FALSE;
-        foreach ($db['albums'] as $album) {
+        $add_album = NULL;
+        foreach ($db['albums'] as &$album) {
             if (isset($album['name']) && $album['name'] == $album_name) {
-                $album['photos'][] = array(
-                    'uniqid' => uniqid(),
-                    'caption' => 'None',
-                    'url' => "$album_name/$filename",
-                    );
-                $assigned = TRUE;
+                log_message('info', "found existing album called '$album_name'");
+                $add_album = &$album;
                 break;
             }
         }
 
-        if (!$assigned) {
-            $new_album = array(
+        if (!$add_album) {
+            log_message('info', "could not find album called '$album_name'... creating one");
+            $add_album = array(
                 'uniqid' => uniqid(),
                 'name' => $album_name,
                 'dateCreated' => date("Y-m-d H:i:s"),
-                'photos' => array(
-                    'uniqid' => uniqid(),
-                    'caption' => 'None',
-                    'url' => "$album_name/$filename",
-                    ),
+                'photos' => array(),
                 );
-            $db['albums'][] = $new_album;
-            $assigned = TRUE;
+            // HACK: not sure if this ref assignment will work
+            $db['albums'][] = &$add_album;
         }
+        $add_album['photos'][] = array(
+                'uniqid' => uniqid(),
+                'caption' => 'None',
+                'url' => "$album_name/$filename",
+                );
 
-        return $assigned;
+        $assigned = ($add_album != NULL);
+        $written = ($this->_put_data($db) !== FALSE);
+        return $assigned && $written;
     }
 
     public function add() {

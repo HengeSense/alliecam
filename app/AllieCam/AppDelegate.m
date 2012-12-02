@@ -113,7 +113,8 @@
         NSDateFormatter *formatter;
         formatter = [[[NSDateFormatter alloc] init] autorelease];
         [formatter setDateFormat:PICTURE_NAME];
-        NSString *filename = [formatter stringFromDate:[NSDate date]];
+        NSString *dateStr = [formatter stringFromDate:[NSDate date]];
+        NSString *filename = [NSString stringWithFormat:@"uploads/%@", dateStr];
         NSLog(@"Uploading to %@ with filename %@", PICTURE_BUCKET, filename);
         S3PutObjectRequest *por = [[[S3PutObjectRequest alloc] initWithKey:filename
                                                                   inBucket:PICTURE_BUCKET] autorelease];
@@ -130,12 +131,13 @@
         
         // now let alliecam.net know about the upload
        
-        NSString *post = [NSString stringWithFormat:@"filename=%@&album=%@", filename, @"uploads"];
+        NSString *post = [NSString stringWithFormat:@"filename=%@&album=%@", dateStr, @"uploads"];
         NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
         
         NSString *postLength = [NSString stringWithFormat:@"%d", [postData length]];
         
-        NSURL *url = [NSURL URLWithString:@"http://www.alliecam.net/photos/add"];
+//        NSURL *url = [NSURL URLWithString:@"http://www.alliecam.net/photos/add"];
+        NSURL *url = [NSURL URLWithString:@"http://localhost/~mblackwell8/alliecam/photos/add"];
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
         request.HTTPMethod = @"POST";
         [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
@@ -147,6 +149,11 @@
         NSData *ac_responseData = [NSURLConnection sendSynchronousRequest:request
                                                         returningResponse:&ac_response
                                                                     error:&ac_error];
+        NSLog(@"Finished comms with alliecam.net");
+        NSLog(@"Response: %@", ac_response);
+        NSLog(@"Error: %@", ac_error);
+        NSLog(@"Response data: %@", ac_responseData);
+        
         
         
         [self endBackgroundUpdateTask];
