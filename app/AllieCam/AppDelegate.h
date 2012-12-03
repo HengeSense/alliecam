@@ -61,7 +61,9 @@
 // Constants for the Bucket and Object name.
 //#define UNIQUE_NAME            @"my-unique-name"
 #define PICTURE_BUCKET         @"blackwellfamily"
-#define PICTURE_NAME           @"yyyyMMddHHmm"
+//#define PICTURE_NAME           @"yyyyMMddHHmm"
+#define UPLOAD_URL             @"http://www.alliecam.net/photos/add"
+//#define UPLOAD_URL             @"http://localhost/~mblackwell8/alliecam/photos/add"
 
 @interface AppDelegate : NSObject <UIApplicationDelegate, AmazonServiceRequestDelegate>
 {
@@ -74,6 +76,8 @@
 @property (nonatomic, retain) IBOutlet UINavigationController *navController;
 @property (nonatomic, retain) AmazonS3Client *s3;
 
-- (void)sendToS3:(UIImage *)picture;
+- (void)sendToS3:(NSDictionary *)info
+      startBlock:(void (^)(NSString *filename))start
+        endBlock:(void (^)(void))end;
 
 @end

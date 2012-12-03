@@ -67,7 +67,7 @@ class Photos extends CI_Controller {
         return $success;
     }
 
-    function _add_to_album($album_name, $filename) {
+    function _add_to_album($album_name, $filename, $metadata = '') {
         log_message('info', "adding '$filename' to '$album_name'");
         $db = $this->_get_data();
         $add_album = NULL;
@@ -88,12 +88,14 @@ class Photos extends CI_Controller {
                 'photos' => array(),
                 );
             // HACK: not sure if this ref assignment will work
+            // testing indicates that it does
             $db['albums'][] = &$add_album;
         }
         $add_album['photos'][] = array(
                 'uniqid' => uniqid(),
                 'caption' => 'None',
                 'url' => "$album_name/$filename",
+                'metadata' => $metadata,
                 );
 
         $assigned = ($add_album != NULL);
@@ -105,13 +107,16 @@ class Photos extends CI_Controller {
         // adds a photo to a named album
         // note: the photo doesn't come to this server, just an S3 filename
         $this->form_validation->set_rules('filename', 'filename', 'trim|required|xss_clean');
-        $this->form_validation->set_rules('album_uniqid', 'album_uniqid', 'trim|xss_clean');
+        $this->form_validation->set_rules('albumname', 'albumname', 'trim|xss_clean');
+        $this->form_validation->set_rules('metadata', 'metadata', 'trim|xss_clean');
         if ($this->form_validation->run()) {
             $filename = $this->form_validation->set_value('filename');
+            $albumname = $this->form_validation->set_value('albumname', 'uploads');
+            $metadata = $this->form_validation->set_value('metadata', '');
 
             // TODO: ignored album
             $album_name = 'uploads';
-            if ($this->_add_to_album($album_name, $filename)) {
+            if ($this->_add_to_album($albumname, $filename)) {
                 $this->output->set_status_header('200');
             }
             else {

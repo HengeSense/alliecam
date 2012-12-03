@@ -73,24 +73,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "MainViewController.m"
-         timestampString = "374971940.465232"
+         timestampString = "376223813.075377"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "201"
-         endingLineNumber = "201"
-         landmarkName = "-uploadCapturedImages"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "MainViewController.m"
-         timestampString = "374972777.566464"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "209"
-         endingLineNumber = "209"
+         startingLineNumber = "198"
+         endingLineNumber = "198"
          landmarkName = "-uploadCapturedImages"
          landmarkType = "5">
       </FileBreakpoint>
@@ -111,13 +98,26 @@
          shouldBeEnabled = "No"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
-         filePath = "MainViewController.m"
-         timestampString = "374972881.465266"
+         filePath = "AppDelegate.m"
+         timestampString = "376222938.513196"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "200"
-         endingLineNumber = "200"
-         landmarkName = "-uploadCapturedImages"
+         startingLineNumber = "135"
+         endingLineNumber = "135"
+         landmarkName = "-sendToS3:startBlock:endBlock:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "AppDelegate.m"
+         timestampString = "376222938.513196"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "145"
+         endingLineNumber = "145"
+         landmarkName = "-sendToS3:startBlock:endBlock:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -125,12 +125,12 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "AppDelegate.m"
-         timestampString = "376142807.713931"
+         timestampString = "376222966.072795"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "129"
-         endingLineNumber = "129"
-         landmarkName = "-sendToS3:"
+         startingLineNumber = "109"
+         endingLineNumber = "109"
+         landmarkName = "-sendToS3:startBlock:endBlock:"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

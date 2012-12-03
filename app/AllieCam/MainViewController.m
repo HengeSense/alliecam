@@ -182,10 +182,6 @@
 #pragma mark -
 #pragma mark Toolbar Actions
 
-- (IBAction)photoLibraryAction:(id)sender
-{
-}
-
 - (IBAction)albumAction:(id)sender
 {
     [self showAlbum];
@@ -197,20 +193,37 @@
 }
 
 - (void)uploadCapturedImages {
-    [self.uploadActivityIndicator startAnimating];
-    for(UIImage *picture in self.capturedImages) {
-        
-        // and upload it to Amazon S3
-//        UIImage *corrected_pic = [picture fixOrientation];
-//        NSData *imageData = UIImageJPEGRepresentation(corrected_pic, 1.0);
-//        [self processGrandCentralDispatchUpload:imageData];
+    NSUInteger count = self.capturedImages.count;
+    NSUInteger posn = 1;
+    for(NSDictionary *picture in self.capturedImages) {
         NSLog(@"Sending to Amazon S3");
-        id<UIApplicationDelegate> del = [[UIApplication sharedApplication] delegate];
-        [del sendToS3:picture];
+        AppDelegate *del = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+        [del sendToS3:picture
+           startBlock:^(NSString *message) {
+               NSString *final_message = [NSString stringWithFormat:@"%@ (%d of %d)", message, posn, count];
+               NSLog(@"upload starting");
+               [self performSelectorOnMainThread:@selector(startWaitAnimationWithMessage:)
+                                      withObject:final_message
+                                   waitUntilDone:NO];
+            }
+             endBlock:^ {
+                 NSLog(@"upload finishing");
+                 [self performSelectorOnMainThread:@selector(stopWaitAnimationWithMessage:)
+                                      withObject:@"Done."
+                                   waitUntilDone:NO];
+             }];
         
     }
-    [self.uploadActivityIndicator stopAnimating];
 
+}
+
+- (void)startWaitAnimationWithMessage:(NSString *)message {
+    [self.uploadActivityIndicator startAnimating];
+    self.uploadLabel.text = message;
+}
+- (void)stopWaitAnimationWithMessage:(NSString *)message {
+    [self.uploadActivityIndicator stopAnimating];
+    self.uploadLabel.text = message;
 }
 
 // probably better not to do this in the VC, because will stop processing on app close (?)
@@ -257,8 +270,8 @@
 //
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
-    UIImage *image = [info valueForKey:UIImagePickerControllerOriginalImage];
-    [self.capturedImages addObject:image];
+//    UIImage *image = [info valueForKey:UIImagePickerControllerOriginalImage];
+    [self.capturedImages addObject:info];
     
     [self dismissModalViewControllerAnimated:YES];
     if (_showing == @"camera") {
@@ -283,7 +296,8 @@
 {
     [self dismissModalViewControllerAnimated:YES];
     if ([self.capturedImages count] > 0) {
-        [self.imageView setImage:[self.capturedImages objectAtIndex:0]];
+        NSDictionary *info = [self.capturedImages objectAtIndex:0];
+        [self.imageView setImage:[info valueForKey:UIImagePickerControllerOriginalImage]];
     }
     _showing = @"home";
 }
@@ -294,18 +308,20 @@
 // as a delegate we are being told a picture was taken
 - (void)didTakePicture:(UIImage *)picture
 {
-    [self.capturedImages addObject:picture];
+    NSLog(@"not implemented");
+//    [self.capturedImages addObject:picture];
 }
 
 // as a delegate we are told to finished with the camera
 - (void)didFinishWithCamera
 {
-    [self dismissModalViewControllerAnimated:YES];
-    [self uploadCapturedImages];
-    
-    if ([self.capturedImages count] > 0) {
-        [self.imageView setImage:[self.capturedImages objectAtIndex:0]];
-    }
+    NSLog(@"not implemented");
+//    [self dismissModalViewControllerAnimated:YES];
+//    [self uploadCapturedImages];
+//    
+//    if ([self.capturedImages count] > 0) {
+//        [self.imageView setImage:[self.capturedImages objectAtIndex:0]];
+//    }
 
 }
 
@@ -314,8 +330,8 @@
 	[self dismissModalViewControllerAnimated:YES];
 	
     for (NSDictionary *dict in info) {
-        UIImage *picture = (UIImage *)[dict objectForKey:UIImagePickerControllerOriginalImage];
-        [self.capturedImages addObject:picture];
+//        UIImage *picture = (UIImage *)[dict objectForKey:UIImagePickerControllerOriginalImage];
+        [self.capturedImages addObject:dict];
     }
     [self uploadCapturedImages];
     _showing = @"home";

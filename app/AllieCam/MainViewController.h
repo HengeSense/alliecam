@@ -53,6 +53,7 @@
 #import "TimedCameraViewController.h"
 #import "ELCAlbumPickerController.h"
 #import "ELCImagePickerController.h"
+#import "AppDelegate.h"
 
 @interface MainViewController : UIViewController <UINavigationControllerDelegate, UIImagePickerControllerDelegate, TimedCameraViewControllerDelegate, ELCImagePickerControllerDelegate>
 {
@@ -73,6 +74,7 @@
 @property (nonatomic, retain) IBOutlet UIImageView *imageView;
 @property (nonatomic, retain) IBOutlet UIToolbar *myToolbar;
 @property (nonatomic, retain) IBOutlet UIActivityIndicatorView *uploadActivityIndicator;
+@property (nonatomic, retain) IBOutlet UILabel *uploadLabel;
 
 @property (nonatomic, retain) TimedCameraViewController *timedCamera;
 @property (nonatomic, retain) UIImagePickerController *standardCamera;
@@ -83,7 +85,6 @@
 
 
 // toolbar buttons
-- (IBAction)photoLibraryAction:(id)sender;
 - (IBAction)albumAction:(id)sender;
 - (IBAction)cameraAction:(id)sender;
 

@@ -39,6 +39,8 @@
 		8F8A6B6516598FBA00FF1B25 /* Overlay.png in Resources */ = {isa = PBXBuildFile; fileRef = 8F8A6B5816598FB900FF1B25 /* Overlay.png */; };
 		8F8A6B6616598FBA00FF1B25 /* Overlay@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8F8A6B5916598FB900FF1B25 /* Overlay@2x.png */; };
 		8F8A6B68165992EC00FF1B25 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F8A6B67165992EC00FF1B25 /* AssetsLibrary.framework */; };
+		8F957D25166C30A7009FAC8F /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8F957D24166C30A7009FAC8F /* Default@2x.png */; };
+		8F957D33166CB9D4009FAC8F /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8F957D32166CB9D4009FAC8F /* Default@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -89,6 +91,8 @@
 		8F8A6B5816598FB900FF1B25 /* Overlay.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Overlay.png; sourceTree = "<group>"; };
 		8F8A6B5916598FB900FF1B25 /* Overlay@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Overlay@2x.png"; sourceTree = "<group>"; };
 		8F8A6B67165992EC00FF1B25 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
+		8F957D24166C30A7009FAC8F /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		8F957D32166CB9D4009FAC8F /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -119,6 +123,7 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				8F957D32166CB9D4009FAC8F /* Default@2x.png */,
 				53063B351178C93800B6DA5A /* ReadMe.txt */,
 				53AF8AEC0D9C50B700726DBA /* Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
@@ -156,6 +161,7 @@
 		5323EC8011C933D20094367E /* images */ = {
 			isa = PBXGroup;
 			children = (
+				8F957D24166C30A7009FAC8F /* Default@2x.png */,
 				5323EC8211C933D20094367E /* Icon-Small.png */,
 				5323EC8311C933D20094367E /* Icon-Small@2x.png */,
 				5323EC8411C933D20094367E /* Icon.png */,
@@ -275,6 +281,8 @@
 				8F8A6B6216598FBA00FF1B25 /* ELCImagePickerController.xib in Resources */,
 				8F8A6B6516598FBA00FF1B25 /* Overlay.png in Resources */,
 				8F8A6B6616598FBA00FF1B25 /* Overlay@2x.png in Resources */,
+				8F957D25166C30A7009FAC8F /* Default@2x.png in Resources */,
+				8F957D33166CB9D4009FAC8F /* Default@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

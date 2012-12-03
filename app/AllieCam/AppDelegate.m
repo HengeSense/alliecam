@@ -55,13 +55,16 @@
 - (void)applicationDidFinishLaunching:(UIApplication *)application
 {
     // create window and set up table view controller
-	[window addSubview:navController.view];
-	[window makeKeyAndVisible];
+//	[window addSubview:navController.view];
+    [self.window setRootViewController:navController];
+	[self.window makeKeyAndVisible];
     
     // Initial the S3 Client.
     self.s3 = [[[AmazonS3Client alloc] initWithAccessKey:ACCESS_KEY_ID withSecretKey:SECRET_KEY] autorelease];
+#ifdef DEBUG
     S3Bucket *bucket = [[self.s3 listBuckets] objectAtIndex:0];
     NSLog(@"%@",[bucket name]);
+#endif
 
     // Create the picture bucket.
 //    NSString *pictureBucket = [[NSString stringWithFormat:@"%@-%@%@", UNIQUE_NAME, ACCESS_KEY_ID, PICTURE_BUCKET] lowercaseString];
@@ -88,13 +91,14 @@
         [self endBackgroundUpdateTask];
     }];
 }
-
 - (void)endBackgroundUpdateTask {
     [[UIApplication sharedApplication] endBackgroundTask:uploadTaskID];
     uploadTaskID = UIBackgroundTaskInvalid;
 }
 
-- (void)sendToS3:(UIImage *)picture {
+- (void)sendToS3:(NSDictionary *)info
+      startBlock:(void (^)(NSString *filename))start
+        endBlock:(void (^)(void))end {
     
     // apparently this gives me ten minutes after app has ended to upload?
     // probably need to handle better than this though
@@ -104,18 +108,24 @@
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [self beginBackgroundUpdateTask];
         
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        [formatter setDateFormat:@"yyyyMMddHHmm"];
+        NSDate *now = [NSDate date];
+        NSString *filename = [formatter stringFromDate:now];
+        [formatter setDateFormat:@"MMM-yyyy"];
+        NSString *albumname = [formatter stringFromDate:now];
+        NSString *fullpath = [NSString stringWithFormat:@"%@/%@", albumname, filename];
+        
+        start([NSString stringWithFormat:@"Uploading to album '%@'", albumname]);
+        
+        UIImage *picture = [info objectForKey:UIImagePickerControllerOriginalImage];
         NSLog(@"Fixing picture orientation");
         UIImage *corrected_pic = [picture fixOrientation];
         NSLog(@"Compressing to JPEG");
         NSData *imageData = UIImageJPEGRepresentation(corrected_pic, 1.0);
         
         // Upload image data.  Remember to set the content type.
-        NSDateFormatter *formatter;
-        formatter = [[[NSDateFormatter alloc] init] autorelease];
-        [formatter setDateFormat:PICTURE_NAME];
-        NSString *dateStr = [formatter stringFromDate:[NSDate date]];
-        NSString *filename = [NSString stringWithFormat:@"uploads/%@", dateStr];
-        NSLog(@"Uploading to %@ with filename %@", PICTURE_BUCKET, filename);
+        NSLog(@"Uploading to '%@' with filename '%@'", PICTURE_BUCKET, fullpath);
         S3PutObjectRequest *por = [[[S3PutObjectRequest alloc] initWithKey:filename
                                                                   inBucket:PICTURE_BUCKET] autorelease];
         
@@ -131,13 +141,15 @@
         
         // now let alliecam.net know about the upload
        
-        NSString *post = [NSString stringWithFormat:@"filename=%@&album=%@", dateStr, @"uploads"];
+        NSString *metadata = [info objectForKey:UIImagePickerControllerMediaMetadata];
+        if (!metadata)
+            metadata = @"";
+        NSString *post = [NSString stringWithFormat:@"filename=%@&album=%@&metadata=%@", fullpath, albumname, metadata];
         NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
         
         NSString *postLength = [NSString stringWithFormat:@"%d", [postData length]];
         
-//        NSURL *url = [NSURL URLWithString:@"http://www.alliecam.net/photos/add"];
-        NSURL *url = [NSURL URLWithString:@"http://localhost/~mblackwell8/alliecam/photos/add"];
+        NSURL *url = [NSURL URLWithString:UPLOAD_URL];
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
         request.HTTPMethod = @"POST";
         [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
@@ -154,9 +166,10 @@
         NSLog(@"Error: %@", ac_error);
         NSLog(@"Response data: %@", ac_responseData);
         
-        
+        end();
         
         [self endBackgroundUpdateTask];
+        
     });
 
     
