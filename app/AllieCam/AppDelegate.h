@@ -77,7 +77,9 @@
 @property (nonatomic, retain) AmazonS3Client *s3;
 
 - (void)sendToS3:(NSDictionary *)info
-      startBlock:(void (^)(NSString *filename))start
+        filename:(NSString *)filename
+       albumname:(NSString *)albumname
+      startBlock:(void (^)(void))start
         endBlock:(void (^)(void))end;
 
 @end

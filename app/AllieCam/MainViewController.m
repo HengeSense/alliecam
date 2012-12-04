@@ -79,11 +79,11 @@
 
 - (void)viewDidLoad
 {
-    self.timedCamera =
-        [[[TimedCameraViewController alloc] initWithNibName:@"TimedCameraViewContoller" bundle:nil] autorelease];
-
-    // as a delegate we will be notified when pictures are taken and when to dismiss the image picker
-    self.timedCamera.delegate = self;
+//    self.timedCamera =
+//        [[[TimedCameraViewController alloc] initWithNibName:@"TimedCameraViewContoller" bundle:nil] autorelease];
+//
+//    // as a delegate we will be notified when pictures are taken and when to dismiss the image picker
+//    self.timedCamera.delegate = self;
     
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
         self.standardCamera = [[[UIImagePickerController alloc] init] autorelease];
@@ -92,10 +92,10 @@
         self.standardCamera.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType: UIImagePickerControllerSourceTypeCamera];
     }
     
-    self.album = [[[UIImagePickerController alloc] init] autorelease];
-    self.album.delegate = self;
-    self.album.sourceType = UIImagePickerControllerSourceTypeSavedPhotosAlbum;
-    self.album.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType: UIImagePickerControllerSourceTypeSavedPhotosAlbum];
+//    self.album = [[[UIImagePickerController alloc] init] autorelease];
+//    self.album.delegate = self;
+//    self.album.sourceType = UIImagePickerControllerSourceTypeSavedPhotosAlbum;
+//    self.album.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType: UIImagePickerControllerSourceTypeSavedPhotosAlbum];
     
 
 //    self.pickerAlbum = [[[ELCImagePickerDemoViewController alloc] init] autorelease];
@@ -194,13 +194,22 @@
 
 - (void)uploadCapturedImages {
     NSUInteger count = self.capturedImages.count;
-    NSUInteger posn = 1;
+    __block NSUInteger posn = 1;
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     for(NSDictionary *picture in self.capturedImages) {
-        NSLog(@"Sending to Amazon S3");
+        [formatter setDateFormat:@"yyyyMMddHHmm"];
+        NSDate *now = [NSDate date];
+        NSString *filename = [NSString stringWithFormat:@"%@-%d", [formatter stringFromDate:now], posn];
+        [formatter setDateFormat:@"MMM-yyyy"];
+        NSString *albumname = [formatter stringFromDate:now];
+        
+        NSLog(@"Sending %@/%@ to Amazon S3", filename, albumname);
         AppDelegate *del = (AppDelegate *)[[UIApplication sharedApplication] delegate];
         [del sendToS3:picture
-           startBlock:^(NSString *message) {
-               NSString *final_message = [NSString stringWithFormat:@"%@ (%d of %d)", message, posn, count];
+             filename:filename
+            albumname:albumname
+           startBlock:^ {
+               NSString *final_message = [NSString stringWithFormat:@"Uploading %d of %d to %@", posn, count, albumname];
                NSLog(@"upload starting");
                [self performSelectorOnMainThread:@selector(startWaitAnimationWithMessage:)
                                       withObject:final_message
@@ -211,6 +220,7 @@
                  [self performSelectorOnMainThread:@selector(stopWaitAnimationWithMessage:)
                                       withObject:@"Done."
                                    waitUntilDone:NO];
+                posn += 1;
              }];
         
     }
@@ -305,25 +315,25 @@
 #pragma mark -
 #pragma mark OverlayViewControllerDelegate
 
-// as a delegate we are being told a picture was taken
-- (void)didTakePicture:(UIImage *)picture
-{
-    NSLog(@"not implemented");
-//    [self.capturedImages addObject:picture];
-}
-
-// as a delegate we are told to finished with the camera
-- (void)didFinishWithCamera
-{
-    NSLog(@"not implemented");
-//    [self dismissModalViewControllerAnimated:YES];
-//    [self uploadCapturedImages];
-//    
-//    if ([self.capturedImages count] > 0) {
-//        [self.imageView setImage:[self.capturedImages objectAtIndex:0]];
-//    }
-
-}
+//// as a delegate we are being told a picture was taken
+//- (void)didTakePicture:(UIImage *)picture
+//{
+//    NSLog(@"not implemented");
+////    [self.capturedImages addObject:picture];
+//}
+//
+//// as a delegate we are told to finished with the camera
+//- (void)didFinishWithCamera
+//{
+//    NSLog(@"not implemented");
+////    [self dismissModalViewControllerAnimated:YES];
+////    [self uploadCapturedImages];
+////    
+////    if ([self.capturedImages count] > 0) {
+////        [self.imageView setImage:[self.capturedImages objectAtIndex:0]];
+////    }
+//
+//}
 
 - (void)elcImagePickerController:(ELCImagePickerController *)picker didFinishPickingMediaWithInfo:(NSArray *)info {
 	

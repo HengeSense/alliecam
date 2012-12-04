@@ -97,9 +97,11 @@
 }
 
 - (void)sendToS3:(NSDictionary *)info
-      startBlock:(void (^)(NSString *filename))start
+        filename:(NSString *)filename
+       albumname:(NSString *)albumname
+      startBlock:(void (^)(void))start
         endBlock:(void (^)(void))end {
-    
+
     // apparently this gives me ten minutes after app has ended to upload?
     // probably need to handle better than this though
     // with some sort of disk storage of images that didn't upload
@@ -108,15 +110,7 @@
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [self beginBackgroundUpdateTask];
         
-        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-        [formatter setDateFormat:@"yyyyMMddHHmm"];
-        NSDate *now = [NSDate date];
-        NSString *filename = [formatter stringFromDate:now];
-        [formatter setDateFormat:@"MMM-yyyy"];
-        NSString *albumname = [formatter stringFromDate:now];
-        NSString *fullpath = [NSString stringWithFormat:@"%@/%@", albumname, filename];
-        
-        start([NSString stringWithFormat:@"Uploading to album '%@'", albumname]);
+        start();
         
         UIImage *picture = [info objectForKey:UIImagePickerControllerOriginalImage];
         NSLog(@"Fixing picture orientation");
@@ -125,8 +119,9 @@
         NSData *imageData = UIImageJPEGRepresentation(corrected_pic, 1.0);
         
         // Upload image data.  Remember to set the content type.
+        NSString *fullpath = [NSString stringWithFormat:@"%@/%@", albumname, filename];
         NSLog(@"Uploading to '%@' with filename '%@'", PICTURE_BUCKET, fullpath);
-        S3PutObjectRequest *por = [[[S3PutObjectRequest alloc] initWithKey:filename
+        S3PutObjectRequest *por = [[[S3PutObjectRequest alloc] initWithKey:fullpath
                                                                   inBucket:PICTURE_BUCKET] autorelease];
         
         por.contentType = @"image/jpeg";
@@ -144,7 +139,7 @@
         NSString *metadata = [info objectForKey:UIImagePickerControllerMediaMetadata];
         if (!metadata)
             metadata = @"";
-        NSString *post = [NSString stringWithFormat:@"filename=%@&album=%@&metadata=%@", fullpath, albumname, metadata];
+        NSString *post = [NSString stringWithFormat:@"filename=%@&albumname=%@&metadata=%@", filename, albumname, metadata];
         NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
         
         NSString *postLength = [NSString stringWithFormat:@"%d", [postData length]];

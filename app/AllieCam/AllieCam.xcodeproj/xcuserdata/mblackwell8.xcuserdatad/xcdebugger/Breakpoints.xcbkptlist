@@ -85,13 +85,13 @@
          shouldBeEnabled = "No"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
-         filePath = "MainViewController.m"
-         timestampString = "374970649.72485"
+         filePath = "AppDelegate.m"
+         timestampString = "376222938.513196"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "82"
-         endingLineNumber = "82"
-         landmarkName = "-viewDidLoad"
+         startingLineNumber = "135"
+         endingLineNumber = "135"
+         landmarkName = "-sendToS3:filename:albumname:startBlock:endBlock:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -102,22 +102,9 @@
          timestampString = "376222938.513196"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "135"
-         endingLineNumber = "135"
-         landmarkName = "-sendToS3:startBlock:endBlock:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "Yes"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "AppDelegate.m"
-         timestampString = "376222938.513196"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
          startingLineNumber = "145"
          endingLineNumber = "145"
-         landmarkName = "-sendToS3:startBlock:endBlock:"
+         landmarkName = "-sendToS3:filename:albumname:startBlock:endBlock:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -130,7 +117,7 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "109"
          endingLineNumber = "109"
-         landmarkName = "-sendToS3:startBlock:endBlock:"
+         landmarkName = "-sendToS3:filename:albumname:startBlock:endBlock:"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

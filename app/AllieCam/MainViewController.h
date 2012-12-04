@@ -60,9 +60,9 @@
     UIImageView *imageView;
     UIToolbar *myToolbar;
     
-    TimedCameraViewController *timedCamera; // the camera custom overlay view
+//    TimedCameraViewController *timedCamera; // the camera custom overlay view
     UIImagePickerController *standardCamera;
-    UIImagePickerController *album;
+//    UIImagePickerController *album;
     ELCImagePickerController *pickerAlbum;
     NSString *_showing;
     BOOL _shouldUseTimedCamera;
