@@ -110,7 +110,7 @@ class Photos extends CI_Controller {
         include('application/libraries/resize-class.php');
 
         // Instantiate an S3 client
-        $s3 = Aws::factory('aws_config.php')->get('s3');
+        $s3 = Aws::factory('application/config/aws_config.php')->get('s3');
         $bucket = 'blackwellfamily';
         $tmp_filepath = 'static/tmp/';
 
