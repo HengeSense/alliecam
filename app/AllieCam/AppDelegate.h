@@ -62,8 +62,8 @@
 //#define UNIQUE_NAME            @"my-unique-name"
 #define PICTURE_BUCKET         @"blackwellfamily"
 //#define PICTURE_NAME           @"yyyyMMddHHmm"
-//#define UPLOAD_URL             @"http://www.alliecam.net/photos/add"
-#define UPLOAD_URL             @"http://localhost/~mblackwell8/alliecam/photos/add"
+#define UPLOAD_URL             @"http://www.alliecam.net/photos/add"
+//#define UPLOAD_URL             @"http://localhost/~mblackwell8/alliecam/photos/add"
 
 @interface AppDelegate : NSObject <UIApplicationDelegate, AmazonServiceRequestDelegate>
 {
