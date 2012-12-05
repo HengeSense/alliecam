@@ -59,6 +59,16 @@ class Photos extends CI_Controller {
 
     function _get_data() {
         $data = json_decode(file_get_contents('application/models/db_all.json'), TRUE);
+        // temp HACK
+        // foreach ($data['albums'] as &$album) {
+        //     foreach ($album['photos'] as &$photo) {
+        //         $extension = strtolower(strrchr($photo['url'], ;
+        //         $awspath_pre_extension = strstr($photo['url'], '.', TRUE);
+        //         $photo['url_thumbnail'] = $awspath_pre_extension.'_thumb'.$extension; 
+        //         $photo['url_fullsize'] = $photo['url'];
+        //         $photo['url'] = $awspath_pre_extension.'_ac'.$extension; 
+        //     }
+        // }
         return $data;
     }
 

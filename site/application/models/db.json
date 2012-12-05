@@ -10,12 +10,10 @@
                 {
                     "uniqid": "1",
                     "caption": "Sunny day out",
-                    "url": "S3 url",
-                },
-                {
-                    "uniqid": "1",
-                    "caption": "Wintry day out",
-                    "url": "S3 url",
+                    "url_fullsize": "S3 full size URL",
+                    "url": "S3 net url",
+                    "url_thumbnail": "S3 net url",
+                    "dateTaken": "date taken"
                 }
             ]
         }

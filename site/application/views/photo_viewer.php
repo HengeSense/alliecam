@@ -37,6 +37,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
     <!-- TODO: GOOGLE ANALYTICS CODE -->
 <?php endif; ?>
+
+<script src="<?php echo base_url('static/js/galleria/galleria-1.2.8.js'); ?>" type="text/javascript"></script>
 </head>
 
 <body>
@@ -73,47 +75,32 @@
             </div>
         </div>
         <div class="span9" id="maincontent">
-            <div id="photo-carousel" class="carousel slide">
-                <!-- Carousel items -->
-                <div class="carousel-inner">
-                <?php $isFirst = TRUE; foreach ($selected_album['photos'] as $photo): ?>
-                    <div class="item <?php echo $isFirst ? 'active' : '' ?>">
-                        <img alt="" src="<?php echo $home.$photo['url'] ?>">
-                    </div>
-                <?php $isFirst = FALSE; endforeach; ?>
-                </div>
-                <!-- Carousel nav -->
-                <a class="carousel-control left" href="#photo-carousel" data-slide="prev">&lsaquo;</a>
-                <a class="carousel-control right" href="#photo-carousel" data-slide="next">&rsaquo;</a>
+            <div id="galleria" style="height: 600px;">
+                <?php foreach ($selected_album['photos'] as $photo): ?>
+                    <a href="<?php echo $home.$photo['url'] ?>">
+                        <img src="<?php echo $home.$photo['url_thumbnail'] ?>" data-big="<?php echo $home.$photo['url_fullsize'] ?>" data-title="My title" data-description="My description">
+                    </a>
+                <?php endforeach; ?>
             </div>
         </div>
 
-<?php if (isset($sidebar_selection) && $sidebar_selection != ''): ?>
 <script type="text/javascript">
+<?php if (isset($sidebar_selection) && $sidebar_selection != ''): ?>
     $(document).ready(function() {
         $('#ac_sidebar').children('#<?php echo $sidebar_selection; ?>').addClass("active");
+
+
     });
-</script>
 <?php endif; ?>
+
+    Galleria.loadTheme('<?php echo base_url('static/js/galleria/themes/classic/galleria.classic.min.js'); ?>');
+    Galleria.run('#galleria');
+
+</script>
 
 
     </div> <!-- /container -->
 
-    <!-- Le javascript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="<?php echo base_url('static/js/bootstrap-transition.js'); ?>"></script>
-    <script src="<?php echo base_url('static/js/bootstrap-alert.js'); ?>"></script>
-    <script src="<?php echo base_url('static/js/bootstrap-modal.js'); ?>"></script>
-    <script src="<?php echo base_url('static/js/bootstrap-dropdown.js'); ?>"></script>
-    <script src="<?php echo base_url('static/js/bootstrap-scrollspy.js'); ?>"></script>
-    <script src="<?php echo base_url('static/js/bootstrap-tab.js'); ?>"></script>
-    <script src="<?php echo base_url('static/js/bootstrap-tooltip.js') ?>"></script>
-    <script src="<?php echo base_url('static/js/bootstrap-popover.js') ?>"></script>
-    <script src="<?php echo base_url('static/js/bootstrap-button.js') ?>"></script>
-    <script src="<?php echo base_url('static/js/bootstrap-collapse.js') ?>"></script>
-    <script src="<?php echo base_url('static/js/bootstrap-carousel.js') ?>"></script>
-    <script src="<?php echo base_url('static/js/bootstrap-typeahead.js') ?>"></script>
 
 </body>
 </html>
