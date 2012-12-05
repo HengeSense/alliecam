@@ -82,6 +82,7 @@
                     </a>
                 <?php endforeach; ?>
             </div>
+            <a href="#" id="fullscreen">Fullscreen</a>
         </div>
 
 <script type="text/javascript">
@@ -95,6 +96,11 @@
 
     Galleria.loadTheme('<?php echo base_url('static/js/galleria/themes/classic/galleria.classic.min.js'); ?>');
     Galleria.run('#galleria');
+
+    $('#fullscreen').click(function() {
+        $('#galleria').data('galleria').toggleFullscreen();
+        // Galleria.toggleFullscreen();
+    });
 
 </script>
 
