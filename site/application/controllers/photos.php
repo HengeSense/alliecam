@@ -54,7 +54,7 @@ class Photos extends CI_Controller {
         if (!isset($data['selected_album'])) {
             if (isset($album_uniqid))
                 log_message('error', "could not find album $album_uniqid");
-            $data['selected_album'] = $data['albums'][0];
+            $data['selected_album'] = reset($data['albums']);
         }
 
         $this->load->view('photo_viewer', $data);
