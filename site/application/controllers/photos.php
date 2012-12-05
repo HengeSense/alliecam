@@ -1,5 +1,9 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
+use Aws\Common\Aws;
+use Aws\S3\Enum\CannedAcl;
+use Guzzle\Http\EntityBody;
+
 class Photos extends CI_Controller {
 
     function __construct() {
@@ -101,10 +105,76 @@ class Photos extends CI_Controller {
             // testing indicates that it does
             $db['albums'][] = &$add_album;
         }
+
+        require 'AWSSDKforPHP/aws.phar';
+        include('resize-class.php');
+
+        // Instantiate an S3 client
+        $s3 = Aws::factory('aws_config.php')->get('s3');
+        $bucket = 'blackwellfamily';
+        $tmp_filepath = 'static/tmp/';
+
+        $response = $s3->getObject(array(
+            'Bucket' => $bucket,
+            'Key' => $album_name.'/'.$filename,
+            ));
+
+        $filename_pre_extension = strstr($filename, '.', TRUE);
+        $extension = strtolower(strrchr($filename, '.'));
+        $full_filepath = $tmp_filepath.$filename_pre_extension.$extension;
+        file_put_contents($full_filepath, $response['Body']);
+
+        $resizer = new resize($full_filepath);
+
+        // echo "resizing for alliecam.net use\n";
+        $resizer->resizeImage(600, 600);
+        $ac_filepath = $tmp_filepath.$filename_pre_extension.'_ac'.$extension;
+        // echo "storing temporarily at $ac_filepath\n";
+        $resizer->saveImage($ac_filepath, 70);
+
+        // echo "putting in S3\n";
+        $awspath_pre_extension = $album_name.'/'.$filename_pre_extension;
+        $ac_awspath = $awspath_pre_extension.'_ac'.$extension; 
+        try {
+            $s3->putObject(array(
+                'Bucket' => $bucket,
+                'Key' => $ac_awspath,
+                'ContentType' => $response['ContentType'],
+                'Body' => EntityBody::factory(fopen($ac_filepath, 'r')),
+                'ACL' => CannedACL::PUBLIC_READ
+                ));
+        } catch (Exception $e) {
+            log_message('error', "ERROR: Could not upload $ac_awspath ($e)");
+        }
+
+        // echo "resizing for thumbnail use\n";
+        $resizer->resizeImage(100, 100);
+        $thumb_filepath = $tmp_filepath.$filename_pre_extension.'_thumb'.$extension;
+        $resizer->saveImage($thumb_filepath, 50);
+
+        // echo "putting in S3\n";
+        $thumb_awspath = $awspath_pre_extension.'_thumb'.$extension; 
+        try {
+            $s3->putObject(array(
+                'Bucket' => $bucket,
+                'Key' => $thumb_awspath,
+                'ContentType' => $response['ContentType'],
+                'Body' => EntityBody::factory(fopen($thumb_filepath, 'r')),
+                'ACL' => CannedACL::PUBLIC_READ
+                ));
+        } catch (Exception $e) {
+            echo "ERROR: Could not upload $thumb_awspath ($e)\n";
+        }
+
+        // $dateTaken = isset($metadata['DateTime']) ? date('Y-m-d H:i:s', strtotime($metadata['DateTime'])) :
+        //     date('Y-m-d H:i:s', strtotime('20'.substr($this_album_name, 0, 5).'-01'));
         $add_album['photos'][] = array(
                 'uniqid' => uniqid(),
                 'caption' => 'None',
-                'url' => "$album_name/$filename",
+                'url_fullsize' => "$album_name/$filename",
+                'url' => $ac_awspath,
+                'url_thumbnail' => $thumb_awspath,
+                // 'dateTaken' => $dateTaken,
                 'metadata' => $metadata,
                 );
 
@@ -125,12 +195,11 @@ class Photos extends CI_Controller {
             $metadata = $this->form_validation->set_value('metadata', '');
 
             // TODO: ignored album
-            $album_name = 'uploads';
-            if ($this->_add_to_album($albumname, $filename)) {
+            if ($this->_add_to_album($albumname, $filename, $metadata)) {
                 $this->output->set_status_header('200');
             }
             else {
-                log_message('error', "failed to add '$filename' to '$album_name'");
+                log_message('error', "failed to add '$filename' to '$albumname'");
                 $this->output->set_status_header('400');
             }
         }

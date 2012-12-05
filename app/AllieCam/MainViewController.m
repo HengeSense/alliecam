@@ -199,7 +199,7 @@
     for(NSDictionary *picture in self.capturedImages) {
         [formatter setDateFormat:@"yyyyMMddHHmm"];
         NSDate *now = [NSDate date];
-        NSString *filename = [NSString stringWithFormat:@"%@-%d", [formatter stringFromDate:now], posn];
+        NSString *filename = [NSString stringWithFormat:@"%@-%d.jpg", [formatter stringFromDate:now], posn];
         [formatter setDateFormat:@"MMM-yyyy"];
         NSString *albumname = [formatter stringFromDate:now];
         
