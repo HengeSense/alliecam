@@ -92,10 +92,10 @@
         self.standardCamera.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType: UIImagePickerControllerSourceTypeCamera];
     }
     
-//    self.album = [[[UIImagePickerController alloc] init] autorelease];
-//    self.album.delegate = self;
-//    self.album.sourceType = UIImagePickerControllerSourceTypeSavedPhotosAlbum;
-//    self.album.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType: UIImagePickerControllerSourceTypeSavedPhotosAlbum];
+    self.album = [[[UIImagePickerController alloc] init] autorelease];
+    self.album.delegate = self;
+    self.album.sourceType = UIImagePickerControllerSourceTypeSavedPhotosAlbum;
+    self.album.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType: UIImagePickerControllerSourceTypeSavedPhotosAlbum];
     
 
 //    self.pickerAlbum = [[[ELCImagePickerDemoViewController alloc] init] autorelease];
@@ -194,10 +194,11 @@
 
 - (void)uploadCapturedImages {
     NSUInteger count = self.capturedImages.count;
-    __block NSUInteger posn = 1;
+    NSUInteger posn = 1;
+    __block  NSUInteger doneCount = 0;
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     for(NSDictionary *picture in self.capturedImages) {
-        [formatter setDateFormat:@"yyyyMMddHHmm"];
+        [formatter setDateFormat:@"yyyyMMddHHmmss"];
         NSDate *now = [NSDate date];
         NSString *filename = [NSString stringWithFormat:@"%@-%d.jpg", [formatter stringFromDate:now], posn];
         [formatter setDateFormat:@"MMM-yyyy"];
@@ -209,7 +210,8 @@
              filename:filename
             albumname:albumname
            startBlock:^ {
-               NSString *final_message = [NSString stringWithFormat:@"Uploading %d of %d to %@", posn, count, albumname];
+               NSString *final_message = [NSString stringWithFormat:@"Uploading %d of %d to %@",
+                                          doneCount + 1, count, albumname];
                NSLog(@"upload starting");
                [self performSelectorOnMainThread:@selector(startWaitAnimationWithMessage:)
                                       withObject:final_message
@@ -220,8 +222,10 @@
                  [self performSelectorOnMainThread:@selector(stopWaitAnimationWithMessage:)
                                       withObject:@"Done."
                                    waitUntilDone:NO];
-                posn += 1;
+                 doneCount += 1;
              }];
+        
+         posn += 1;
         
     }
 

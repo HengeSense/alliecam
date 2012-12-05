@@ -83,28 +83,6 @@ class Photos extends CI_Controller {
 
     function _add_to_album($album_name, $filename, $metadata = '') {
         log_message('info', "adding '$filename' to '$album_name'");
-        $db = $this->_get_data();
-        $add_album = NULL;
-        foreach ($db['albums'] as &$album) {
-            if (isset($album['name']) && $album['name'] == $album_name) {
-                log_message('info', "found existing album called '$album_name'");
-                $add_album = &$album;
-                break;
-            }
-        }
-
-        if (!$add_album) {
-            log_message('info', "could not find album called '$album_name'... creating one");
-            $add_album = array(
-                'uniqid' => uniqid(),
-                'name' => $album_name,
-                'dateCreated' => date("Y-m-d H:i:s"),
-                'photos' => array(),
-                );
-            // HACK: not sure if this ref assignment will work
-            // testing indicates that it does
-            $db['albums'][] = &$add_album;
-        }
 
         require 'AWSSDKforPHP/aws.phar';
         include('application/libraries/resize-class.php');
@@ -145,6 +123,7 @@ class Photos extends CI_Controller {
                 ));
         } catch (Exception $e) {
             log_message('error', "ERROR: Could not upload $ac_awspath ($e)");
+            return FALSE;
         }
 
         // echo "resizing for thumbnail use\n";
@@ -164,23 +143,59 @@ class Photos extends CI_Controller {
                 ));
         } catch (Exception $e) {
             echo "ERROR: Could not upload $thumb_awspath ($e)\n";
+            return FALSE;
         }
 
-        // $dateTaken = isset($metadata['DateTime']) ? date('Y-m-d H:i:s', strtotime($metadata['DateTime'])) :
-        //     date('Y-m-d H:i:s', strtotime('20'.substr($this_album_name, 0, 5).'-01'));
-        $add_album['photos'][] = array(
-                'uniqid' => uniqid(),
-                'caption' => 'None',
-                'url_fullsize' => "$album_name/$filename",
-                'url' => $ac_awspath,
-                'url_thumbnail' => $thumb_awspath,
-                // 'dateTaken' => $dateTaken,
-                'metadata' => $metadata,
-                );
+        $fp = fopen('application/models/db_all.json', 'r+');
+        if (flock($fp, LOCK_EX)) {
+            $db = json_decode(stream_get_contents($fp), TRUE);
+            $add_album = NULL;
+            foreach ($db['albums'] as &$album) {
+                if (isset($album['name']) && $album['name'] == $album_name) {
+                    log_message('info', "found existing album called '$album_name'");
+                    $add_album = &$album;
+                    break;
+                }
+            }
 
-        $assigned = ($add_album != NULL);
-        $written = ($this->_put_data($db) !== FALSE);
-        return $assigned && $written;
+            if (!$add_album) {
+                log_message('info', "could not find album called '$album_name'... creating one");
+                $add_album = array(
+                    'uniqid' => uniqid(),
+                    'name' => $album_name,
+                    'dateCreated' => date("Y-m-d H:i:s"),
+                    'photos' => array(),
+                    );
+                // HACK: not sure if this ref assignment will work
+                // testing indicates that it does
+                $db['albums'][] = &$add_album;
+            }
+
+            // $dateTaken = isset($metadata['DateTime']) ? date('Y-m-d H:i:s', strtotime($metadata['DateTime'])) :
+            //     date('Y-m-d H:i:s', strtotime('20'.substr($this_album_name, 0, 5).'-01'));
+            $add_album['photos'][] = array(
+                    'uniqid' => uniqid(),
+                    'caption' => 'None',
+                    'url_fullsize' => "$album_name/$filename",
+                    'url' => $ac_awspath,
+                    'url_thumbnail' => $thumb_awspath,
+                    // 'dateTaken' => $dateTaken,
+                    'metadata' => $metadata,
+                    );
+
+            ftruncate($fp, 0);
+            rewind($fp);
+            fwrite($fp, $this->_json_format(json_encode($db)));
+            fflush($fp);
+            flock($fp, LOCK_UN);
+        }
+        else {
+            fclose($fp);
+            return FALSE;
+        }
+        fclose($fp);
+
+        return TRUE;
     }
 
     public function add() {
