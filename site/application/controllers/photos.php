@@ -107,7 +107,7 @@ class Photos extends CI_Controller {
         }
 
         require 'AWSSDKforPHP/aws.phar';
-        include('resize-class.php');
+        include('application/libraries/resize-class.php');
 
         // Instantiate an S3 client
         $s3 = Aws::factory('aws_config.php')->get('s3');
