@@ -35,6 +35,10 @@ class Photos extends CI_Controller {
 
     public function album($album_uniqid=NULL) {
         $data = $this->_get_data();
+        if (!$data) {
+            log_message('error', 'User looked at page while upload was happening... I think');
+            show_error('The server is busy with an upload.  Try again in a couple of minutes');
+        }
         uasort($data['albums'], function($album1, $album2) {
             if (!$album1 || !$album2)
                 return 0;
@@ -76,10 +80,10 @@ class Photos extends CI_Controller {
         return $data;
     }
 
-    function _put_data($data) {
-        $success = file_put_contents('application/models/db_all.json', $this->_json_format(json_encode($data)));
-        return $success;
-    }
+    // function _put_data($data) {
+    //     $success = file_put_contents('application/models/db_all.json', $this->_json_format(json_encode($data)));
+    //     return $success;
+    // }
 
     function _add_to_album($album_name, $filename, $metadata = '') {
         log_message('info', "adding '$filename' to '$album_name'");
