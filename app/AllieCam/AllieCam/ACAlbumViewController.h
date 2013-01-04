@@ -7,9 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "ACPhotoSource.h"
 #import "EGOPhotoViewController.h"
+
 #import "AlbumContentsTableViewCell.h"
+@protocol ACAlbum;
 
 //@class ACDetailViewController;
 
@@ -17,9 +18,10 @@
     NSInteger lastSelectedRow;
 }
 
-@property (strong, nonatomic) EGOPhotoViewController *photoController;
-//@property (nonatomic, retain) ACPhotoSource *photoSource;
-@property (nonatomic, retain) ALAssetsGroup *assetsGroup;
+- (id)initWithAlbum:(id<ACAlbum>)album;
+    
+@property (nonatomic, retain) EGOPhotoViewController *photoController;
+@property (nonatomic, retain) id<ACAlbum> album;
 @property (nonatomic, assign) IBOutlet AlbumContentsTableViewCell *tmpCell;
 
 

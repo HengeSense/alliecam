@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		8F133BF41670F04D00097E46 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F133BF21670F04D00097E46 /* RootViewController.m */; };
-		8F133BF51670F04D00097E46 /* RootViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8F133BF31670F04D00097E46 /* RootViewController.xib */; };
 		8F133BF91670F4B500097E46 /* AlbumContentsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F133BF71670F4B400097E46 /* AlbumContentsTableViewCell.m */; };
 		8F133BFA1670F4B500097E46 /* AlbumContentsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8F133BF81670F4B400097E46 /* AlbumContentsTableViewCell.xib */; };
 		8F133BFD1670F4D400097E46 /* ThumbnailImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F133BFC1670F4D400097E46 /* ThumbnailImageView.m */; };
@@ -43,6 +41,26 @@
 		8F88CF54166FE83D0074721C /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F88CF53166FE83D0074721C /* AssetsLibrary.framework */; };
 		8F88CF56166FE8710074721C /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F88CF55166FE8710074721C /* QuartzCore.framework */; };
 		8F88CF58166FE8910074721C /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F88CF57166FE8910074721C /* MessageUI.framework */; };
+		8F8E64CE1693A8800004F1CC /* AFAmazonS3Client.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F8E64CB1693A8800004F1CC /* AFAmazonS3Client.m */; };
+		8F8E64CF1693A8800004F1CC /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 8F8E64CC1693A8800004F1CC /* LICENSE */; };
+		8F8E64D01693A8800004F1CC /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 8F8E64CD1693A8800004F1CC /* README.md */; };
+		8F8E64D7169404A40004F1CC /* ACLocalPhotoManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F8E64D6169404A40004F1CC /* ACLocalPhotoManager.m */; };
+		8F8E64DB1694F8DA0004F1CC /* ACAlbumSelectorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F8E64DA1694F8D90004F1CC /* ACAlbumSelectorViewController.m */; };
+		8F8E64DE169512760004F1CC /* ACRootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F8E64DD169512750004F1CC /* ACRootViewController.m */; };
+		8F8E64E1169518710004F1CC /* ACAlliecamPhotoManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F8E64E0169518700004F1CC /* ACAlliecamPhotoManager.m */; };
+		8F8E64E8169528B00004F1CC /* ACAlliecamAlbum.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F8E64E7169528AF0004F1CC /* ACAlliecamAlbum.m */; };
+		8F8E64EB169528C40004F1CC /* ACAlliecamPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F8E64EA169528C40004F1CC /* ACAlliecamPhoto.m */; };
+		8FCE5FCA168862D500051EB0 /* AFHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FCE5FB8168862D500051EB0 /* AFHTTPClient.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
+		8FCE5FCB168862D500051EB0 /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FCE5FBA168862D500051EB0 /* AFHTTPRequestOperation.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
+		8FCE5FCC168862D500051EB0 /* AFImageRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FCE5FBC168862D500051EB0 /* AFImageRequestOperation.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
+		8FCE5FCD168862D500051EB0 /* AFJSONRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FCE5FBE168862D500051EB0 /* AFJSONRequestOperation.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
+		8FCE5FCE168862D500051EB0 /* AFNetworkActivityIndicatorManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FCE5FC0168862D500051EB0 /* AFNetworkActivityIndicatorManager.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
+		8FCE5FCF168862D500051EB0 /* AFPropertyListRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FCE5FC3168862D500051EB0 /* AFPropertyListRequestOperation.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
+		8FCE5FD0168862D500051EB0 /* AFURLConnectionOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FCE5FC5168862D500051EB0 /* AFURLConnectionOperation.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
+		8FCE5FD1168862D500051EB0 /* AFXMLRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FCE5FC7168862D500051EB0 /* AFXMLRequestOperation.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
+		8FCE5FD2168862D500051EB0 /* UIImageView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FCE5FC9168862D500051EB0 /* UIImageView+AFNetworking.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
+		8FDCF908168A9A8700D90BEB /* ACLocalAlbum.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FDCF904168A9A8700D90BEB /* ACLocalAlbum.m */; };
+		8FDCF90D168A9EF400D90BEB /* ACLocalPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FDCF90C168A9EF400D90BEB /* ACLocalPhoto.m */; };
 		8FE2F84F167686E30012DBFB /* ACLabelledProgressViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FE2F84D167686E30012DBFB /* ACLabelledProgressViewController.m */; };
 		8FE2F850167686E30012DBFB /* ACLabelledProgressViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8FE2F84E167686E30012DBFB /* ACLabelledProgressViewController.xib */; };
 		8FE72F31166F586200B82831 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FE72F30166F586200B82831 /* UIKit.framework */; };
@@ -57,14 +75,9 @@
 		8FE72F50166F586300B82831 /* ACAlbumViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8FE72F4E166F586300B82831 /* ACAlbumViewController.xib */; };
 		8FE72F5A166F588300B82831 /* AWSiOSSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FE72F59166F588300B82831 /* AWSiOSSDK.framework */; };
 		8FE72F5C166F58BA00B82831 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8FE72F5B166F58BA00B82831 /* Default@2x.png */; };
-		8FE72FBC166F5DA500B82831 /* ACPhotoSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FE72FBB166F5DA400B82831 /* ACPhotoSource.m */; };
-		8FE72FBF166F5ECC00B82831 /* ACPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FE72FBE166F5ECC00B82831 /* ACPhoto.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		8F133BF11670F04D00097E46 /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
-		8F133BF21670F04D00097E46 /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
-		8F133BF31670F04D00097E46 /* RootViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RootViewController.xib; sourceTree = "<group>"; };
 		8F133BF61670F4B400097E46 /* AlbumContentsTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlbumContentsTableViewCell.h; sourceTree = "<group>"; };
 		8F133BF71670F4B400097E46 /* AlbumContentsTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlbumContentsTableViewCell.m; sourceTree = "<group>"; };
 		8F133BF81670F4B400097E46 /* AlbumContentsTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AlbumContentsTableViewCell.xib; sourceTree = "<group>"; };
@@ -115,6 +128,48 @@
 		8F88CF53166FE83D0074721C /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		8F88CF55166FE8710074721C /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		8F88CF57166FE8910074721C /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		8F8E64CA1693A8800004F1CC /* AFAmazonS3Client.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFAmazonS3Client.h; sourceTree = "<group>"; };
+		8F8E64CB1693A8800004F1CC /* AFAmazonS3Client.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFAmazonS3Client.m; sourceTree = "<group>"; };
+		8F8E64CC1693A8800004F1CC /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		8F8E64CD1693A8800004F1CC /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
+		8F8E64D4169400B30004F1CC /* ACPhotoManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ACPhotoManager.h; sourceTree = "<group>"; };
+		8F8E64D5169404A40004F1CC /* ACLocalPhotoManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACLocalPhotoManager.h; sourceTree = "<group>"; };
+		8F8E64D6169404A40004F1CC /* ACLocalPhotoManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ACLocalPhotoManager.m; sourceTree = "<group>"; };
+		8F8E64D8169417E10004F1CC /* ACPhoto.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ACPhoto.h; sourceTree = "<group>"; };
+		8F8E64D91694F8D90004F1CC /* ACAlbumSelectorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACAlbumSelectorViewController.h; sourceTree = "<group>"; };
+		8F8E64DA1694F8D90004F1CC /* ACAlbumSelectorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ACAlbumSelectorViewController.m; sourceTree = "<group>"; };
+		8F8E64DC169512750004F1CC /* ACRootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACRootViewController.h; sourceTree = "<group>"; };
+		8F8E64DD169512750004F1CC /* ACRootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ACRootViewController.m; sourceTree = "<group>"; };
+		8F8E64DF169518700004F1CC /* ACAlliecamPhotoManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACAlliecamPhotoManager.h; sourceTree = "<group>"; };
+		8F8E64E0169518700004F1CC /* ACAlliecamPhotoManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ACAlliecamPhotoManager.m; sourceTree = "<group>"; };
+		8F8E64E6169528AF0004F1CC /* ACAlliecamAlbum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACAlliecamAlbum.h; sourceTree = "<group>"; };
+		8F8E64E7169528AF0004F1CC /* ACAlliecamAlbum.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ACAlliecamAlbum.m; sourceTree = "<group>"; };
+		8F8E64E9169528C30004F1CC /* ACAlliecamPhoto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACAlliecamPhoto.h; sourceTree = "<group>"; };
+		8F8E64EA169528C40004F1CC /* ACAlliecamPhoto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ACAlliecamPhoto.m; sourceTree = "<group>"; };
+		8FCE5FB7168862D400051EB0 /* AFHTTPClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPClient.h; sourceTree = "<group>"; };
+		8FCE5FB8168862D500051EB0 /* AFHTTPClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFHTTPClient.m; sourceTree = "<group>"; };
+		8FCE5FB9168862D500051EB0 /* AFHTTPRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperation.h; sourceTree = "<group>"; };
+		8FCE5FBA168862D500051EB0 /* AFHTTPRequestOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFHTTPRequestOperation.m; sourceTree = "<group>"; };
+		8FCE5FBB168862D500051EB0 /* AFImageRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFImageRequestOperation.h; sourceTree = "<group>"; };
+		8FCE5FBC168862D500051EB0 /* AFImageRequestOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFImageRequestOperation.m; sourceTree = "<group>"; };
+		8FCE5FBD168862D500051EB0 /* AFJSONRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFJSONRequestOperation.h; sourceTree = "<group>"; };
+		8FCE5FBE168862D500051EB0 /* AFJSONRequestOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFJSONRequestOperation.m; sourceTree = "<group>"; };
+		8FCE5FBF168862D500051EB0 /* AFNetworkActivityIndicatorManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFNetworkActivityIndicatorManager.h; sourceTree = "<group>"; };
+		8FCE5FC0168862D500051EB0 /* AFNetworkActivityIndicatorManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFNetworkActivityIndicatorManager.m; sourceTree = "<group>"; };
+		8FCE5FC1168862D500051EB0 /* AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFNetworking.h; sourceTree = "<group>"; };
+		8FCE5FC2168862D500051EB0 /* AFPropertyListRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFPropertyListRequestOperation.h; sourceTree = "<group>"; };
+		8FCE5FC3168862D500051EB0 /* AFPropertyListRequestOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFPropertyListRequestOperation.m; sourceTree = "<group>"; };
+		8FCE5FC4168862D500051EB0 /* AFURLConnectionOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFURLConnectionOperation.h; sourceTree = "<group>"; };
+		8FCE5FC5168862D500051EB0 /* AFURLConnectionOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFURLConnectionOperation.m; sourceTree = "<group>"; };
+		8FCE5FC6168862D500051EB0 /* AFXMLRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFXMLRequestOperation.h; sourceTree = "<group>"; };
+		8FCE5FC7168862D500051EB0 /* AFXMLRequestOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFXMLRequestOperation.m; sourceTree = "<group>"; };
+		8FCE5FC8168862D500051EB0 /* UIImageView+AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+AFNetworking.h"; sourceTree = "<group>"; };
+		8FCE5FC9168862D500051EB0 /* UIImageView+AFNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+AFNetworking.m"; sourceTree = "<group>"; };
+		8FDCF902168A9A8700D90BEB /* ACAlbum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACAlbum.h; sourceTree = "<group>"; };
+		8FDCF903168A9A8700D90BEB /* ACLocalAlbum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACLocalAlbum.h; sourceTree = "<group>"; };
+		8FDCF904168A9A8700D90BEB /* ACLocalAlbum.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ACLocalAlbum.m; sourceTree = "<group>"; };
+		8FDCF90B168A9EF400D90BEB /* ACLocalPhoto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACLocalPhoto.h; sourceTree = "<group>"; };
+		8FDCF90C168A9EF400D90BEB /* ACLocalPhoto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ACLocalPhoto.m; sourceTree = "<group>"; };
 		8FE2F84C167686E30012DBFB /* ACLabelledProgressViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACLabelledProgressViewController.h; sourceTree = "<group>"; };
 		8FE2F84D167686E30012DBFB /* ACLabelledProgressViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ACLabelledProgressViewController.m; sourceTree = "<group>"; };
 		8FE2F84E167686E30012DBFB /* ACLabelledProgressViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ACLabelledProgressViewController.xib; sourceTree = "<group>"; };
@@ -138,10 +193,6 @@
 		8FE72F5B166F58BA00B82831 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		8FE72F5D166F591400B82831 /* UIImage+fixOrientation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIImage+fixOrientation.h"; sourceTree = "<group>"; };
 		8FE72F5E166F591400B82831 /* UIImage+fixOrientation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIImage+fixOrientation.m"; sourceTree = "<group>"; };
-		8FE72FBA166F5DA400B82831 /* ACPhotoSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACPhotoSource.h; sourceTree = "<group>"; };
-		8FE72FBB166F5DA400B82831 /* ACPhotoSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ACPhotoSource.m; sourceTree = "<group>"; };
-		8FE72FBD166F5ECC00B82831 /* ACPhoto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACPhoto.h; sourceTree = "<group>"; };
-		8FE72FBE166F5ECC00B82831 /* ACPhoto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ACPhoto.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -323,6 +374,45 @@
 			path = "../../PhotoViewer-master/EGOImageLoader";
 			sourceTree = "<group>";
 		};
+		8F8E64C91693A8800004F1CC /* AFAmazonS3Client */ = {
+			isa = PBXGroup;
+			children = (
+				8F8E64CA1693A8800004F1CC /* AFAmazonS3Client.h */,
+				8F8E64CB1693A8800004F1CC /* AFAmazonS3Client.m */,
+				8F8E64CC1693A8800004F1CC /* LICENSE */,
+				8F8E64CD1693A8800004F1CC /* README.md */,
+			);
+			name = AFAmazonS3Client;
+			path = ../../AFAmazonS3Client;
+			sourceTree = "<group>";
+		};
+		8FCE5FB6168862D400051EB0 /* AFNetworking */ = {
+			isa = PBXGroup;
+			children = (
+				8FCE5FB7168862D400051EB0 /* AFHTTPClient.h */,
+				8FCE5FB8168862D500051EB0 /* AFHTTPClient.m */,
+				8FCE5FB9168862D500051EB0 /* AFHTTPRequestOperation.h */,
+				8FCE5FBA168862D500051EB0 /* AFHTTPRequestOperation.m */,
+				8FCE5FBB168862D500051EB0 /* AFImageRequestOperation.h */,
+				8FCE5FBC168862D500051EB0 /* AFImageRequestOperation.m */,
+				8FCE5FBD168862D500051EB0 /* AFJSONRequestOperation.h */,
+				8FCE5FBE168862D500051EB0 /* AFJSONRequestOperation.m */,
+				8FCE5FBF168862D500051EB0 /* AFNetworkActivityIndicatorManager.h */,
+				8FCE5FC0168862D500051EB0 /* AFNetworkActivityIndicatorManager.m */,
+				8FCE5FC1168862D500051EB0 /* AFNetworking.h */,
+				8FCE5FC2168862D500051EB0 /* AFPropertyListRequestOperation.h */,
+				8FCE5FC3168862D500051EB0 /* AFPropertyListRequestOperation.m */,
+				8FCE5FC4168862D500051EB0 /* AFURLConnectionOperation.h */,
+				8FCE5FC5168862D500051EB0 /* AFURLConnectionOperation.m */,
+				8FCE5FC6168862D500051EB0 /* AFXMLRequestOperation.h */,
+				8FCE5FC7168862D500051EB0 /* AFXMLRequestOperation.m */,
+				8FCE5FC8168862D500051EB0 /* UIImageView+AFNetworking.h */,
+				8FCE5FC9168862D500051EB0 /* UIImageView+AFNetworking.m */,
+			);
+			name = AFNetworking;
+			path = ../../AFNetworking/AFNetworking;
+			sourceTree = "<group>";
+		};
 		8FE72F21166F586200B82831 = {
 			isa = PBXGroup;
 			children = (
@@ -359,14 +449,17 @@
 		8FE72F36166F586200B82831 /* AllieCam */ = {
 			isa = PBXGroup;
 			children = (
+				8F8E64C91693A8800004F1CC /* AFAmazonS3Client */,
+				8FCE5FB6168862D400051EB0 /* AFNetworking */,
 				8F6D60731672FE3F0082E047 /* EGO */,
 				8F6D60671672FE370082E047 /* UIAlertView-Blocks-master */,
 				8FE2F8521676A0E30012DBFB /* AllieCam.h */,
 				8FE72F3F166F586200B82831 /* ACAppDelegate.h */,
 				8FE72F40166F586200B82831 /* ACAppDelegate.m */,
-				8F133BF11670F04D00097E46 /* RootViewController.h */,
-				8F133BF21670F04D00097E46 /* RootViewController.m */,
-				8F133BF31670F04D00097E46 /* RootViewController.xib */,
+				8F8E64DC169512750004F1CC /* ACRootViewController.h */,
+				8F8E64DD169512750004F1CC /* ACRootViewController.m */,
+				8F8E64D91694F8D90004F1CC /* ACAlbumSelectorViewController.h */,
+				8F8E64DA1694F8D90004F1CC /* ACAlbumSelectorViewController.m */,
 				8FE72F48166F586200B82831 /* ACAlbumViewController.h */,
 				8FE72F49166F586200B82831 /* ACAlbumViewController.m */,
 				8FE72F4E166F586300B82831 /* ACAlbumViewController.xib */,
@@ -377,14 +470,25 @@
 				8F133BFC1670F4D400097E46 /* ThumbnailImageView.m */,
 				8FE72F5D166F591400B82831 /* UIImage+fixOrientation.h */,
 				8FE72F5E166F591400B82831 /* UIImage+fixOrientation.m */,
+				8FDCF902168A9A8700D90BEB /* ACAlbum.h */,
+				8F8E64D8169417E10004F1CC /* ACPhoto.h */,
+				8F8E64D4169400B30004F1CC /* ACPhotoManager.h */,
+				8F8E64D5169404A40004F1CC /* ACLocalPhotoManager.h */,
+				8F8E64D6169404A40004F1CC /* ACLocalPhotoManager.m */,
+				8FDCF903168A9A8700D90BEB /* ACLocalAlbum.h */,
+				8FDCF904168A9A8700D90BEB /* ACLocalAlbum.m */,
+				8FDCF90B168A9EF400D90BEB /* ACLocalPhoto.h */,
+				8FDCF90C168A9EF400D90BEB /* ACLocalPhoto.m */,
+				8F8E64DF169518700004F1CC /* ACAlliecamPhotoManager.h */,
+				8F8E64E0169518700004F1CC /* ACAlliecamPhotoManager.m */,
+				8F8E64E6169528AF0004F1CC /* ACAlliecamAlbum.h */,
+				8F8E64E7169528AF0004F1CC /* ACAlliecamAlbum.m */,
+				8F8E64E9169528C30004F1CC /* ACAlliecamPhoto.h */,
+				8F8E64EA169528C40004F1CC /* ACAlliecamPhoto.m */,
 				8FE2F84C167686E30012DBFB /* ACLabelledProgressViewController.h */,
 				8FE2F84D167686E30012DBFB /* ACLabelledProgressViewController.m */,
 				8FE2F84E167686E30012DBFB /* ACLabelledProgressViewController.xib */,
 				8FE72F37166F586200B82831 /* Supporting Files */,
-				8FE72FBA166F5DA400B82831 /* ACPhotoSource.h */,
-				8FE72FBB166F5DA400B82831 /* ACPhotoSource.m */,
-				8FE72FBD166F5ECC00B82831 /* ACPhoto.h */,
-				8FE72FBE166F5ECC00B82831 /* ACPhoto.m */,
 			);
 			path = AllieCam;
 			sourceTree = "<group>";
@@ -473,13 +577,14 @@
 				8F88CF42166FE7EC0074721C /* egopv_photo_placeholder@2x.png in Resources */,
 				8F88CF43166FE7EC0074721C /* egopv_right.png in Resources */,
 				8F88CF44166FE7EC0074721C /* egopv_right@2x.png in Resources */,
-				8F133BF51670F04D00097E46 /* RootViewController.xib in Resources */,
 				8F133BFA1670F4B500097E46 /* AlbumContentsTableViewCell.xib in Resources */,
 				8F6D60651672A0360082E047 /* Overlay.png in Resources */,
 				8F6D60661672A0360082E047 /* Overlay@2x.png in Resources */,
 				8F6D606F1672FE370082E047 /* README.md in Resources */,
 				8F6D607B167371590082E047 /* Icon@2x.png in Resources */,
 				8FE2F850167686E30012DBFB /* ACLabelledProgressViewController.xib in Resources */,
+				8F8E64CF1693A8800004F1CC /* LICENSE in Resources */,
+				8F8E64D01693A8800004F1CC /* README.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -493,8 +598,6 @@
 				8FE72F3D166F586200B82831 /* main.m in Sources */,
 				8FE72F41166F586200B82831 /* ACAppDelegate.m in Sources */,
 				8FE72F4A166F586200B82831 /* ACAlbumViewController.m in Sources */,
-				8FE72FBC166F5DA500B82831 /* ACPhotoSource.m in Sources */,
-				8FE72FBF166F5ECC00B82831 /* ACPhoto.m in Sources */,
 				8F88CF37166FE7EC0074721C /* EGOPhotoViewController.m in Sources */,
 				8F88CF38166FE7EC0074721C /* EGOQuickPhoto.m in Sources */,
 				8F88CF39166FE7EC0074721C /* EGOQuickPhotoSource.m in Sources */,
@@ -504,13 +607,30 @@
 				8F88CF50166FE80B0074721C /* EGOCache.m in Sources */,
 				8F88CF51166FE80B0074721C /* EGOImageLoadConnection.m in Sources */,
 				8F88CF52166FE80B0074721C /* EGOImageLoader.m in Sources */,
-				8F133BF41670F04D00097E46 /* RootViewController.m in Sources */,
 				8F133BF91670F4B500097E46 /* AlbumContentsTableViewCell.m in Sources */,
 				8F133BFD1670F4D400097E46 /* ThumbnailImageView.m in Sources */,
 				8F6D60701672FE370082E047 /* RIButtonItem.m in Sources */,
 				8F6D60711672FE370082E047 /* UIActionSheet+Blocks.m in Sources */,
 				8F6D60721672FE370082E047 /* UIAlertView+Blocks.m in Sources */,
 				8FE2F84F167686E30012DBFB /* ACLabelledProgressViewController.m in Sources */,
+				8FCE5FCA168862D500051EB0 /* AFHTTPClient.m in Sources */,
+				8FCE5FCB168862D500051EB0 /* AFHTTPRequestOperation.m in Sources */,
+				8FCE5FCC168862D500051EB0 /* AFImageRequestOperation.m in Sources */,
+				8FCE5FCD168862D500051EB0 /* AFJSONRequestOperation.m in Sources */,
+				8FCE5FCE168862D500051EB0 /* AFNetworkActivityIndicatorManager.m in Sources */,
+				8FCE5FCF168862D500051EB0 /* AFPropertyListRequestOperation.m in Sources */,
+				8FCE5FD0168862D500051EB0 /* AFURLConnectionOperation.m in Sources */,
+				8FCE5FD1168862D500051EB0 /* AFXMLRequestOperation.m in Sources */,
+				8FCE5FD2168862D500051EB0 /* UIImageView+AFNetworking.m in Sources */,
+				8FDCF908168A9A8700D90BEB /* ACLocalAlbum.m in Sources */,
+				8FDCF90D168A9EF400D90BEB /* ACLocalPhoto.m in Sources */,
+				8F8E64CE1693A8800004F1CC /* AFAmazonS3Client.m in Sources */,
+				8F8E64D7169404A40004F1CC /* ACLocalPhotoManager.m in Sources */,
+				8F8E64DB1694F8DA0004F1CC /* ACAlbumSelectorViewController.m in Sources */,
+				8F8E64DE169512760004F1CC /* ACRootViewController.m in Sources */,
+				8F8E64E1169518710004F1CC /* ACAlliecamPhotoManager.m in Sources */,
+				8F8E64E8169528B00004F1CC /* ACAlliecamAlbum.m in Sources */,
+				8F8E64EB169528C40004F1CC /* ACAlliecamPhoto.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -557,7 +677,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 			};
@@ -577,7 +697,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;

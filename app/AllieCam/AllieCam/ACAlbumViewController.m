@@ -7,6 +7,9 @@
 //
 
 #import "ACAlbumViewController.h"
+#import "ACAlbum.h"
+#import "ACPhoto.h"
+#import "ACLocalPhoto.h"
 #import "AlbumContentsTableViewCell.h"
 #import "AllieCam.h"
 
@@ -18,15 +21,34 @@
 
 @implementation ACAlbumViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+- (id)initWithStyle:(UITableViewStyle)style
 {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    self = [super initWithStyle:style];
     if (self) {
-        self.title = @"Camera Roll";
+        // Custom initialization
+        self.tableView.rowHeight = 78;
     }
     return self;
 }
-							
+
+- (id)initWithAlbum:(id<ACAlbum>)album {
+    self = [self initWithStyle:UITableViewStylePlain];
+    if (self) {
+        self.album = album;
+    }
+    
+    return self;
+}
+
+//- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+//{
+//    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+//    if (self) {
+//        self.title = @"Camera Roll";
+//    }
+//    return self;
+//}
+
 - (void)dealloc
 {
     [_tmpCell release];
@@ -55,21 +77,6 @@
     self.navigationController.toolbar.barStyle = UIBarStyleBlack;
     self.navigationController.toolbar.translucent = YES;
     
-    NSInteger startPageIx = 0; //[[ACPhotoSource sharedInstance] numberOfPhotos] - 1;
-    EGOPhotoViewController *pvc = [[[EGOPhotoViewController alloc]
-                                    initWithPhotoSource:[ACPhotoSource sharedInstance]
-                                    atIndex:startPageIx] autorelease];
-    self.photoController = pvc;
-    
-    UIBarButtonItem *cameraButton =
-        [[UIBarButtonItem alloc] initWithTitle:@"Camera"
-                                         style:UIBarButtonItemStyleBordered
-                                        target:self
-                                        action:@selector(cameraButtonTapped:)];
-    
-    [self setToolbarItems:[NSArray arrayWithObject:cameraButton]];
-    
-    [cameraButton release];
     
     // doesn't work with awakeFromNib...
     lastSelectedRow = NSNotFound;
@@ -79,14 +86,16 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    // this may have been altered by photo viewer
-    if ([[ACPhotoSource sharedInstance] isUploadFilesChanged])
-        [[ACPhotoSource sharedInstance] writeUploadedImagesToFile];
+    self.title = _album.name;
     
-    // may want to put this in viewDidLoad ???
-    [[ACPhotoSource sharedInstance] initializePhotosForAlbum:_assetsGroup];
+    [self.navigationController setToolbarHidden:YES];
     
-    self.title = [_assetsGroup valueForProperty:ALAssetsGroupPropertyName];
+    NSInteger startPageIx = 0; //[[ACPhotoSource sharedInstance] numberOfPhotos] - 1;
+    EGOPhotoViewController *pvc = [[[EGOPhotoViewController alloc]
+                                    initWithPhotoSource:_album
+                                    atIndex:startPageIx] autorelease];
+    self.photoController = pvc;
+    
     
     // may need to reload overlay...
     [self.tableView reloadData];
@@ -115,32 +124,20 @@
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     
-    if ([[ACPhotoSource sharedInstance] isUploadFilesChanged])
-        [[ACPhotoSource sharedInstance] writeUploadedImagesToFile];
+    [self.navigationController setToolbarHidden:NO];
 }
 
 
-//- (void) viewDidAppear:(BOOL)animated
-//{
-//    [super viewDidAppear:animated];
-//    if (self.tableView.contentSize.height > self.tableView.frame.size.height)
-//    {
-//        CGPoint offset = CGPointMake(0, self.tableView.contentSize.height -
-//                                     self.tableView.frame.size.height);
-//        [self.tableView setContentOffset:offset animated:YES];
+//- (void)cameraButtonTapped:(id)sender {
+//    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+//        [self.navigationController pushViewController:_photoController animated:NO];
+//        [_photoController launchCamera];
 //    }
+//    else {
+//        DLog(@"camera not available on this device");
+//    }
+//    
 //}
-
-- (void)cameraButtonTapped:(id)sender {
-    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
-        [self.navigationController pushViewController:_photoController animated:NO];
-        [_photoController launchCamera];
-    }
-    else {
-        DLog(@"camera not available on this device");
-    }
-    
-}
 
 - (void)didReceiveMemoryWarning
 {
@@ -158,7 +155,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return ceil([[ACPhotoSource sharedInstance] numberOfPhotos] / 4.0);
+    return ceil([_album numberOfPhotos] / 4.0);
 }
 
 // Customize the appearance of table view cells.
@@ -180,14 +177,13 @@
     NSUInteger firstPhotoInCell = indexPath.row * 4;
     NSUInteger lastPhotoInCell  = firstPhotoInCell + 4;
     
-    ACPhotoSource *photoSource = [ACPhotoSource sharedInstance];
-    if (photoSource.photos.count <= firstPhotoInCell) {
-        DLog(@"We are out of range, asking to start with photo %d but we only have %d", firstPhotoInCell, photoSource.photos.count);
+    if ([_album numberOfPhotos] <= firstPhotoInCell) {
+        DLog(@"We are out of range, asking to start with photo %d but we only have %d", firstPhotoInCell, [_album numberOfPhotos]);
         return nil;
     }
     
     NSUInteger currentPhotoIndex = 0;
-    NSUInteger lastPhotoIndex = MIN(lastPhotoInCell, photoSource.photos.count);
+    NSUInteger lastPhotoIndex = MIN(lastPhotoInCell, [_album numberOfPhotos]);
     for ( ; firstPhotoInCell + currentPhotoIndex < lastPhotoIndex ; currentPhotoIndex++) {
         
         ThumbnailImageView *tiv = nil;
@@ -208,14 +204,10 @@
                 break;
         }
         
-        ACPhoto *photo = [photoSource photoAtIndex:firstPhotoInCell + currentPhotoIndex];
-        if (photo.asset) {
-            CGImageRef thumbnailImageRef = [photo.asset thumbnail];
-            UIImage *thumbnail = [UIImage imageWithCGImage:thumbnailImageRef];
-            tiv.image = thumbnail;
-        }
+        id<ACPhoto> photo = [_album photoAtIndex:firstPhotoInCell + currentPhotoIndex];
+        tiv.image = [photo thumbnail];
         
-        if (photo.isUploaded)
+        if ([photo isKindOfClass:[ACLocalPhoto class]] && [photo isUploaded])
             [tiv applyUploadedOverlay];
             
     }

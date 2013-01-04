@@ -1,5 +1,5 @@
 //
-//  ACPhotoSource.h
+//  ACLocalAlbum.h
 //  AllieCam2
 //
 //  Created by Mark Blackwell on 25/12/12.
@@ -7,12 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "EGOPhotoGlobal.h"
 
-@protocol ACAlbum;
-
-@protocol ACPhotoSource <EGOPhotoSource>
-
-
+@interface ACLocalAlbum : NSObject
 
 @end

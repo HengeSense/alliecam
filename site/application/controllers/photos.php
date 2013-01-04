@@ -65,6 +65,12 @@ class Photos extends CI_Controller {
 
     }
 
+    public function raw_data() {
+        $this->output->set_status_header('200');
+        $this->output->set_content_type('application/json');
+        $this->output->set_output(json_encode($this->_get_data()));
+    }
+
     function _get_data() {
         $data = json_decode(file_get_contents('application/models/db_all.json'), TRUE);
         // temp HACK

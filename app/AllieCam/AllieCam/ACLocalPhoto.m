@@ -6,17 +6,24 @@
 //  Copyright (c) 2012 Mark Blackwell. All rights reserved.
 //
 
-#import "ACPhoto.h"
+#import "ACLocalPhoto.h"
 #import "AllieCam.h"
+#import "ACPhoto.h"
 
-@implementation ACPhoto
+@interface ACLocalPhoto ()
+
+@property(nonatomic, retain) NSURL *URL;
+@property(nonatomic, retain) NSString *caption;
+
+@end
+
+@implementation ACLocalPhoto
 
 - (id)initWithURL:(NSURL *)url {
 	
 	if (self = [super init]) {
 		_URL = [url retain];
         _dateTaken = [[NSDate date] retain];
-        _uploaded = NO;
         _rawUploadStatus = UploadStatusNone;
     }
     
@@ -28,24 +35,6 @@
     if (_image) {
         return _image;
     }
-    
-    // move to EGO image loader library...
-    
-//    ALAssetsLibrary* assetslibrary = [[[ALAssetsLibrary alloc] init] autorelease];
-//    
-//    [assetslibrary assetForURL:_URL resultBlock:^(ALAsset *asset) {
-//        UIImageOrientation orientation = UIImageOrientationUp;
-//        NSNumber* orientationValue = [_asset valueForProperty:@"ALAssetPropertyOrientation"];
-//        if (orientationValue != nil) {
-//            orientation = [orientationValue intValue];
-//        }
-//        _image = [[UIImage imageWithCGImage:[[_asset defaultRepresentation] fullResolutionImage]
-//                                      scale:1.0
-//                                orientation:orientation] retain];
-//    } failureBlock:^(NSError *error) {
-//        DLog(@"error couldn't get photo");
-//        
-//    }];
     
     return nil;
 }
@@ -86,6 +75,14 @@
     NSString *dateTakenStr = [formatter stringFromDate:_dateTaken];
     return [NSString stringWithFormat:@"%@,%@,%d", _URL, dateTakenStr, _rawUploadStatus];
 }
+- (NSString *)caption {
+    return self.isUploaded ? [NSString stringWithFormat:@"Uploaded to %@", [self defaultAlbumName]] : @"";
+}
+
+- (UIImage *)thumbnail {
+    CGImageRef thumbnailImageRef = [_asset thumbnail];
+    return [UIImage imageWithCGImage:thumbnailImageRef];
+}
 
 - (NSString *)uploadStatus {
     switch (_rawUploadStatus) {
@@ -94,10 +91,14 @@
         case UploadStatusPreDispatch:
         case UploadStatusWaitingForSemaphore:
         case UploadStatusStarting:
-        case UploadStatusSendingToS3:
         case UploadStatusSendingToAlliecam:
+        case UploadStatusSendingToS3:
         case UploadStatusEnding:
+#ifdef DEBUG
         return [NSString stringWithFormat:@"Uploading to '%@' (%d of %d)", [self defaultAlbumName], _rawUploadStatus, UploadStatusFinished];
+#else
+        return [NSString stringWithFormat:@"Uploading to '%@'", [self defaultAlbumName]];
+#endif
         case UploadStatusFinished:
             return [NSString stringWithFormat:@"Uploaded to '%@'", [self defaultAlbumName]];
         default:
@@ -108,5 +109,11 @@
     return @"Unknown";
  
 }
+
+- (BOOL)isUploaded {
+    return _rawUploadStatus == UploadStatusFinished;
+}
+
+
 
 @end

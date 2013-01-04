@@ -11,12 +11,9 @@
 #import <AWSiOSSDK/AmazonLogger.h>
 #import <AWSiOSSDK/AmazonErrorHandler.h>
 #import <AWSiOSSDK/S3/AmazonS3Client.h>
+#import "AFAmazonS3Client.h"
 #import <AssetsLibrary/AssetsLibrary.h>
 #import <CoreLocation/CoreLocation.h>
-
-#import "ACPhotoSource.h"
-#import "ACPhoto.h"
-#import "RootViewController.h"
 
 #import "UIImage+fixOrientation.h"
 
@@ -44,6 +41,12 @@
 #define kPendingUploadUploadStatusKey   @"uploadStatus"
 
 
+#define DO_AWS_UPLOAD
+//#define USE_AWS_OFFICIAL_CLIENT
+
+@class ACLocalPhoto;
+
+
 @interface ACAppDelegate : UIResponder <UIApplicationDelegate> {
     dispatch_semaphore_t _uploadSemaphore;
 }
@@ -52,14 +55,19 @@
 
 @property UIBackgroundTaskIdentifier uploadTaskID;
 
-@property (strong, nonatomic) UINavigationController *navigationController;
-
+#ifdef USE_AWS_OFFICIAL_CLIENT
 @property (nonatomic, retain) AmazonS3Client *s3;
+#else
+@property (nonatomic, retain) AFAmazonS3Client *s3;
+#endif
 
-- (void)upload:(ACPhoto *)photo
-       albumname:(NSString *)albumname
-      startBlock:(void (^)(ACPhoto *))start
-        endBlock:(void (^)(ACPhoto *))end;
+- (void)upload:(ACLocalPhoto *)photo
+     albumname:(NSString *)albumname
+      progress:(void (^)(NSUInteger bytesWritten, long long totalBytesWritten, long long totalBytesExpectedToWrite))progress
+       success:(void (^)(ACLocalPhoto *))success
+       failure:(void (^)(NSError *error))failure;
+//startBlock:(void (^)(ACPhoto *))start
+//        endBlock:(void (^)(ACPhoto *))end;
 
 //- (void)sendToS3:(UIImage *)image
 //        metadata:(NSString *)metadata

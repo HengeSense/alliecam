@@ -7,8 +7,10 @@
 //
 
 #import "ACAppDelegate.h"
-#import "RootViewController.h"
+#import "ACRootViewController.h"
 #import "AllieCam.h"
+#import "ACLocalPhotoManager.h"
+
 
 @implementation ACAppDelegate
 
@@ -16,7 +18,6 @@
 - (void)dealloc
 {
     [_window release];
-    [_navigationController release];
     [super dealloc];
 }
 
@@ -25,20 +26,15 @@
     self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
     // Override point for customization after application launch.
 
-//    ACMasterViewController *masterViewController = [[[ACMasterViewController alloc] initWithNibName:@"ACMasterViewController" bundle:nil] autorelease];
-    RootViewController *rvc = [[[RootViewController alloc] initWithNibName:@"RootViewController" bundle:nil] autorelease];
-    self.navigationController = [[[UINavigationController alloc] initWithRootViewController:rvc] autorelease];
-        
-    self.window.rootViewController = self.navigationController;
+    ACRootViewController *rvc = [[[ACRootViewController alloc] init] autorelease];
+    
+    self.window.rootViewController = rvc;
     [self.window makeKeyAndVisible];
     
-    // Initial the S3 Client.
-    self.s3 = [[[AmazonS3Client alloc] initWithAccessKey:ACCESS_KEY_ID withSecretKey:SECRET_KEY] autorelease];
-#ifdef DEBUG
-    S3Bucket *bucket = [[self.s3 listBuckets] objectAtIndex:0];
-    DLog(@"%@",[bucket name]);
-#endif
     
+    // Initial the S3 Client.
+#ifdef USE_AWS_OFFICIAL_CLIENT
+    self.s3 = [[[AmazonS3Client alloc] initWithAccessKey:ACCESS_KEY_ID withSecretKey:SECRET_KEY] autorelease];
     // Logging Control - Do NOT use logging for non-development builds.
 #ifdef DEBUG
     [AmazonLogger verboseLogging];
@@ -47,6 +43,10 @@
 #endif
     
     [AmazonErrorHandler shouldNotThrowExceptions];
+#else
+    self.s3 = [[AFAmazonS3Client alloc] initWithAccessKeyID:ACCESS_KEY_ID secret:SECRET_KEY];
+    
+#endif
     
     return YES;
 }
@@ -125,10 +125,11 @@
     [self setNetworkActivityIndicatorVisible:NO];
 }
 
-- (void)upload:(ACPhoto *)photo
+- (void)upload:(ACLocalPhoto *)photo
      albumname:(NSString *)albumname
-    startBlock:(void (^)(ACPhoto *))start
-      endBlock:(void (^)(ACPhoto *))end {
+      progress:(void (^)(NSUInteger bytesWritten, long long totalBytesWritten, long long totalBytesExpectedToWrite))progress
+       success:(void (^)(ACLocalPhoto *))success
+       failure:(void (^)(NSError *error))failure {
     
     NSDateFormatter *formatter = [[[NSDateFormatter alloc] init] autorelease];
     [formatter setDateFormat:@"yyyyMMddHHmmss"];
@@ -168,40 +169,47 @@
         [self setStatus:UploadStatusStarting forImage:photo];
         [self beginBackgroundUpdateTask];
         
-        if (start)
-            start(photo);
-        
-        DLog(@"Sending %@/%@ to Amazon S3", albumname, filename);
-        [self setStatus:UploadStatusSendingToS3 forImage:photo];
-        [self sendToS3:photo albumname:albumname filename:filename];
-        
         [self setStatus:UploadStatusSendingToAlliecam forImage:photo];
         // now let alliecam.net know about the upload
         [self sendToAlliecam:photo albumname:albumname filename:filename metadata:metadata];
         
-        [self setStatus:UploadStatusEnding forImage:photo];
-        if (end)
-            end(photo);
-        [self setStatus:UploadStatusFinished forImage:photo];
-        
-        DLog(@"removing object from pending uploads");
-        [_pendingUploads removeObjectForKey:photo];
-        
-        [self endBackgroundUpdateTask];
-        
-        dispatch_semaphore_signal(_uploadSemaphore);
-        
+        DLog(@"Sending %@/%@ to Amazon S3", albumname, filename);
+        [self setStatus:UploadStatusSendingToS3 forImage:photo];
+        [self sendToS3:photo
+             albumname:albumname
+              filename:filename
+              progress:progress
+               success:^(id responseObject) {
+                   [self setStatus:UploadStatusEnding forImage:photo];
+                   DLog(@"removing object from pending uploads");
+                   [_pendingUploads removeObjectForKey:photo];
+                   if (success)
+                       success(photo);
+                   [self setStatus:UploadStatusFinished forImage:photo];
+                   
+                   [self endBackgroundUpdateTask];
+                   dispatch_semaphore_signal(_uploadSemaphore);
+               }
+               failure:^(NSError *error) {
+                   if (failure)
+                       failure(error);
+                   [self endBackgroundUpdateTask];
+                   dispatch_semaphore_signal(_uploadSemaphore);
+               }];
     });
     
 }
 
-- (void)sendToS3:(ACPhoto *)photo
+- (void)sendToS3:(ACLocalPhoto *)photo
        albumname:(NSString *)albumname
-        filename:(NSString *)filename {
+        filename:(NSString *)filename
+        progress:(void (^)(NSUInteger bytesWritten, long long totalBytesWritten, long long totalBytesExpectedToWrite))progress
+         success:(void (^)(id responseObject))success
+         failure:(void (^)(NSError *error))failure {
     // Upload image data.  Remember to set the content type.
     NSString *fullpath = [NSString stringWithFormat:@"%@/%@", albumname, filename];
     
-#ifdef DEBUG
+#ifndef DO_AWS_UPLOAD
     DLog(@"DEBUG... NOT Uploading to '%@' with filename '%@'", PICTURE_BUCKET, fullpath);
     [NSThread sleepForTimeInterval:5.0];
 #else
@@ -218,6 +226,7 @@
     [picture release];
     
     DLog(@"Uploading to '%@' with filename '%@'", PICTURE_BUCKET, fullpath);
+#ifdef USE_AWS_OFFICIAL_CLIENT
     S3PutObjectRequest *por = [[S3PutObjectRequest alloc] initWithKey:fullpath
                                                              inBucket:PICTURE_BUCKET];
     por.contentType = @"image/jpeg";
@@ -228,13 +237,34 @@
     
     // Put the image data into the specified s3 bucket and object.
     S3PutObjectResponse *response = [self.s3 putObject:por];
-    DLog(@"Finished upload: %@", response);
     [por release];
+    DLog(@"Finished upload: %@", response);
+#else
+    _s3.bucket = PICTURE_BUCKET;
+    
+    [_s3 putObjectNamed:fullpath
+                   data:imageData
+             parameters:nil
+               progress:^(NSUInteger bytesWritten, long long totalBytesWritten, long long totalBytesExpectedToWrite) {
+                   DLog(@"%f%% Uploaded", (totalBytesWritten / (totalBytesExpectedToWrite * 1.0f) * 100));
+                   progress(bytesWritten, totalBytesWritten, totalBytesExpectedToWrite);
+               } success:^(id responseObject) {
+                   DLog(@"Upload Complete");
+                   if (success)
+                       success(responseObject);
+               } failure:^(NSError *error) {
+                   DLog(@"Error: %@", error);
+                   if (failure)
+                       failure(error);
+               }];
+    DLog(@"finished upload (via AFNetworking");
+    
+#endif
 #endif
 }
 
 // don't really need the picture, but sig looks better that way
-- (void)sendToAlliecam:(ACPhoto *)photo
+- (void)sendToAlliecam:(ACLocalPhoto *)photo
              albumname:(NSString *)albumname
               filename:(NSString *)filename
               metadata:(NSString *)metadata {
@@ -269,8 +299,8 @@
 }
 
 
-- (void)setStatus:(UploadStatus)status forImage:(ACPhoto *)photo {
-    [[ACPhotoSource sharedInstance] setUploadStatus:status forImage:photo];
+- (void)setStatus:(UploadStatus)status forImage:(ACLocalPhoto *)photo {
+    [[ACLocalPhotoManager sharedInstance] setUploadStatus:status forImage:photo];
     NSMutableDictionary *upload = [_pendingUploads objectForKey:photo.URL.description];
 #ifdef DEBUG
     UploadStatus old_status = [[upload objectForKey:kPendingUploadUploadStatusKey] intValue];
@@ -299,15 +329,15 @@
 - (void)handlePendingUploads {
     DLog(@"handling pending uploads: there are %d to upload", _pendingUploads.count);
     
-    ACPhotoSource *photoSource = [ACPhotoSource sharedInstance];
-    if ([photoSource numberOfPhotos] == 0) {
-        DLog(@"No photos in the source.  Ending.");
-        return;
-    }
+    ACLocalPhotoManager *photoManager = [ACLocalPhotoManager sharedInstance];
+//    if ([photoSource numberOfPhotos] == 0) {
+//        DLog(@"No photos in the source.  Ending.");
+//        return;
+//    }
     
     // using allKeys to enumerate allows me to modify the dictionary
     for (NSString *url in _pendingUploads.allKeys) {
-        ACPhoto *photo = [photoSource photoAtURL:url];
+        ACLocalPhoto *photo = [photoManager photoAtURL:url];
         if (!photo) {
             DLog(@"Could not find photo at %@", url);
             continue;
@@ -318,37 +348,53 @@
         DLog(@"found upload with status %d", status);
         switch (status) {
             case UploadStatusNone:
+                //fall through
             case UploadStatusPreDispatch:
+                //fall through
             case UploadStatusWaitingForSemaphore:
+                //fall through
             case UploadStatusStarting:
-            case UploadStatusSendingToS3:
-                // just start again...
+                //fall through
+            case UploadStatusSendingToAlliecam:
                 DLog(@"starting again with this upload");
-                [photoSource setUploadStatus:status forImage:photo];
+                [photoManager setUploadStatus:status forImage:photo];
                 [self upload:photo
                    albumname:[photo defaultAlbumName]
-                  startBlock:nil
-                    endBlock:^(ACPhoto *photo) {
-                        [photoSource setUploadStatus:UploadStatusFinished forImage:photo];
-                        [photoSource setImageIsUploaded:photo];
-                    }];
+                    progress:nil
+                     success:^(ACLocalPhoto *photo) {
+                        [photoManager setUploadStatus:UploadStatusFinished forImage:photo];
+                     }
+                     failure:^(NSError *error) {
+                         DLog(@"pending upload to S3 failed: %@", error);
+                         // HACK: fail case will fall through to code below
+                     }];
                 break;
                 
-            case UploadStatusSendingToAlliecam:
-                DLog(@"image appears to be on S3, so just update Alliecam");
+            case UploadStatusSendingToS3:
+                DLog(@"image appears to be on Alliecam, so just send to S3");
+                [photoManager setUploadStatus:status forImage:photo];
                 // grab these before doing the upload async, because will remove object next
                 NSString *albumname = [upload objectForKey:kPendingUploadAlbumnameKey];
                 NSString *filename = [upload objectForKey:kPendingUploadFilenameKey];
-                NSString *metadata = [upload objectForKey:kPendingUploadMetadataKey];
-                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                    [self sendToAlliecam:photo albumname:albumname filename:filename metadata:metadata];
-                });
+                [self sendToS3:photo
+                     albumname:albumname
+                      filename:filename
+                      progress:nil
+                       success:^(id responseObject) {
+                           [photoManager setUploadStatus:UploadStatusFinished forImage:photo];
+                       } failure:^(NSError *error) {
+                           DLog(@"pending upload to S3 failed: %@", error);
+                           // HACK: fail case will fall through to code below
+                       }];
+                //fall through
             case UploadStatusEnding:
                 DLog(@"image is on servers, just tell the image");
-                [photoSource setImageIsUploaded:photo];
-                [photoSource writeUploadedImagesToFile];
+                [photoManager setUploadStatus:UploadStatusFinished forImage:photo];
+                [photoManager writeUploadedImagesToFile];
+                //fall through
             case UploadStatusFinished:
                 DLog(@"image was uploaded!!");
+                //fall through
             default:
                 DLog(@"unknown status: %d", status);
                 break;
