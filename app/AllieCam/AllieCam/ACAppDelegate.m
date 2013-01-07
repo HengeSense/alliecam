@@ -24,9 +24,11 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
+    DLog(@"window frame is %@", NSStringFromCGRect(self.window.frame));
     // Override point for customization after application launch.
 
     ACRootViewController *rvc = [[[ACRootViewController alloc] init] autorelease];
+    DLog(@"rvc frame 1 is %@", NSStringFromCGRect(rvc.view.frame));
     
     self.window.rootViewController = rvc;
     [self.window makeKeyAndVisible];
@@ -169,9 +171,6 @@
         [self setStatus:UploadStatusStarting forImage:photo];
         [self beginBackgroundUpdateTask];
         
-        [self setStatus:UploadStatusSendingToAlliecam forImage:photo];
-        // now let alliecam.net know about the upload
-        [self sendToAlliecam:photo albumname:albumname filename:filename metadata:metadata];
         
         DLog(@"Sending %@/%@ to Amazon S3", albumname, filename);
         [self setStatus:UploadStatusSendingToS3 forImage:photo];
@@ -180,9 +179,15 @@
               filename:filename
               progress:progress
                success:^(id responseObject) {
+                   [self setStatus:UploadStatusSendingToAlliecam forImage:photo];
+                   // now let alliecam.net know about the upload
+                   // HACK: assume this works
+                   [self sendToAlliecam:photo albumname:albumname filename:filename metadata:metadata];
+                   
                    [self setStatus:UploadStatusEnding forImage:photo];
                    DLog(@"removing object from pending uploads");
                    [_pendingUploads removeObjectForKey:photo];
+                   
                    if (success)
                        success(photo);
                    [self setStatus:UploadStatusFinished forImage:photo];
@@ -212,6 +217,8 @@
 #ifndef DO_AWS_UPLOAD
     DLog(@"DEBUG... NOT Uploading to '%@' with filename '%@'", PICTURE_BUCKET, fullpath);
     [NSThread sleepForTimeInterval:5.0];
+    if (success)
+        success(nil);
 #else
     DLog(@"creating UIImage...");
     ALAssetRepresentation *rep = [photo.asset defaultRepresentation];
@@ -281,7 +288,7 @@
     [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
     [request setHTTPBody:postData];
     
-#ifdef DEBUG
+#ifndef DO_ALLIECAM_UPLOAD
     DLog(@"DEBUG... NOT sending synchronous request: %@", request);
     [NSThread sleepForTimeInterval:2.0];
 #else
@@ -355,7 +362,7 @@
                 //fall through
             case UploadStatusStarting:
                 //fall through
-            case UploadStatusSendingToAlliecam:
+            case UploadStatusSendingToS3:
                 DLog(@"starting again with this upload");
                 [photoManager setUploadStatus:status forImage:photo];
                 [self upload:photo
@@ -370,22 +377,14 @@
                      }];
                 break;
                 
-            case UploadStatusSendingToS3:
-                DLog(@"image appears to be on Alliecam, so just send to S3");
+            case UploadStatusSendingToAlliecam:
+                DLog(@"image appears to be on S3, so just send to alliecam");
                 [photoManager setUploadStatus:status forImage:photo];
                 // grab these before doing the upload async, because will remove object next
                 NSString *albumname = [upload objectForKey:kPendingUploadAlbumnameKey];
                 NSString *filename = [upload objectForKey:kPendingUploadFilenameKey];
-                [self sendToS3:photo
-                     albumname:albumname
-                      filename:filename
-                      progress:nil
-                       success:^(id responseObject) {
-                           [photoManager setUploadStatus:UploadStatusFinished forImage:photo];
-                       } failure:^(NSError *error) {
-                           DLog(@"pending upload to S3 failed: %@", error);
-                           // HACK: fail case will fall through to code below
-                       }];
+                NSString *metadata = [upload objectForKey:kPendingUploadMetadataKey];
+                [self sendToAlliecam:photo albumname:albumname filename:filename metadata:metadata];
                 //fall through
             case UploadStatusEnding:
                 DLog(@"image is on servers, just tell the image");

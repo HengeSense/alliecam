@@ -14,8 +14,8 @@ typedef NS_ENUM(NSInteger, UploadStatus) {
     UploadStatusPreDispatch,
     UploadStatusWaitingForSemaphore,
     UploadStatusStarting,
-    UploadStatusSendingToAlliecam,
     UploadStatusSendingToS3,
+    UploadStatusSendingToAlliecam,
     UploadStatusEnding,
     UploadStatusFinished
 };
@@ -33,6 +33,7 @@ typedef NS_ENUM(NSInteger, UploadStatus) {
 @property (nonatomic, assign) UploadStatus rawUploadStatus;
 @property (nonatomic, retain, readonly) NSString *uploadStatus;
 @property (nonatomic, retain) NSDate* dateTaken;
+@property (nonatomic, retain) UIImage *thumbnail;
 
 //- (id)initWithAsset:(ALAsset*)_anAsset;
 - (id)initWithURL:(NSURL *)url;

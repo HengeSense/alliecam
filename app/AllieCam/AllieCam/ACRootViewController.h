@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+@class  ACAlbumSelectorViewController;
 
 typedef NS_ENUM(NSInteger, ACRootViewControllerState) {
     ACRootViewControllerStateShowingLocalPhotos,
@@ -16,9 +17,14 @@ typedef NS_ENUM(NSInteger, ACRootViewControllerState) {
 
 @interface ACRootViewController : UIViewController {
     ACRootViewControllerState _state;
+    
+    ACAlbumSelectorViewController *_visibleViewer;
+    UINavigationController *_visibleNavigator;
 }
 
 @property (nonatomic, retain) UINavigationController *alliecamNavigator;
+@property (nonatomic, assign) ACAlbumSelectorViewController *alliecamViewer;
 @property (nonatomic, retain) UINavigationController *localPhotoNavigator;
+@property (nonatomic, assign) ACAlbumSelectorViewController *localPhotoViewer;
 
 @end

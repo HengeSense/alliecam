@@ -10,7 +10,9 @@
 #import "ACPhoto.h"
 
 
-@interface ACAlliecamPhoto : NSObject <ACPhoto>
+@interface ACAlliecamPhoto : NSObject <ACPhoto> {
+    BOOL _failed;
+}
 
 - (id)initWithURL:(NSURL *)url;
 
@@ -20,6 +22,7 @@
 @property (nonatomic,copy) NSString *uniqid;
 @property (nonatomic,retain) NSURL *fullsizeURL;
 @property (nonatomic,retain) NSURL *thumbnailURL;
+@property (nonatomic, retain) UIImage *thumbnail;
 
 // automatic property synthesis does not work for properties declared in protocols
 

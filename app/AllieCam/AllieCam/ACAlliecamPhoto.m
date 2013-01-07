@@ -6,7 +6,9 @@
 //  Copyright (c) 2013 Mark Blackwell. All rights reserved.
 //
 
+
 #import "ACAlliecamPhoto.h"
+#import "AllieCam.h"
 
 @implementation ACAlliecamPhoto
 
@@ -16,15 +18,21 @@
     }
     return self;
 }
-- (UIImage *)thumbnail {
-    NSData *imageData = [NSData dataWithContentsOfURL:_thumbnailURL];
-    UIImage *poster = [UIImage imageWithData:imageData];
-    return poster;
+
+- (BOOL) didFail {
+    return _failed;
+}
+- (void)setFailed:(BOOL)failed {
+    if (failed)
+        DLog(@"ERROR: image at %@ FAILED", self.URL.relativeString);
+    _failed=failed;
 }
 
 - (void)dealloc {
     [super dealloc];
     [_URL release];
+    [_thumbnail release];
 }
+
 
 @end

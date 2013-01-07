@@ -74,14 +74,25 @@
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier] autorelease];
     }
     
     //    DLog (@"returning cell %@ at %@", cell, indexPath);
     
     id<ACAlbum> album = [_albums objectAtIndex:indexPath.row];
-    cell.imageView.image = [album posterImage];
+    UIImage *posterImage = [album posterImage];
+    if (!posterImage && [album numberOfPhotos] > 0) {
+        posterImage = [[album photoAtIndex:0] thumbnail];
+    }
+    if (!posterImage && [album numberOfPhotos] > 0) {
+        posterImage = [UIImage imageNamed:@"Placeholder.png"];
+        [_manager loadThumbnail:[album photoAtIndex:0] success:^(UIImage *thumbnail) {
+            cell.imageView.image = thumbnail;
+        }];
+    }
+    cell.imageView.image = posterImage;
     cell.textLabel.text = album.name;
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"%d photos", [album numberOfPhotos]];
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     
     return cell;

@@ -11,6 +11,8 @@
 
 @protocol ACPhoto <EGOPhoto>
 
-- (UIImage *)thumbnail;
+//- (UIImage *)thumbnail;
+@property (nonatomic, retain) UIImage *thumbnail;
+
 
 @end

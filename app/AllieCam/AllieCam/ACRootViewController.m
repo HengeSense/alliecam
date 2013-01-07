@@ -15,6 +15,8 @@
 
 @interface ACRootViewController ()
 
+@property (nonatomic, retain) UIActivityIndicatorView *waitingForDataIndicator;
+
 @end
 
 @implementation ACRootViewController
@@ -28,52 +30,73 @@
     return self;
 }
 
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-	// Do any additional setup after loading the view.
+- (void)loadView {
+	UIView *containerView = [[UIView alloc] initWithFrame:[[UIScreen mainScreen] applicationFrame]];
+	containerView.backgroundColor = [UIColor blackColor];
+	self.view = containerView;
+    [containerView release];
     
-    CGRect frm = self.view.frame;
-    frm.origin.y = 0;
-    self.view.frame = frm;
     _state = ACRootViewControllerStateTransitioning;
     DLog(@"initializing");
     [[ACLocalPhotoManager sharedInstance] initializeWithCallback:^(NSArray *albums) {
         DLog(@"finished initializing... setting up new AlbumSelector");
         ACAlbumSelectorViewController *svc = [[[ACAlbumSelectorViewController alloc] initWithAlbums:albums] autorelease];
+        svc.manager = [ACLocalPhotoManager sharedInstance];
         svc.title = @"Phone photos";
-        UIBarButtonItem *changeSourceButton =
-            [[UIBarButtonItem alloc] initWithTitle:@"View Web Photos"
-                                             style:UIBarButtonItemStyleBordered
-                                            target:self
-                                            action:@selector(changeSourceButtonTapped:)];
         
-        [svc setToolbarItems:[NSArray arrayWithObject:changeSourceButton]];
-        [changeSourceButton release];
+        [self applyBarButtonItemsTo:svc viewTitle:@"View Web Photos"];
         
         UINavigationController *nav = [[[UINavigationController alloc] initWithRootViewController:svc] autorelease];
         [svc.navigationController setToolbarHidden:NO];
+        nav.view.frame = CGRectMake(0,0,320,460);
         [self.view addSubview:nav.view];
         _state = ACRootViewControllerStateShowingLocalPhotos;
         self.localPhotoNavigator = nav;
+        self.localPhotoViewer = svc;
+        
+        _visibleNavigator = nav;
+        _visibleViewer = svc;
     }];
     [[ACAlliecamPhotoManager sharedInstance] initializeWithCallback:^(NSArray *albums) {
         DLog(@"finished initializing... setting up new AlbumSelector");
         ACAlbumSelectorViewController *svc = [[[ACAlbumSelectorViewController alloc] initWithAlbums:albums] autorelease];
+        svc.manager = [ACAlliecamPhotoManager sharedInstance];
         svc.title = @"Web photos";
-        UIBarButtonItem *changeSourceButton =
-            [[UIBarButtonItem alloc] initWithTitle:@"View Phone Photos"
-                                             style:UIBarButtonItemStyleBordered
-                                            target:self
-                                            action:@selector(changeSourceButtonTapped:)];
         
-        [svc setToolbarItems:[NSArray arrayWithObject:changeSourceButton]];
-        [changeSourceButton release];
+        [self applyBarButtonItemsTo:svc viewTitle:@"View Phone Photos"];
         
         UINavigationController *nav = [[[UINavigationController alloc] initWithRootViewController:svc] autorelease];
         [svc.navigationController setToolbarHidden:NO];
+        nav.view.frame = CGRectMake(0,0,320,460);
         self.alliecamNavigator = nav;
+        self.alliecamViewer = svc;
     }];
+}
+
+- (void)applyBarButtonItemsTo:(ACAlbumSelectorViewController *)vc viewTitle:(NSString *)title {
+    UIBarButtonItem *changeSourceButton =
+        [[UIBarButtonItem alloc] initWithTitle:title
+                                         style:UIBarButtonItemStyleBordered
+                                        target:self
+                                        action:@selector(changeSourceButtonTapped:)];
+    UIBarButtonItem *flex = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+    
+    UIBarButtonItem *refreshButton =
+    [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh
+                                                  target:self
+                                                  action:@selector(refreshButtonTapped:)];
+    
+    [vc setToolbarItems:@[ changeSourceButton, flex, refreshButton ]];
+    [changeSourceButton release];
+    [flex release];
+    [refreshButton release];
+    
+}
+- (void)viewDidLoad {
+    [super viewDidLoad];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
 }
 
 - (void)viewDidUnload {
@@ -94,9 +117,34 @@
     [[ACLocalPhotoManager sharedInstance] releaseImages];
 }
 
+// since the nav controller is added as a subview, UIKit seems to call the rotation methods here
+// rather than the ones on the visible view controller (probably because it doesn't know that the
+// subview is full screen)
+// so, HACK away...
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
+    return [_visibleNavigator.visibleViewController shouldAutorotateToInterfaceOrientation:interfaceOrientation];
+}
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration{
+    [_visibleNavigator.visibleViewController willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
+}
+- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration{
+	
+    [_visibleNavigator.visibleViewController willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
+}
+
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation{
+    [_visibleNavigator.visibleViewController didRotateFromInterfaceOrientation:fromInterfaceOrientation];
+}
+	
+
 
 - (void)changeSourceButtonTapped:(id)sender {
     DLog(@"changeSourceButtonTapped...");
+    if (!_alliecamNavigator || !_alliecamViewer ||
+        !_localPhotoNavigator || !_localPhotoViewer) {
+        DLog(@"init process not finished... ignoring");
+        return;
+    }
     switch (_state) {
         case ACRootViewControllerStateShowingLocalPhotos:
             _state = ACRootViewControllerStateTransitioning;
@@ -109,6 +157,8 @@
                             }
                             completion:^(BOOL finished){
                                 _state = ACRootViewControllerStateShowingAlliecamPhotos;
+                                _visibleNavigator = _alliecamNavigator;
+                                _visibleViewer = _alliecamViewer;
                             }];
             break;
         case ACRootViewControllerStateShowingAlliecamPhotos:
@@ -122,6 +172,8 @@
                             }
                             completion:^(BOOL finished){
                                 _state = ACRootViewControllerStateShowingLocalPhotos;
+                                _visibleNavigator = _localPhotoNavigator;
+                                _visibleViewer = _localPhotoViewer;
                             }];
             break;
         case ACRootViewControllerStateTransitioning:
@@ -132,5 +184,43 @@
             break;
     }
 }
+
+
+- (void)refreshButtonTapped:(id)sender {
+    NSMutableArray *items = [_visibleViewer.toolbarItems mutableCopy];
+    [items removeObjectAtIndex:2];
+    
+    UIActivityIndicatorView *waiting = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+    UIBarButtonItem *bbi = [[UIBarButtonItem alloc] initWithCustomView:waiting];
+    [items insertObject:bbi atIndex:2];
+    [bbi release];
+    self.waitingForDataIndicator = waiting;
+    [waiting release];
+    
+    [_visibleViewer setToolbarItems:items animated:NO];
+    [items release];
+    
+    [_waitingForDataIndicator startAnimating];
+    
+    [_visibleViewer.manager initializeWithCallback:^(NSArray *albums) {
+        DLog(@"finished refreshing photo manager... assigning new albums");
+        _visibleViewer.albums = albums;
+        [_visibleViewer.tableView reloadData];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            //tasks on main thread
+            NSMutableArray *items = [_visibleViewer.toolbarItems mutableCopy];
+            [items removeObjectAtIndex:2];
+            UIBarButtonItem *bbi = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(refreshButtonTapped:)];
+            [items insertObject:bbi atIndex:2];
+            [bbi release];
+            
+            [_visibleViewer setToolbarItems:items animated:NO];
+            [items release];
+            
+            [_waitingForDataIndicator stopAnimating];
+        });
+    }];
+}
+
 
 @end

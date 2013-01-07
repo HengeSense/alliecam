@@ -13,12 +13,13 @@
 #import "ACAlliecamPhoto.h"
 #import "AFNetworking.h"
 
-//#define ALLIECAM_URL             @"http://www.alliecam.net/"
-#define ALLIECAM_URL             @"http://localhost/~mblackwell8/alliecam/"
+#define ALLIECAM_URL             @"http://www.alliecam.net/"
+//#define ALLIECAM_URL             @"http://localhost/~mblackwell8/alliecam/"
 
 @interface ACAlliecamPhotoManager ()
 
 @property (retain, nonatomic) NSMutableArray *albums;
+@property (retain, nonatomic) NSMutableDictionary *loadingThumbnails;
 
 @end
 
@@ -60,6 +61,7 @@ static ACAlliecamPhotoManager *_sharedInstance;
                                                  initWithName:[album objectForKey:@"name"]
                                                  createDate:[formatter dateFromString:[album objectForKey:@"dateCreated"]]
                                                  uniqid:[album objectForKey:@"uniqid"]];
+                      ac_alb.manager = self;
                       for (NSDictionary *photo in [album objectForKey:@"photos"]) {
                           ACAlliecamPhoto *ac_ph = [[ACAlliecamPhoto alloc] initWithURL:[NSURL URLWithString:[photo objectForKey:@"url"] relativeToURL:baseURL]];
                           
@@ -100,9 +102,68 @@ static ACAlliecamPhotoManager *_sharedInstance;
     return _albums;
 }
 
+- (void)loadThumbnail:(id<ACPhoto>)photo
+              success:(void (^)(UIImage *thumbnail))success {
+    if (!photo) {
+        DLog(@"cannot load thumbnail for nil photo.");
+        return;
+    }
+    if (!photo.URL) {
+        DLog(@"photo does not have URL... probably not set up yet?");
+        return;
+    }
+    if (!_loadingThumbnails)
+         _loadingThumbnails = [[NSMutableDictionary alloc] init];
+    else if ([_loadingThumbnails objectForKey:photo.URL.absoluteString])
+        return;
+    
+    [_loadingThumbnails setObject:photo forKey:photo.URL.absoluteString];
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        ACAlliecamPhoto *ac_photo = (ACAlliecamPhoto *)photo;
+        NSData *imageData = [NSData dataWithContentsOfURL:ac_photo.thumbnailURL];
+        UIImage *image = [UIImage imageWithData:imageData];
+        
+        CGSize size = image.size;
+        CGSize croppedSize;
+        CGFloat ratio = 64.0;
+        CGFloat offsetX = 0.0;
+        CGFloat offsetY = 0.0;
+        
+        // check the size of the image, we want to make it
+        // a square with sides the size of the smallest dimension
+        if (size.width > size.height) {
+            offsetX = (size.height - size.width) / 2;
+            croppedSize = CGSizeMake(size.height, size.height);
+        } else {
+            offsetY = (size.width - size.height) / 2;
+            croppedSize = CGSizeMake(size.width, size.width);
+        }
+        
+        // Crop the image before resize
+        CGRect clippedRect = CGRectMake(offsetX * -1, offsetY * -1, croppedSize.width, croppedSize.height);
+        CGImageRef imageRef = CGImageCreateWithImageInRect([image CGImage], clippedRect);
+        
+        // Done cropping
+        // Resize the image
+        CGRect rect = CGRectMake(0.0, 0.0, ratio, ratio);
+        UIGraphicsBeginImageContext(rect.size);
+        [[UIImage imageWithCGImage:imageRef] drawInRect:rect];
+        UIImage *thumbnail = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        
+        ac_photo.thumbnail = thumbnail;
+        
+        if (success)
+            success(thumbnail);
+        [_loadingThumbnails removeObjectForKey:photo.URL.absoluteString];
+    });
+}
+
 - (void)dealloc {
     [super dealloc];
     [_albums release];
+    [_loadingThumbnails release];
 }
 
 @end

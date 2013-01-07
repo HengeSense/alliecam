@@ -21,4 +21,8 @@
 
 @property(nonatomic,readonly,retain) NSArray *albums;
 
+- (void)loadThumbnail:(id<ACPhoto>)photo
+              success:(void (^)(UIImage *thumbnail))success;
+
+
 @end

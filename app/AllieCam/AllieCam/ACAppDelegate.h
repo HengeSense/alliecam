@@ -41,8 +41,10 @@
 #define kPendingUploadUploadStatusKey   @"uploadStatus"
 
 
+// NB. alliecam part won't work unless uploaded to AWS
 #define DO_AWS_UPLOAD
 //#define USE_AWS_OFFICIAL_CLIENT
+#define DO_ALLIECAM_UPLOAD
 
 @class ACLocalPhoto;
 

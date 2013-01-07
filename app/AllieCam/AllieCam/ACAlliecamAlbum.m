@@ -33,8 +33,9 @@
     [_photos addObject:photo];
 }
 - (id)photoAtIndex:(NSInteger)index {
-    DLog(@"getting photo at index=%d", index);
-    return [_photos objectAtIndex:index];
+    ACAlliecamPhoto *photo = [_photos objectAtIndex:index];
+//    DLog(@"getting photo at index=%d, with URL %@", index, photo.URL);
+    return photo;
 }
 
 - (NSInteger)numberOfPhotos {

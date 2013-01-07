@@ -8,9 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol ACPhotoManager;
+
 @interface ACAlbumSelectorViewController : UITableViewController
 
 @property (retain, nonatomic) NSArray *albums;
 - (id)initWithAlbums:(NSArray *)albums;
-    
+
+@property (assign, nonatomic) id<ACPhotoManager> manager;
+
 @end

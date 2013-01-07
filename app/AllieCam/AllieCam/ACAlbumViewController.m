@@ -205,7 +205,23 @@
         }
         
         id<ACPhoto> photo = [_album photoAtIndex:firstPhotoInCell + currentPhotoIndex];
-        tiv.image = [photo thumbnail];
+        if (photo.thumbnail) {
+            tiv.image = photo.thumbnail;
+        }
+        else {
+            DLog(@"using placeholder for image at %@", photo.URL.absoluteString);
+            tiv.image = [UIImage imageNamed:@"Placeholder.png"];
+            if (_album.manager) {
+                [_album.manager loadThumbnail:photo success:^(UIImage *thumbnail) {
+                    DLog(@"loaded image for photo at %@", photo.URL.absoluteString);
+                    tiv.image = thumbnail;
+                }];
+            }
+            else {
+                DLog(@"cannot load thumbnail at %@ without manager set", photo.URL.relativeString);
+            }
+            
+        }
         
         if ([photo isKindOfClass:[ACLocalPhoto class]] && [photo isUploaded])
             [tiv applyUploadedOverlay];

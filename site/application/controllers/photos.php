@@ -98,10 +98,12 @@ class Photos extends CI_Controller {
         include('application/libraries/resize-class.php');
 
         // Instantiate an S3 client
+        log_message('info', 'creating AWS client');
         $s3 = Aws::factory('application/config/aws_config.php')->get('s3');
         $bucket = 'blackwellfamily';
         $tmp_filepath = 'static/tmp/';
 
+        log_message('info', "getting $album_name/$filename from S3");
         $response = $s3->getObject(array(
             'Bucket' => $bucket,
             'Key' => $album_name.'/'.$filename,
@@ -114,13 +116,13 @@ class Photos extends CI_Controller {
 
         $resizer = new resize($full_filepath);
 
-        // echo "resizing for alliecam.net use\n";
+        log_message('info', "resizing for alliecam.net use");
         $resizer->resizeImage(600, 600);
         $ac_filepath = $tmp_filepath.$filename_pre_extension.'_ac'.$extension;
         // echo "storing temporarily at $ac_filepath\n";
         $resizer->saveImage($ac_filepath, 70);
 
-        // echo "putting in S3\n";
+        log_message('info', "sending alliecam photo to S3");
         $awspath_pre_extension = $album_name.'/'.$filename_pre_extension;
         $ac_awspath = $awspath_pre_extension.'_ac'.$extension; 
         try {
@@ -137,11 +139,12 @@ class Photos extends CI_Controller {
         }
 
         // echo "resizing for thumbnail use\n";
+        log_message('info', 'resizing for thumnail use');
         $resizer->resizeImage(100, 100);
         $thumb_filepath = $tmp_filepath.$filename_pre_extension.'_thumb'.$extension;
         $resizer->saveImage($thumb_filepath, 50);
 
-        // echo "putting in S3\n";
+        log_message('info', "sending thumbnail photo to S3");
         $thumb_awspath = $awspath_pre_extension.'_thumb'.$extension; 
         try {
             $s3->putObject(array(

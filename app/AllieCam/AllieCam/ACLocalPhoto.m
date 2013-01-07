@@ -79,9 +79,14 @@
     return self.isUploaded ? [NSString stringWithFormat:@"Uploaded to %@", [self defaultAlbumName]] : @"";
 }
 
+// custom getter
 - (UIImage *)thumbnail {
-    CGImageRef thumbnailImageRef = [_asset thumbnail];
-    return [UIImage imageWithCGImage:thumbnailImageRef];
+    if (!_thumbnail) {
+        CGImageRef thumbnailImageRef = [_asset thumbnail];
+        self.thumbnail = [UIImage imageWithCGImage:thumbnailImageRef];
+    }
+    
+    return _thumbnail;
 }
 
 - (NSString *)uploadStatus {
@@ -91,8 +96,8 @@
         case UploadStatusPreDispatch:
         case UploadStatusWaitingForSemaphore:
         case UploadStatusStarting:
-        case UploadStatusSendingToAlliecam:
         case UploadStatusSendingToS3:
+        case UploadStatusSendingToAlliecam:
         case UploadStatusEnding:
 #ifdef DEBUG
         return [NSString stringWithFormat:@"Uploading to '%@' (%d of %d)", [self defaultAlbumName], _rawUploadStatus, UploadStatusFinished];

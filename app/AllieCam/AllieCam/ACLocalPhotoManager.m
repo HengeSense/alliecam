@@ -18,11 +18,7 @@
 
 @implementation ACLocalPhotoManager
 
-#if DEBUG
-#define kUploadFileName @"uploaded_urls_debug.strings"
-#else
 #define kUploadFileName @"uploaded_urls.strings"
-#endif
 
 static ACLocalPhotoManager *_sharedInstance;
 
