@@ -46,7 +46,7 @@
     
     [AmazonErrorHandler shouldNotThrowExceptions];
 #else
-    self.s3 = [[AFAmazonS3Client alloc] initWithAccessKeyID:ACCESS_KEY_ID secret:SECRET_KEY];
+    self.s3 = [[[AFAmazonS3Client alloc] initWithAccessKeyID:ACCESS_KEY_ID secret:SECRET_KEY] autorelease];
     
 #endif
     
@@ -220,17 +220,27 @@
     if (success)
         success(nil);
 #else
-    DLog(@"creating UIImage...");
-    ALAssetRepresentation *rep = [photo.asset defaultRepresentation];
-    UIImage *picture = [[UIImage alloc] initWithCGImage:[rep fullResolutionImage]
-                                         scale:[rep scale]
-                                   orientation:[rep orientation]];
-    DLog(@"Fixing picture orientation");
-    UIImage *corrected_pic = [picture fixOrientation];
+//    NSData *upload = nil;
+//    if ([photo.asset valueForProperty:ALAssetPropertyType] == ALAssetTypeVideo) {
+//        DLog(@"uploading video...");
+//        ALAssetRepresentation *rep = [photo.asset defaultRepresentation];
+//        Byte *buffer = (Byte*)malloc(rep.size);
+//        NSUInteger buffered = [rep getBytes:buffer fromOffset:0.0 length:rep.size error:nil];
+//        upload = [NSData dataWithBytesNoCopy:buffer length:buffered freeWhenDone:YES];
+//    }
+//    else {
+        DLog(@"creating UIImage...");
+        ALAssetRepresentation *rep = [photo.asset defaultRepresentation];
+        UIImage *picture = [[UIImage alloc] initWithCGImage:[rep fullResolutionImage]
+                                             scale:[rep scale]
+                                       orientation:[rep orientation]];
+        DLog(@"Fixing picture orientation");
+        UIImage *corrected_pic = [picture fixOrientation];
 
-    DLog(@"Compressing to JPEG");
-    NSData *imageData = UIImageJPEGRepresentation(corrected_pic, 1.0);
-    [picture release];
+        DLog(@"Compressing to JPEG");
+        NSData *upload = UIImageJPEGRepresentation(corrected_pic, 1.0);
+        [picture release];
+//    }
     
     DLog(@"Uploading to '%@' with filename '%@'", PICTURE_BUCKET, fullpath);
 #ifdef USE_AWS_OFFICIAL_CLIENT
@@ -250,7 +260,7 @@
     _s3.bucket = PICTURE_BUCKET;
     
     [_s3 putObjectNamed:fullpath
-                   data:imageData
+                   data:upload
              parameters:nil
                progress:^(NSUInteger bytesWritten, long long totalBytesWritten, long long totalBytesExpectedToWrite) {
                    DLog(@"%f%% Uploaded", (totalBytesWritten / (totalBytesExpectedToWrite * 1.0f) * 100));

@@ -92,7 +92,9 @@
     }
     cell.imageView.image = posterImage;
     cell.textLabel.text = album.name;
-    cell.detailTextLabel.text = [NSString stringWithFormat:@"%d photos", [album numberOfPhotos]];
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"%d photo%@",
+                                 [album numberOfPhotos],
+                                 ([album numberOfPhotos] > 1 ? @"s" : @"")];
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     
     return cell;

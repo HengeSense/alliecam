@@ -99,6 +99,14 @@ Copyright (C) 2011 Apple Inc. All Rights Reserved.
     UIImageView *overlayView = [[UIImageView alloc] initWithFrame:viewFrames];
     [overlayView setImage:[UIImage imageNamed:@"Overlay.png"]];
     [self addSubview:overlayView];
+    [overlayView release];
 }
+//- (void)applyMovieOverlay {
+//    CGRect viewFrames = CGRectMake(0, 0, 35, 26);
+//    UIImageView *overlayView = [[UIImageView alloc] initWithFrame:viewFrames];
+//    [overlayView setImage:[UIImage imageNamed:@"movie_icon.png"]];
+//    [self addSubview:overlayView];
+//    [overlayView release];
+//}
 
 @end

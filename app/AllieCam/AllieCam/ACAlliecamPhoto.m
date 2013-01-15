@@ -31,7 +31,11 @@
 - (void)dealloc {
     [super dealloc];
     [_URL release];
-    [_thumbnail release];
+    self.dateTaken = nil;
+    self.uniqid = nil;
+    self.fullsizeURL = nil;
+    self.thumbnailURL = nil;
+    self.thumbnail = nil;
 }
 
 

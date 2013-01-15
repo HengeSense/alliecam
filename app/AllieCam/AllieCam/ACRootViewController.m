@@ -48,8 +48,9 @@
         
         UINavigationController *nav = [[[UINavigationController alloc] initWithRootViewController:svc] autorelease];
         [svc.navigationController setToolbarHidden:NO];
-        nav.view.frame = CGRectMake(0,0,320,460);
-        [self.view addSubview:nav.view];
+//        nav.view.frame = CGRectMake(0,0,320,460);
+//        [self.view addSubview:nav.view];
+        [self presentViewController:nav animated:NO completion:nil];
         _state = ACRootViewControllerStateShowingLocalPhotos;
         self.localPhotoNavigator = nav;
         self.localPhotoViewer = svc;
@@ -67,7 +68,7 @@
         
         UINavigationController *nav = [[[UINavigationController alloc] initWithRootViewController:svc] autorelease];
         [svc.navigationController setToolbarHidden:NO];
-        nav.view.frame = CGRectMake(0,0,320,460);
+//        nav.view.frame = CGRectMake(0,0,320,460);
         self.alliecamNavigator = nav;
         self.alliecamViewer = svc;
     }];
@@ -117,25 +118,25 @@
     [[ACLocalPhotoManager sharedInstance] releaseImages];
 }
 
-// since the nav controller is added as a subview, UIKit seems to call the rotation methods here
-// rather than the ones on the visible view controller (probably because it doesn't know that the
-// subview is full screen)
-// so, HACK away...
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    return [_visibleNavigator.visibleViewController shouldAutorotateToInterfaceOrientation:interfaceOrientation];
-}
-- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration{
-    [_visibleNavigator.visibleViewController willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
-}
-- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration{
-	
-    [_visibleNavigator.visibleViewController willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
-}
+//// since the nav controller is added as a subview, UIKit seems to call the rotation methods here
+//// rather than the ones on the visible view controller (probably because it doesn't know that the
+//// subview is full screen)
+//// so, HACK away...
+//- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
+//    return [_visibleNavigator.visibleViewController shouldAutorotateToInterfaceOrientation:interfaceOrientation];
+//}
+//- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration{
+//    [_visibleNavigator.visibleViewController willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
+//}
+//- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration{
+//	
+//    [_visibleNavigator.visibleViewController willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
+//}
+//
+//- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation{
+//    [_visibleNavigator.visibleViewController didRotateFromInterfaceOrientation:fromInterfaceOrientation];
+//}
 
-- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation{
-    [_visibleNavigator.visibleViewController didRotateFromInterfaceOrientation:fromInterfaceOrientation];
-}
-	
 
 
 - (void)changeSourceButtonTapped:(id)sender {
@@ -145,44 +146,76 @@
         DLog(@"init process not finished... ignoring");
         return;
     }
+    UINavigationController *incomingNavigator = nil;
+    ACAlbumSelectorViewController *incomingViewer = nil;
+    ACRootViewControllerState incomingState;
     switch (_state) {
         case ACRootViewControllerStateShowingLocalPhotos:
-            _state = ACRootViewControllerStateTransitioning;
-            [UIView transitionWithView:self.view
-                              duration:0.75
-                               options:UIViewAnimationOptionTransitionFlipFromLeft
-                            animations:^{
-                                [_localPhotoNavigator.view removeFromSuperview];
-                                [self.view addSubview:_alliecamNavigator.view];
-                            }
-                            completion:^(BOOL finished){
-                                _state = ACRootViewControllerStateShowingAlliecamPhotos;
-                                _visibleNavigator = _alliecamNavigator;
-                                _visibleViewer = _alliecamViewer;
-                            }];
+            incomingNavigator = _alliecamNavigator;
+            incomingViewer = _alliecamViewer;
+            incomingState = ACRootViewControllerStateShowingAlliecamPhotos;
             break;
         case ACRootViewControllerStateShowingAlliecamPhotos:
-            _state = ACRootViewControllerStateTransitioning;
-            [UIView transitionWithView:self.view
-                              duration:0.75
-                               options:UIViewAnimationOptionTransitionFlipFromRight
-                            animations:^{
-                                [_alliecamNavigator.view removeFromSuperview];
-                                [self.view addSubview:_localPhotoNavigator.view];
-                            }
-                            completion:^(BOOL finished){
-                                _state = ACRootViewControllerStateShowingLocalPhotos;
-                                _visibleNavigator = _localPhotoNavigator;
-                                _visibleViewer = _localPhotoViewer;
-                            }];
+            incomingNavigator = _localPhotoNavigator;
+            incomingViewer = _localPhotoViewer;
+            incomingState = ACRootViewControllerStateShowingLocalPhotos;
             break;
         case ACRootViewControllerStateTransitioning:
-            DLog(@"transitioning... ignored");
+            incomingState = ACRootViewControllerStateTransitioning;
             break;
-            
         default:
-            break;
+            DLog(@"ERROR: unknown state: %d", _state);
     }
+    if (incomingNavigator) {
+        _state = ACRootViewControllerStateTransitioning;
+        _visibleNavigator.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+        [_visibleNavigator dismissViewControllerAnimated:YES completion:^{
+            incomingNavigator.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+            [self presentViewController:incomingNavigator animated:YES completion:^{
+                _visibleNavigator = incomingNavigator;
+                _visibleViewer = incomingViewer;
+                _state = incomingState;
+            }];
+        }];
+    }
+//    switch (_state) {
+//        case ACRootViewControllerStateShowingLocalPhotos:
+//            _state = ACRootViewControllerStateTransitioning;
+//            [UIView transitionWithView:self.view
+//                              duration:0.75
+//                               options:UIViewAnimationOptionTransitionFlipFromLeft
+//                            animations:^{
+//                                [_localPhotoNavigator.view removeFromSuperview];
+//                                [self.view addSubview:_alliecamNavigator.view];
+//                            }
+//                            completion:^(BOOL finished){
+//                                _state = ACRootViewControllerStateShowingAlliecamPhotos;
+//                                _visibleNavigator = _alliecamNavigator;
+//                                _visibleViewer = _alliecamViewer;
+//                            }];
+//            break;
+//        case ACRootViewControllerStateShowingAlliecamPhotos:
+//            _state = ACRootViewControllerStateTransitioning;
+//            [UIView transitionWithView:self.view
+//                              duration:0.75
+//                               options:UIViewAnimationOptionTransitionFlipFromRight
+//                            animations:^{
+//                                [_alliecamNavigator.view removeFromSuperview];
+//                                [self.view addSubview:_localPhotoNavigator.view];
+//                            }
+//                            completion:^(BOOL finished){
+//                                _state = ACRootViewControllerStateShowingLocalPhotos;
+//                                _visibleNavigator = _localPhotoNavigator;
+//                                _visibleViewer = _localPhotoViewer;
+//                            }];
+//            break;
+//        case ACRootViewControllerStateTransitioning:
+//            DLog(@"transitioning... ignored");
+//            break;
+//            
+//        default:
+//            break;
+//    }
 }
 
 

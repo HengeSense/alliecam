@@ -23,6 +23,40 @@
 
 @end
 
+NSURL* ACCreateURLByAddingPercentEscapes(NSString *string, NSURL *baseURL) {
+    // Encode the URL string
+    CFStringRef escapedString = CFURLCreateStringByAddingPercentEscapes(NULL,
+                                                                        (CFStringRef)string,
+                                                                        (CFStringRef)@"%+#",
+                                                                        NULL,
+                                                                        kCFStringEncodingUTF8);
+    
+    // If we're still left with a valid string, turn it into a URL
+    NSURL *result = nil;
+    if (escapedString) {
+        // Any hashes after first # needs to be escaped. e.g. Apple's dev docs hand out URLs like this
+        NSRange range = [(NSString *)escapedString rangeOfString:@"#"];
+        if (range.location != NSNotFound) {
+            NSRange postFragmentRange = NSMakeRange(NSMaxRange(range), [(NSString *)escapedString length] - NSMaxRange(range));
+            range = [(NSString *)escapedString rangeOfString:@"#" options:0 range:postFragmentRange];
+            
+            if (range.location != NSNotFound) {
+                NSString *extraEscapedString =
+                [(NSString *)escapedString stringByReplacingOccurrencesOfString:@"#" withString:@"%23" // not ideal, encoding ourselves
+                                                                        options:0
+                                                                          range:postFragmentRange];
+                CFRelease(escapedString);
+                return [NSURL URLWithString:extraEscapedString];
+            }
+        }
+        
+        result = [NSURL URLWithString:(NSString *)escapedString relativeToURL:baseURL];
+        CFRelease(escapedString);
+    }
+    
+    return result;
+}
+
 @implementation ACAlliecamPhotoManager
 
 static ACAlliecamPhotoManager *_sharedInstance;
@@ -45,7 +79,7 @@ static ACAlliecamPhotoManager *_sharedInstance;
 
 - (void)initializeWithCallback:(void (^)(NSArray *albums))done {
     _albums = [[NSMutableArray alloc] init];
-    AFHTTPClient *alliecam = [[AFHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:ALLIECAM_URL]];
+    AFHTTPClient *alliecam = [[[AFHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:ALLIECAM_URL]] autorelease];
     [alliecam registerHTTPOperationClass:[AFJSONRequestOperation class]];
 	[alliecam setDefaultHeader:@"Accept" value:@"application/json"];
     
@@ -63,10 +97,9 @@ static ACAlliecamPhotoManager *_sharedInstance;
                                                  uniqid:[album objectForKey:@"uniqid"]];
                       ac_alb.manager = self;
                       for (NSDictionary *photo in [album objectForKey:@"photos"]) {
-                          ACAlliecamPhoto *ac_ph = [[ACAlliecamPhoto alloc] initWithURL:[NSURL URLWithString:[photo objectForKey:@"url"] relativeToURL:baseURL]];
-                          
-                          ac_ph.fullsizeURL = [NSURL URLWithString:[photo objectForKey:@"url_fullsize"] relativeToURL:baseURL];
-                          ac_ph.thumbnailURL = [NSURL URLWithString:[photo objectForKey:@"url_thumbnail"] relativeToURL:baseURL];
+                          ACAlliecamPhoto *ac_ph = [[ACAlliecamPhoto alloc] initWithURL:ACCreateURLByAddingPercentEscapes([photo objectForKey:@"url"], baseURL)];
+                          ac_ph.fullsizeURL = ACCreateURLByAddingPercentEscapes([photo objectForKey:@"url_fullsize"], baseURL);
+                          ac_ph.thumbnailURL = ACCreateURLByAddingPercentEscapes([photo objectForKey:@"url_thumbnail"], baseURL);
                           NSString *dateTakenStr = [photo objectForKey:@"dateTaken"];
                           //FIXME: parse the metadata for a 'dateCreated' object
                           if (dateTakenStr) {
@@ -151,6 +184,8 @@ static ACAlliecamPhotoManager *_sharedInstance;
         [[UIImage imageWithCGImage:imageRef] drawInRect:rect];
         UIImage *thumbnail = UIGraphicsGetImageFromCurrentImageContext();
         UIGraphicsEndImageContext();
+        
+        CGImageRelease(imageRef);
         
         ac_photo.thumbnail = thumbnail;
         

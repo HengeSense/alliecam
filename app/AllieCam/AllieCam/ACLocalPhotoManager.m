@@ -28,10 +28,14 @@ static ACLocalPhotoManager *_sharedInstance;
         
         NSString *fullpath = [NSString stringWithFormat:@"%@/%@", docsPath, kUploadFileName];
         DLog(@"reading uploaded images from %@", fullpath);
-        if ([[NSFileManager defaultManager] fileExistsAtPath:fullpath])
+        if ([[NSFileManager defaultManager] fileExistsAtPath:fullpath]) {
             _uploadedImages = [[NSMutableDictionary dictionaryWithContentsOfFile:fullpath] retain];
-        else
+            DLog(@"found %d uploaded images", _uploadedImages.count);
+        }
+        else {
+            DLog(@"uploaded images file does not exist, creating a new one");
             _uploadedImages = [[NSMutableDictionary alloc] init];
+        }
         _uploadFilesChanged = NO;
     }
     
@@ -92,8 +96,9 @@ static ACLocalPhotoManager *_sharedInstance;
     ALAssetsGroupEnumerationResultsBlock assetsEnumerationBlock = ^(ALAsset *result, NSUInteger index, BOOL *stop) {
         
         if (result) {
-            DLog(@"found image");
-            [self addImage:result atURL:[[result defaultRepresentation] url] toAlbum:album];
+            NSURL *url = [[result defaultRepresentation] url];
+            DLog(@"found image at %@", url);
+            [self addImage:result atURL:url toAlbum:album];
         }
     };
     
@@ -138,6 +143,8 @@ static ACLocalPhotoManager *_sharedInstance;
         NSArray *parts = [uploadDetails componentsSeparatedByString:@","];
         if ([parts count] >= 3)
             acp.rawUploadStatus = [[parts objectAtIndex:2] intValue];
+        else
+            DLog(@"ERROR: upload details file has bad format for photo %@", photo);
     }
     
     [album addPhoto:acp];
@@ -161,8 +168,9 @@ static ACLocalPhotoManager *_sharedInstance;
         DLog(@"found same photo in this collection");
         samePhoto.rawUploadStatus = status;
     }
-    else {
-        DLog(@"looking for photo in uploaded images");
+    
+    if (status == UploadStatusFinished) {
+        DLog(@"finished upload... looking for photo in uploaded images");
         NSString *uploadDetails = nil, *newUploadDetails = nil;
         if ((uploadDetails = (NSString *)[_uploadedImages objectForKey:photo.URL.description])) {
             DLog(@"found it, changing status");
@@ -176,8 +184,8 @@ static ACLocalPhotoManager *_sharedInstance;
             newUploadDetails = [photo description];
         }
         [_uploadedImages setObject:newUploadDetails forKey:photo.URL.description];
+        _uploadFilesChanged = YES;
     }
-    _uploadFilesChanged = YES;
 }
 
 - (void)writeUploadedImagesToFile {

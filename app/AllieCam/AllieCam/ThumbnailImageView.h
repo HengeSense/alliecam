@@ -63,4 +63,5 @@ Copyright (C) 2011 Apple Inc. All Rights Reserved.
 
 - (void)clearSelection;
 - (void)applyUploadedOverlay;
-@end
+- (void)applyMovieOverlay;
+    @end

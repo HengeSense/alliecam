@@ -119,6 +119,17 @@
     return _rawUploadStatus == UploadStatusFinished;
 }
 
+- (void)dealloc {
+    [super dealloc];
+    
+    [_image release];
+    [_asset release];
+    
+    self.parent = nil;
+    self.dateTaken = nil;
+    self.thumbnail = nil;
+}
+
 
 
 @end

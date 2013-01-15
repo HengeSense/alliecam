@@ -6,8 +6,10 @@
 //  Copyright (c) 2012 Mark Blackwell. All rights reserved.
 //
 
+#import <MediaPlayer/MediaPlayer.h>
 #import "ACAlbumViewController.h"
 #import "ACAlbum.h"
+#import "ACPhotoManager.h"
 #import "ACPhoto.h"
 #import "ACLocalPhoto.h"
 #import "AlbumContentsTableViewCell.h"
@@ -223,9 +225,14 @@
             
         }
         
-        if ([photo isKindOfClass:[ACLocalPhoto class]] && [photo isUploaded])
-            [tiv applyUploadedOverlay];
-            
+        if ([photo isKindOfClass:[ACLocalPhoto class]]) {
+            ACLocalPhoto *localPhoto = (ACLocalPhoto *)photo;
+            if ([localPhoto isUploaded])
+                [tiv applyUploadedOverlay];
+//            if ([localPhoto.asset valueForProperty:ALAssetPropertyType] == ALAssetTypeVideo)
+//                [tiv applyMovieOverlay];
+        }
+        
     }
     
     return cell;
@@ -239,9 +246,17 @@
     NSUInteger picIndex = (cell.rowNumber * 4) + index;
     DLog(@"navigating to image at index=%d", picIndex);
     
-    [_photoController presetPhotoIndex:picIndex];
-    [self.navigationController pushViewController:_photoController animated:YES];
-        
+//    id photo = [_album photoAtIndex:picIndex];
+//    if ([photo isKindOfClass:[ACLocalPhoto class]] &&
+//        [[photo asset] valueForProperty:ALAssetPropertyType] == ALAssetTypeVideo) {
+//        MPMoviePlayerViewController *player = [[MPMoviePlayerViewController alloc] initWithContentURL:[photo URL]];
+//        [self.navigationController pushViewController:player animated:YES];
+//    }
+//    else {
+        [_photoController presetPhotoIndex:picIndex];
+        [self.navigationController pushViewController:_photoController animated:YES];
+//    }
+    
     // this must be after the nav controller has been pushed, o/w EGOPhotoViewController
     // breaks (can probably fix if need to... problem is in the centerPhotoIndex method,
     // which needs the width of the scrolling frame to work)

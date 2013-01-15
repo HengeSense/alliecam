@@ -10,6 +10,8 @@
 		8F133BF91670F4B500097E46 /* AlbumContentsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F133BF71670F4B400097E46 /* AlbumContentsTableViewCell.m */; };
 		8F133BFA1670F4B500097E46 /* AlbumContentsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8F133BF81670F4B400097E46 /* AlbumContentsTableViewCell.xib */; };
 		8F133BFD1670F4D400097E46 /* ThumbnailImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F133BFC1670F4D400097E46 /* ThumbnailImageView.m */; };
+		8F28194016A568BE00FFE045 /* movie_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 8F28193F16A568BE00FFE045 /* movie_icon.png */; };
+		8F28194316A56C0C00FFE045 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F28194216A56C0C00FFE045 /* MediaPlayer.framework */; };
 		8F6D60651672A0360082E047 /* Overlay.png in Resources */ = {isa = PBXBuildFile; fileRef = 8F6D60631672A0360082E047 /* Overlay.png */; };
 		8F6D60661672A0360082E047 /* Overlay@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8F6D60641672A0360082E047 /* Overlay@2x.png */; };
 		8F6D606F1672FE370082E047 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 8F6D60681672FE370082E047 /* README.md */; };
@@ -84,6 +86,8 @@
 		8F133BF81670F4B400097E46 /* AlbumContentsTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AlbumContentsTableViewCell.xib; sourceTree = "<group>"; };
 		8F133BFB1670F4D400097E46 /* ThumbnailImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThumbnailImageView.h; sourceTree = "<group>"; };
 		8F133BFC1670F4D400097E46 /* ThumbnailImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThumbnailImageView.m; sourceTree = "<group>"; };
+		8F28193F16A568BE00FFE045 /* movie_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = movie_icon.png; sourceTree = "<group>"; };
+		8F28194216A56C0C00FFE045 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		8F6D60631672A0360082E047 /* Overlay.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Overlay.png; sourceTree = "<group>"; };
 		8F6D60641672A0360082E047 /* Overlay@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Overlay@2x.png"; sourceTree = "<group>"; };
 		8F6D60681672FE370082E047 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
@@ -202,6 +206,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8F28194316A56C0C00FFE045 /* MediaPlayer.framework in Frameworks */,
 				8F6D607D1673741D0082E047 /* CoreLocation.framework in Frameworks */,
 				8F88CF58166FE8910074721C /* MessageUI.framework in Frameworks */,
 				8F88CF56166FE8710074721C /* QuartzCore.framework in Frameworks */,
@@ -435,6 +440,7 @@
 		8FE72F2F166F586200B82831 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				8F28194216A56C0C00FFE045 /* MediaPlayer.framework */,
 				8F6D607C1673741D0082E047 /* CoreLocation.framework */,
 				8F88CF57166FE8910074721C /* MessageUI.framework */,
 				8F88CF55166FE8710074721C /* QuartzCore.framework */,
@@ -497,6 +503,7 @@
 		8FE72F37166F586200B82831 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				8F28193F16A568BE00FFE045 /* movie_icon.png */,
 				8F6D607A167371580082E047 /* Icon@2x.png */,
 				8F750F4F169A1DF70053506F /* Placeholder.png */,
 				8F6D60631672A0360082E047 /* Overlay.png */,
@@ -589,6 +596,7 @@
 				8F8E64CF1693A8800004F1CC /* LICENSE in Resources */,
 				8F8E64D01693A8800004F1CC /* README.md in Resources */,
 				8F750F50169A1DF70053506F /* Placeholder.png in Resources */,
+				8F28194016A568BE00FFE045 /* movie_icon.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
