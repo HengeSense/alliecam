@@ -14,5 +14,7 @@
 //- (UIImage *)thumbnail;
 @property (nonatomic, retain) UIImage *thumbnail;
 
+- (NSString *)contentType;
+
 
 @end
