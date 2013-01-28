@@ -46,12 +46,12 @@ foreach ($s3->getIterator('ListObjects', array('Bucket' => $bucket)) as $object)
     }
 
     $extension = strtolower(strrchr($object['Key'], '.'));
-    if ($extension === '.mov' || $extension === '.avi') {
-        // we know that we don't want these ones without checking the MIME type below
-        // (and takes a long time to download)
-        echo 'ignoring mov or avi file' . PHP_EOL;
-        continue;
-    }
+    // if ($extension === '.mov' || $extension === '.avi') {
+    //     // we know that we don't want these ones without checking the MIME type below
+    //     // (and takes a long time to download)
+    //     echo 'ignoring mov or avi file' . PHP_EOL;
+    //     continue;
+    // }
 
     if (in_array($object['Key'], $objects_done_already)) {
         echo "already done.".PHP_EOL;
@@ -59,7 +59,7 @@ foreach ($s3->getIterator('ListObjects', array('Bucket' => $bucket)) as $object)
     }
 
     try {
-        if ($extension === '.jpg') {
+        if ($extension === '.jpg' || $extension === '.mov' || $extension === '.avi') {
             // echo "processing jpg" . PHP_EOL;
             $full_filepath = $s3_public_root.$object['Key'];
             // $metadata = exif_read_data($full_filepath);
